@@ -7,7 +7,7 @@
 </head>
 <body>
 <?php
-include "login.php";
+include "nav-bar.php";
 ?>
 
 </body>
