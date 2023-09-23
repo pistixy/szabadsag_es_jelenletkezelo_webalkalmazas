@@ -33,7 +33,7 @@
         <button class="register_button" type="submit" name="register_btn">Regisztráció</button>
 
     </form>
-    <p>Már tag vagy? <a href="login.php">Jelentkezz be!</a></p>
+    <p>Már tag vagy? <a href="loginn.php">Jelentkezz be!</a></p>
     <p>Vissza a kezdőlapra: <a href="../index.php">Holiday Calendar!</a></p>
 
 </div>

@@ -15,7 +15,7 @@ include "includes/connect.php";
     </div>
 
     <div class="navbar_items">
-       <a href="includes/login.php">Bejelentkezés</a>
+       <a href="includes/loginn.php">Bejelentkezés</a>
     </div>
 
     <div class="navbar_items">

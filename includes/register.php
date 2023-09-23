@@ -52,7 +52,7 @@ if ($age < 18) {
 
             if ($stmt->affected_rows > 0) {
                 echo "Sikeres regisztráció!";
-                include_once "login.php";
+                include_once "loginn.php";
             } else {
                 echo "Error: " . $stmt->error;
             }
