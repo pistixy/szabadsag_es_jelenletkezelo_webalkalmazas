@@ -7,7 +7,7 @@ include "includes/connect.php";
             <img src="includes/logo.png">
         </a>
     </div>
-    <div class="navbar_items>
+    <div class="navbar_items">
     Calendar
     </div>
     <div class="navbar_items">
@@ -15,10 +15,10 @@ include "includes/connect.php";
     </div>
 
     <div class="navbar_items">
-       <a>Bejelentkezés</a>
+       <a href="includes/login.php">Bejelentkezés</a>
     </div>
 
     <div class="navbar_items">
-        <a>Regisztráció</a>
+        <a href="includes/register.php">Regisztráció</a>
     </div>
 </div>
