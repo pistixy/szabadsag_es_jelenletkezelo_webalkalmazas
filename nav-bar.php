@@ -4,7 +4,7 @@ include "includes/connect.php";
 <div class="navbar">
     <div class="logo">
         <a href="index.php">
-            <img src="logo.png">
+            <img src="includes/logo.png">
         </a>
     </div>
     <div class="navbar_items>
