@@ -57,4 +57,21 @@
         margin-bottom: 20px;
     }
 }
+.gallery {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+img {
+    width: 100%;
+    height: auto;
+    display: none;
+}
+
+img:first-child {
+    display: block;
+}
 
