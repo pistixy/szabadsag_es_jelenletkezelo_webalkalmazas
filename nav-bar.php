@@ -19,6 +19,6 @@ include "includes/connect.php";
     </div>
 
     <div class="navbar_items">
-        <a href="includes/register.php">Regisztráció</a>
+        <a href="includes/registeration.php">Regisztráció</a>
     </div>
 </div>

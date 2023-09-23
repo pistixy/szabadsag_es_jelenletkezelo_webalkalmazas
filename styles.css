@@ -74,4 +74,53 @@ img {
 img:first-child {
     display: block;
 }
+.registration_form{
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+}
+#login-form {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin: 50px auto;
+    max-width: 400px;
+    padding: 20px;
+    text-align: center;
+}
+.registration_form form{
+    text-align: left;
+    }
+.registration_form label{
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: bold;
+}
+.registration_form input[type="text"], intput[type="email"],input[type="password"],input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+.registration_form button{
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+}
+.registration_form button:hover {
+    background-color: #0056b3;
+}
+.registration_form a {
+    color: #007bff;
+    text-decoration: none;
+}
 
+.registration_form a:hover {
+    text-decoration: underline;
+}
