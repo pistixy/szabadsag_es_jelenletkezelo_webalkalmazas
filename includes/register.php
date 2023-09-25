@@ -18,7 +18,7 @@ $age = $today->diff($birthdate)->y;
 
 
 if ($age < 18) {
-    echo "Az oldal használatához legalább 18 évesnek kell lenned! <a href='registeration.php'>Próbálkozás újra</a>";
+    echo "Az oldal használatához legalább 18 évesnek kell lenned! <a href='registration_form.php'>Próbálkozás újra</a>";
 } else {
     $temp = $_POST["email"];
     $temparray = explode("@", $temp);
@@ -35,12 +35,12 @@ if ($age < 18) {
 
     if ($result->num_rows > 0) {
         // Email already exists, registration failed
-        echo "A megadott email címmel már regisztráltak! Kérjük, használjon másik email címet. <a href='registeration.php'>Próbálkozás újra</a>";
+        echo "A megadott email címmel már regisztráltak! Kérjük, használjon másik email címet. <a href='registration_form.php'>Próbálkozás újra</a>";
     } else {
         // Email does not exist, proceed with registration
         $jelszoujra = $_POST["jelszoujra"];
         if ($jelszoujra !== $password) {
-            echo "A jelszavak nem egyeznek, <a href='registeration.php'>Próbálja újra</a>";
+            echo "A jelszavak nem egyeznek, <a href='registration_form.php'>Próbálja újra</a>";
         } else {
             // Hash the password
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);

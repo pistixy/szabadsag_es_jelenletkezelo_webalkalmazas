@@ -14,7 +14,7 @@ if (isset($_SESSION['logged'])) {
     exit;
 } else {
     // If the user is not logged in, you can handle this case (e.g., redirect to login page)
-    header("Location: includes/loginn.php"); // Redirect to the login page
+    header("Location: includes/login_form.php"); // Redirect to the login page
     exit;
 }
 ?>

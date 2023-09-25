@@ -25,7 +25,7 @@ if ($result->num_rows > 0) {
 }
 
 // The username and password are incorrect
-echo "Helytelen felhasználónév vagy jelszó! <a href='loginn.php'>Bejelentkezés újra</a>";
+echo "Helytelen felhasználónév vagy jelszó! <a href='login_form.php'>Bejelentkezés újra</a>";
 
 $stmt->close();
 $conn->close();

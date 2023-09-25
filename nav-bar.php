@@ -22,7 +22,7 @@ include "includes/connect.php";
         if (isset($_SESSION['logged'])) {
             echo '<a href="includes/profil.php">' . $_SESSION['email'] . '</a>';
         } else {
-            echo '<a href="includes/loginn.php">Bejelentkezés</a>';
+            echo '<a href="includes/login_form.php">Bejelentkezés</a>';
         }
         ?>
     </div>
@@ -30,9 +30,9 @@ include "includes/connect.php";
     <div class="navbar_items">
         <?php
         if (isset($_SESSION['logged'])) {
-            echo '<a href="logout.php">Kijelentkezés</a>';
+            echo '<a href="includes/logout.php">Kijelentkezés</a>';
         } else {
-            echo '<a href="includes/registeration.php">Regisztráció</a>';
+            echo '<a href="includes/registration_form.php">Regisztráció</a>';
         }
         ?>
     </div>
