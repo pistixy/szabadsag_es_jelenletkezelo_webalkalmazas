@@ -8,17 +8,32 @@ include "includes/connect.php";
         </a>
     </div>
     <div class="navbar_items">
-    Calendar
+        <?php if (isset($_SESSION['email'])) {
+            echo "be vagy jelentkezve";
+        }
+        ?>
     </div>
     <div class="navbar_items">
     Search users
     </div>
 
     <div class="navbar_items">
-       <a href="includes/loginn.php">Bejelentkezés</a>
+        <?php if (isset($_SESSION['logged'])) {
+            echo '<a href="includes/profil.php">' . $email . '</a>';
+        }
+        else{
+            echo '<a href="includes/loginn.php">Bejelentkezés</a>';
+        }
+        ?>
     </div>
 
     <div class="navbar_items">
-        <a href="includes/registeration.php">Regisztráció</a>
+        <?php if (isset($_SESSION['logged'])) {
+            echo '<a href="logout.php">Kijelentkezés</a>';
+        }
+        else{
+            echo '<a href="includes/registeration.php">Regisztráció</a>';
+        }
+        ?>
     </div>
 </div>

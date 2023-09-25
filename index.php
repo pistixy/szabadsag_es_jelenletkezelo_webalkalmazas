@@ -13,6 +13,8 @@ include "nav-bar.php";
 <?php
 include "gallery.php";
 ?>
+<?php
 
+?>
 </body>
 </html>

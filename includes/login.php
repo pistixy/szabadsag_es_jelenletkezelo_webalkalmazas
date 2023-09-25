@@ -16,9 +16,9 @@ if ($result->num_rows > 0) {
     // Verify the hashed password
     if (password_verify($password, $row['password'])) {
         // The password is correct, set session variables
-        $_SESSION['usern'] = $row['usern'];
+        $_SESSION['email'] = $row['email'];
         $_SESSION['email'] = $email;
-        $_SESSION['loggedin'] = true;
+        $_SESSION['logged'] = true;
         header("Location: ../index.php");
         exit;
     }
