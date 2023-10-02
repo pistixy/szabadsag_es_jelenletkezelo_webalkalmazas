@@ -15,6 +15,7 @@ include "gallery.php";
 ?>
 <?php
 
+include "includes/list_users.php";
 ?>
 </body>
 </html>
