@@ -1,11 +1,13 @@
 <?php
-include "includes/check_login.php";
-include "includes/connect.php";
 
-$query = "SELECT * FROM users";
-$result = mysqli_query($conn, $query);
 
-if ($isAdmin) {
+include "nav-bar.php";
+
+
+if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']) {
+    $query = "SELECT * FROM users";
+    $result = mysqli_query($conn, $query);
+
     if (mysqli_num_rows($result) > 0) {
         echo "<h2>List of Users</h2>";
         echo "<table>";

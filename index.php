@@ -7,15 +7,12 @@
 </head>
 
 <?php
-include "nav-bar.php";
+include "includes/nav-bar.php";
 ?>
 <body>
 <?php
 include "gallery.php";
 ?>
-<?php
 
-include "includes/list_users.php";
-?>
 </body>
 </html>

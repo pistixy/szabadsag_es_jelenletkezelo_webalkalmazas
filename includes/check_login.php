@@ -26,4 +26,6 @@ if (isset($_SESSION['logged']) && $_SESSION['logged'] === true) {
     $stmt->close();
     $conn->close();
 }
+
+$_SESSION['isAdmin'] = $isAdmin;
 ?>
