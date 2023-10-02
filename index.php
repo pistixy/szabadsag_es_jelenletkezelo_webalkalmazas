@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Szabadsagkezelo</title>
+    <title>Szabadságkezelő</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <?php
-include "includes/nav-bar.php";
+include "nav-bar.php";
 ?>
 <body>
 <?php

@@ -3,7 +3,7 @@
 <head>
     <title>Holiday Calendar Regisztráció</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body class="registration_form">
 <div id="login-form">
@@ -34,7 +34,7 @@
 
     </form>
     <p>Már tag vagy? <a href="login_form.php">Jelentkezz be!</a></p>
-    <p>Vissza a kezdőlapra: <a href="../index.php">Holiday Calendar!</a></p>
+    <p>Vissza a kezdőlapra: <a href="index.php">Holiday Calendar!</a></p>
 
 </div>
 </body>

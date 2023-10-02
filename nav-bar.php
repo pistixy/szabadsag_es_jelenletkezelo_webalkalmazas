@@ -5,7 +5,7 @@ include "connect.php";
 
 <div class="navbar">
     <div class="logo">
-        <a href="../index.php">
+        <a href="index.php">
             <img src="logo.png" alt="Logo">
         </a>
     </div>
@@ -21,7 +21,7 @@ include "connect.php";
         <?php
         if (isset($_SESSION['logged']) && isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']) {
 
-            echo '<a href="Szabadsagkezelo/szabadsag_es_jelenletkezelo_webalkalmazas/includes/list_users.php">Dolgozók</a>';
+            echo '<a href="list_users.php">Dolgozók</a>';
         }
 
         ?>
