@@ -11,7 +11,10 @@ $phone = $_POST["phone"];
 
 
 // Calculate the age based on the birthday
-$birthdate = new DateTime($birthdate); // Convert to DateTime object
+try {
+    $birthdate = new DateTime($birthdate);
+} catch (Exception $e) {
+} // Convert to DateTime object
 $birthdateString = $birthdate->format('Y-m-d'); // Format as string in 'Y-m-d' format
 $today = new DateTime();
 $age = $today->diff($birthdate)->y;
@@ -60,4 +63,3 @@ if ($age < 18) {
     }
 }
 
-?>

@@ -12,7 +12,7 @@ include "connect.php";
     <div class="navbar_items">
         <?php
         if (isset($_SESSION['logged'])) {
-            echo '<a href="profil.php">Naptáram</a>';
+            echo '<a href="profile.php">Naptáram</a>';
         }
         ?>
     </div>
@@ -28,7 +28,7 @@ include "connect.php";
     <div class="navbar_items">
         <?php
         if (isset($_SESSION['logged'])) {
-            echo '<a href="profil.php">' . $_SESSION['email'] . '</a>';
+            echo '<a href="profile.php">' . $_SESSION['email'] . '</a>';
         } else {
             echo '<a href="login_form.php">Bejelentkezés</a>';
         }
