@@ -12,7 +12,7 @@
         <label for="email">E-mail cím:</label>
         <input type="text" id="email" name="email" placeholder="Az emailed.." required>
         <label for="password">Jelszó:</label>
-        <input type="password" id="password" name="password" placeholder="A jelszavad"required>
+        <input type="password" id="password" name="password" placeholder="A jelszavad" required>
         <input type="submit" value="Bejelentkezés">
     </form>
     <p>Még nem vagy tag? <a href="registration_form.php">Regisztrálj!</a></p>

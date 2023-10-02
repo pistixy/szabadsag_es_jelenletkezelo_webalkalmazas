@@ -13,7 +13,6 @@ include "connect.php";
         <?php
         if (isset($_SESSION['logged'])) {
             echo '<a href="profil.php">Naptáram</a>';
-        } else {
         }
         ?>
     </div>
