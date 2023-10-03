@@ -12,7 +12,9 @@ include "nav-bar.php";
 ?>
 <body>
 <?php
-include "gallery.php";
+if (!(isset($_SESSION['logged']))) {
+    include "gallery.php";
+}
 ?>
 
 </body>

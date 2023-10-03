@@ -316,3 +316,61 @@ input[type="submit"]:hover {
     background-color: #0056b3;
 }
 
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.calendar {
+    margin: 20px auto;
+    width: 80%;
+    text-align: center;
+}
+
+.prev-month,
+.next-month {
+    display: inline-block;
+    margin: 10px;
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: bold;
+}
+
+.prev-month:hover,
+.next-month:hover {
+    text-decoration: underline;
+}
+
+.calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.calendar-header,
+.calendar-cell {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+    font-weight: bold;
+    width: calc(100% / 7);
+}
+
+.calendar-header {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.calendar-cell {
+    background-color: #fff;
+    color: #333;
+}
+
+.calendar-cell:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+

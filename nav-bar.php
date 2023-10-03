@@ -12,7 +12,7 @@ include "connect.php";
     <div class="navbar_items">
         <?php
         if (isset($_SESSION['logged'])) {
-            echo '<a href="profile.php">Naptáram</a>';
+            echo '<a href="calendar.php">Naptáram</a>';
         }
         ?>
     </div>
