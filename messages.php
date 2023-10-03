@@ -1,0 +1,62 @@
+<?php
+session_start();
+include "connect.php";
+
+if (!isset($_SESSION['logged'])) {
+    header("Location: login_form.php");
+    exit;
+}
+
+if (!isset($_SESSION['WORKID'])) {
+    echo "WORKID is not set.";
+    exit;
+}
+
+$user_id = $_SESSION['WORKID'];
+$query = "SELECT m.message_content, m.timestamp, u.email AS sender_email
+          FROM messages AS m
+          INNER JOIN users AS u ON m.sender_id = u.WORKID
+          WHERE m.receiver_id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+?>
+
+<!DOCTYPE html>
+<html lang="hu-HU">
+<head>
+    <meta charset="UTF-8">
+    <title>Üzenetek</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<?php include "nav-bar.php"; ?>
+
+<div class="message-container">
+    <h2>Üzenetek</h2>
+    <?php
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $message_content = $row['message_content'];
+            $sender_email = $row['sender_email'];
+            $timestamp = $row['timestamp'];
+
+            echo '<div class="message">
+                    <p><strong>Feladó: ' . $sender_email . '</strong></p>
+                    <p>' . $message_content . '</p>
+                    <p>Dátum: ' . $timestamp . '</p>
+                  </div>';
+        }
+    } else {
+        echo '<p>Nincsenek üzenetek.</p>';
+    }
+    ?>
+</div>
+</body>
+</html>
+
+<?php
+$stmt->close();
+$conn->close();
+?>

@@ -37,7 +37,7 @@ if ($result->num_rows > 0) {
         <p class="profile-data"><strong>Családnév:</strong> <?php echo $row['surname']; ?></p>
         <p class="profile-data"><strong>Telszám:</strong> <?php echo $row['phone']; ?></p>
         <p class="profile-data"><strong>Születési dátum:</strong> <?php echo $row['birthdate']; ?></p>
-
+        <p class="profile-data"><strong>WORKID</strong>:</strong> <?php echo $row['WORKID']; ?></p>
         <a class="edit-profile-link" href="edit_profile.php">Edit Profile</a>
     </div>
     </body>
