@@ -18,6 +18,13 @@ include "connect.php";
     </div>
     <div class="navbar_items">
         <?php
+        if (isset($_SESSION['logged'])) {
+            echo '<a href="send_message_form.php">Üzenetküdés</a>';
+        }
+        ?>
+    </div>
+    <div class="navbar_items">
+        <?php
         if (isset($_SESSION['logged']) && isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']) {
 
             echo '<a href="list_users.php">Dolgozók</a>';

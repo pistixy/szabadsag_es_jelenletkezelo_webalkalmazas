@@ -17,13 +17,14 @@ if ($result->num_rows > 0) {
 
         $_SESSION['email'] = $row['email'];
         $_SESSION['logged'] = true;
+        $_SESSION['WORKID'] = $row['WORKID'];
 
         if ($row['admin'] == '1') {
             $_SESSION['isAdmin'] = true;
         } else {
             $_SESSION['isAdmin'] = false;
         }
-
+        var_dump($_SESSION);
 
         header("Location: ../index.php");
         exit;
