@@ -7,7 +7,6 @@ if (!isset($_SESSION['logged'])) {
     header("Location: login_form.php");
     exit;
 }
-
 include "connect.php";
 
 // Get the logged-in user's email (you may use a different identifier like user ID)
@@ -24,7 +23,7 @@ if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     ?>
     <!DOCTYPE html>
-    <html>
+    <html lang="hu-HU">
     <head>
         <title>Profil</title>
         <link rel="stylesheet" href="styles.css">

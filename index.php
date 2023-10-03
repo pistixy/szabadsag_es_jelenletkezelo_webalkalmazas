@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu-HU">
 <head>
     <meta charset="UTF-8">
     <title>Szabadságkezelő</title>
@@ -7,6 +7,7 @@
 </head>
 
 <?php
+session_start();
 include "nav-bar.php";
 ?>
 <body>

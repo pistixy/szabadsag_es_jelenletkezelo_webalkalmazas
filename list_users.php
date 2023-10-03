@@ -1,8 +1,15 @@
+<!DOCTYPE html>
+<html lang="hu-HU">
+<head>
+    <meta charset="UTF-8">
+    <title>Dolgozók</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
 <?php
-
+session_start();
 
 include "nav-bar.php";
-
 
 if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']) {
     $query = "SELECT * FROM users";
@@ -36,3 +43,7 @@ if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']) {
 
 mysqli_close($conn);
 ?>
+
+</body>
+</html>
+

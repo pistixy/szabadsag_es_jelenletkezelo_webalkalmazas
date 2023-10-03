@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="hu-HU">
 <head>
     <title>Holiday Calendar Bejelentkezés</title>
     <meta charset="UTF-8">
