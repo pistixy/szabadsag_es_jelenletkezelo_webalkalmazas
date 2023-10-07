@@ -26,6 +26,11 @@ if ($result->num_rows > 0) {
     <body>
     <?php include "nav-bar.php"; ?>
     <div class="profile-container">
+        <form action="upload_profile_picture.php" method="POST" enctype="multipart/form-data">
+            <label>Profilkép feltöltése:</label>
+            <input type="file" accept="image/gif" accept="image/jpg" accept="image/png" accept="image/jpeg" name="profile_picture" value="profile_picture">
+            <input type="submit" name="profile_picture" value="Feltöltés">
+        </form>
         <h1 class="profile-heading">Profilod</h1>
         <p class="profile-data"><strong>Email:</strong> <?php echo $row['email']; ?></p>
         <p class="profile-data"><strong>Név:</strong> <?php echo $row['name']; ?></p>
