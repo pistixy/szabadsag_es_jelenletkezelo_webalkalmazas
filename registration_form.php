@@ -37,5 +37,8 @@
     <p>Vissza a kezdőlapra: <a href="index.php">Holiday Calendar!</a></p>
 
 </div>
+<?php
+include "footer.php";
+?>
 </body>
 </html>

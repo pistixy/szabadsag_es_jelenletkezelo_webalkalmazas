@@ -43,7 +43,9 @@ if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']) {
 
 mysqli_close($conn);
 ?>
-
+<?php
+include "footer.php";
+?>
 </body>
 </html>
 

@@ -18,5 +18,8 @@ if (isset($_GET['date'])) {
 ?>
 
 <h1>Nap: <?php echo $clickedDate; ?></h1>
+<?php
+include "footer.php";
+?>
 </body>
 </html>

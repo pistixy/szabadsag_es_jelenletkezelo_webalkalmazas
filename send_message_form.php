@@ -20,6 +20,8 @@ include "nav-bar.php";
             <option value="0">Kérvény</option>
             <option value="1">Üzenet</option>
         </select>
+        <label for="subject">Tárgy:</label>
+        <input type="text" id="subject" name="subject" required>
         <label for="message_content">Üzenet:</label>
         <textarea id="message_content" name="message_content" required></textarea>
 
@@ -27,5 +29,8 @@ include "nav-bar.php";
         <input type="submit" value="Üzenet küldése">
     </form>
 </div>
+<?php
+include "footer.php";
+?>
 </body>
 </html>

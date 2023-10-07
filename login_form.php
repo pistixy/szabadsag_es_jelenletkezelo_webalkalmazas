@@ -18,5 +18,8 @@
     <p>Még nem vagy tag? <a href="registration_form.php">Regisztrálj!</a></p>
     <p>Vissza a kezdőlapra: <a href="index.php">Holiday Calendar!</a></p>
 </div>
+<?php
+include "footer.php";
+?>
 </body>
 </html>

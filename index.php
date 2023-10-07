@@ -16,6 +16,8 @@ if (!(isset($_SESSION['logged']))) {
     include "gallery.php";
 }
 ?>
-
+<?php
+include "footer.php";
+?>
 </body>
 </html>

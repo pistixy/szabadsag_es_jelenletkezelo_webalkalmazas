@@ -46,5 +46,8 @@ if ($result->num_rows > 0) {
         <input type="submit" value="Mentés">
     </form>
 </div>
+<?php
+include "footer.php";
+?>
 </body>
 </html>

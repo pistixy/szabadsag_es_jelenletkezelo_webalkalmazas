@@ -13,7 +13,7 @@ if (!isset($_SESSION['WORKID'])) {
 }
 
 $user_id = $_SESSION['WORKID'];
-$query = "SELECT m.message_id, m.message_content, m.timestamp, m.message_type, u.email AS sender_email
+$query = "SELECT m.message_id, m.message_content, m.timestamp, m.message_type, m.subject, u.email AS sender_email
           FROM messages AS m
           INNER JOIN users AS u ON m.sender_id = u.WORKID
           WHERE m.receiver_id = ?
@@ -22,6 +22,7 @@ $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
+
 ?>
 
 <!DOCTYPE html>
@@ -41,6 +42,7 @@ $result = $stmt->get_result();
         while ($row = $result->fetch_assoc()) {
             $message_id = $row['message_id'];
             $message_content = $row['message_content'];
+            $subject = $row['subject'];
             $message_type = $row['message_type'];
             $sender_email = $row['sender_email'];
             $timestamp = $row['timestamp'];
@@ -48,6 +50,7 @@ $result = $stmt->get_result();
 
             echo '<div class="message">
                     <p><strong>Feladó: ' . $sender_email . '</strong></p>
+                    <p><strong>Tárgy: ' . $subject . '</strong></p>
                     <p>' . $messageTypeLabel . '</p> 
                     <p>' . $message_content . '</p>
                     <p>Dátum: ' . $timestamp . '</p>
@@ -59,6 +62,9 @@ $result = $stmt->get_result();
     }
     ?>
 </div>
+<?php
+include "footer.php";
+?>
 </body>
 </html>
 

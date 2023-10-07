@@ -3,7 +3,6 @@ $loggedIn = false;
 $isAdmin = false;
 
 if (isset($_SESSION['logged']) && $_SESSION['logged'] === true) {
-    // User is logged in
     $loggedIn = true;
     $username = $_SESSION['email'];
 

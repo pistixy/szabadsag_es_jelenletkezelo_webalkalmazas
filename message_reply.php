@@ -77,5 +77,8 @@ if (isset($_GET['message_id'])) {
     </form>
 </div>
 <a href="messages.php" class="back-to-messages">Vissza az üzenetekhez</a>
+<?php
+include "footer.php";
+?>
 </body>
 </html>
