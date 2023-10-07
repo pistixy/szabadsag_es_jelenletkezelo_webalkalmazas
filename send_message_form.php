@@ -15,8 +15,15 @@ include "nav-bar.php";
     <form action="send_message.php" method="post">
         <label for="recipient">Címzett:</label>
         <input type="text" id="recipient" name="recipient" required>
+        <label for="message_type">Üzenet típusa:</label>
+        <select id="message_type" name="message_type">
+            <option value="0">Kérvény</option>
+            <option value="1">Üzenet</option>
+        </select>
         <label for="message_content">Üzenet:</label>
         <textarea id="message_content" name="message_content" required></textarea>
+
+
         <input type="submit" value="Üzenet küldése">
     </form>
 </div>

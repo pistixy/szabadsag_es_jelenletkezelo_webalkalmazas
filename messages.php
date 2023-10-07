@@ -13,10 +13,11 @@ if (!isset($_SESSION['WORKID'])) {
 }
 
 $user_id = $_SESSION['WORKID'];
-$query = "SELECT m.message_content, m.timestamp, u.email AS sender_email
+$query = "SELECT m.message_content, m.timestamp, m.message_type, u.email AS sender_email
           FROM messages AS m
           INNER JOIN users AS u ON m.sender_id = u.WORKID
-          WHERE m.receiver_id = ?";
+          WHERE m.receiver_id = ?
+          ORDER BY m.timestamp DESC";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -39,11 +40,14 @@ $result = $stmt->get_result();
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $message_content = $row['message_content'];
+            $message_type = $row['message_type'];
             $sender_email = $row['sender_email'];
             $timestamp = $row['timestamp'];
+            $messageTypeLabel = ($message_type == 1) ? "Üzenet" : "Kérvény";
 
             echo '<div class="message">
                     <p><strong>Feladó: ' . $sender_email . '</strong></p>
+                    <p>Típus: ' . $messageTypeLabel . '</p> 
                     <p>' . $message_content . '</p>
                     <p>Dátum: ' . $timestamp . '</p>
                   </div>';

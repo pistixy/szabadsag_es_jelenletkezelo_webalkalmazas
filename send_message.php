@@ -14,6 +14,7 @@ if (!isset($_SESSION['WORKID'])) {
 
 $sender_id = $_SESSION['WORKID'];
 $recipient = $_POST['recipient'];
+$message_type = $_POST['message_type'];
 $message_content = $_POST['message_content'];
 
 $stmt = $conn->prepare("SELECT WORKID FROM users WHERE email = ?");
@@ -26,8 +27,8 @@ if ($result->num_rows > 0) {
     $receiver_id = $row['WORKID'];
 
     if ($sender_id !== null && $receiver_id !== null) {
-        $stmt = $conn->prepare("INSERT INTO messages (sender_id, receiver_id, message_content, timestamp) VALUES (?, ?, ?, NOW())");
-        $stmt->bind_param("iis", $sender_id, $receiver_id, $message_content);
+        $stmt = $conn->prepare("INSERT INTO messages (sender_id, receiver_id, message_type, message_content, timestamp) VALUES (?, ?, ?, ?, NOW())");
+        $stmt->bind_param("iiis", $sender_id, $receiver_id, $message_type, $message_content); // Updated the bind_param
         if ($stmt->execute()) {
             header("Location: messages.php");
             exit;

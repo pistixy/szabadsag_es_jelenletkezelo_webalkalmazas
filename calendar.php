@@ -17,7 +17,7 @@ $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
 
 $monthName = date("F", mktime(0, 0, 0, $month, 1, $year));
 
-$firstDayOfWeek = date("w", mktime(0, 0, 0, $month, 1, $year));
+$firstDayOfWeek = date("N", mktime(0, 0, 0, $month, 1, $year));
 ?>
 
 <!DOCTYPE html>
@@ -37,24 +37,26 @@ include "nav-bar.php";
     <a href="calendar.php?year=<?php echo $nextYear; ?>&month=<?php echo $nextMonth; ?>" class="next-month">Következő hónap</a>
     <table class="calendar-table">
         <tr class="calendar-header">
-            <th>Vasárnap</th>
             <th>Hétfő</th>
             <th>Kedd</th>
             <th>Szerda</th>
             <th>Csütörtök</th>
             <th>Péntek</th>
             <th>Szombat</th>
+            <th>Vasárnap</th>
         </tr>
         <tr>
             <?php
-            for ($i = 0; $i < $firstDayOfWeek; $i++) {
+            for ($i = 1; $i < $firstDayOfWeek; $i++) {
                 echo "<td class='calendar-cell'></td>";
             }
 
             for ($day = 1; $day <= $daysInMonth; $day++) {
-                echo "<td class='calendar-cell'>$day</td>";
+                $linkURL = "date_details.php?date=$year-$month-$day";
 
-                if (($day + $firstDayOfWeek) % 7 == 0 || $day == $daysInMonth) {
+                echo "<td class='calendar-cell'><a href='$linkURL'>$day</a></td>";
+
+                if (($day + $firstDayOfWeek - 1) % 7 == 0 || $day == $daysInMonth) {
                     echo "</tr>";
 
                     if ($day < $daysInMonth) {
@@ -68,4 +70,3 @@ include "nav-bar.php";
 </div>
 </body>
 </html>
-
