@@ -13,7 +13,7 @@ if (!isset($_SESSION['WORKID'])) {
 }
 
 $user_id = $_SESSION['WORKID'];
-$query = "SELECT m.message_content, m.timestamp, m.message_type, u.email AS sender_email
+$query = "SELECT m.message_id, m.message_content, m.timestamp, m.message_type, u.email AS sender_email
           FROM messages AS m
           INNER JOIN users AS u ON m.sender_id = u.WORKID
           WHERE m.receiver_id = ?
@@ -39,6 +39,7 @@ $result = $stmt->get_result();
     <?php
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
+            $message_id = $row['message_id'];
             $message_content = $row['message_content'];
             $message_type = $row['message_type'];
             $sender_email = $row['sender_email'];
@@ -47,9 +48,10 @@ $result = $stmt->get_result();
 
             echo '<div class="message">
                     <p><strong>Feladó: ' . $sender_email . '</strong></p>
-                    <p>Típus: ' . $messageTypeLabel . '</p> 
+                    <p>' . $messageTypeLabel . '</p> 
                     <p>' . $message_content . '</p>
                     <p>Dátum: ' . $timestamp . '</p>
+                    <a href="message_reply.php?message_id=' . $message_id . '">Valaszok megtekintése</a>
                   </div>';
         }
     } else {

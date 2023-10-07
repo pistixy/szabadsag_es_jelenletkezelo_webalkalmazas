@@ -1,25 +1,20 @@
 <?php
 session_start();
 
-// Check if the user is logged in
 if (!isset($_SESSION['logged'])) {
-    // Redirect to the login page if not logged in
     header("Location: login_form.php");
     exit;
 }
 include "connect.php";
 
-// Get the logged-in user's email (you may use a different identifier like user ID)
 $email = $_SESSION['email'];
 
-// Prepare and execute a SQL query to retrieve user data based on the email
 $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
-    // User data found, display it
     $row = $result->fetch_assoc();
     ?>
     <!DOCTYPE html>
@@ -44,7 +39,6 @@ if ($result->num_rows > 0) {
     </html>
     <?php
 } else {
-    // User data not found
     echo "User data not found.";
 }
 

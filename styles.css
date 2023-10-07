@@ -384,3 +384,78 @@ h1 {
     cursor: pointer;
 }
 
+.message-reply-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.message-reply-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.original-message {
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.previous-replies-title {
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.previous-replies-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.reply-item {
+    margin-bottom: 10px;
+}
+
+.no-replies {
+    margin: 0;
+}
+
+.reply-form {
+    margin-top: 20px;
+}
+
+.reply-textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.reply-submit {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.reply-submit:hover {
+    background-color: #0056b3;
+}
+
+.back-to-messages {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.back-to-messages:hover {
+    text-decoration: underline;
+}
+
