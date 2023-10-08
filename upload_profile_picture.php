@@ -8,7 +8,7 @@ if (!isset($_SESSION['logged'])) {
 
 include "connect.php";
 
-if (isset($_POST['profile_picture'])) {
+if (isset($_POST['upload_profile_picture']) && isset($_FILES['profile_picture'])) {
     $email = $_SESSION['email'];
 
     $stmt = $conn->prepare("SELECT WORKID FROM users WHERE email = ?");
@@ -26,13 +26,13 @@ if (isset($_POST['profile_picture'])) {
             mkdir($uploadDir, 0777, true);
         }
 
-        $fileExtension = pathinfo($_FILES['profile_picture']['name'], PATHINFO_EXTENSION);
+        $fileExtension = strtolower(pathinfo($_FILES['profile_picture']['name'], PATHINFO_EXTENSION));
         $newFileName = $workId . "." . $fileExtension;
         $uploadFile = $uploadDir . $newFileName;
 
         $validImageTypes = ["jpg", "jpeg", "png", "gif"];
 
-        if (in_array(strtolower($fileExtension), $validImageTypes)) {
+        if (in_array($fileExtension, $validImageTypes)) {
             if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $uploadFile)) {
                 $stmt = $conn->prepare("UPDATE users SET profile_picture = ? WHERE email = ?");
                 $stmt->bind_param("ss", $newFileName, $email);
