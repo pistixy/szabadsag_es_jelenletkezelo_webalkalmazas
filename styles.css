@@ -168,6 +168,8 @@ img:first-child {
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    min-width: 300px;
+    min-height: 300px;
 }
 
 .profile-heading {
@@ -460,7 +462,6 @@ h1 {
 }
 
 .footer {
-    position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
@@ -468,5 +469,7 @@ h1 {
     color: white;
     text-align: center;
     padding: 10px;
+    clear: both;
+    margin-top: 20px;
 }
 
