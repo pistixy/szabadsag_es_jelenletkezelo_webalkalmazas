@@ -46,14 +46,21 @@ if ($age < 18) {
             $stmt = $conn->prepare("INSERT INTO users (surname, name, email, password, phone, birthdate, admin, joined, position) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->bind_param("ssssssisi", $surname, $name, $email, $hashed_password, $phone, $birthdateString, $admin, $joined, $position);
             $stmt->execute();
+            session_start();
+            $_SESSION['email'] = $email;
+            include "fill_up_calendar.php";
 
             if ($stmt->affected_rows > 0) {
                 echo "Sikeres regisztráció!";
+                $_SESSION['email'] = $email;
+
                 include_once "login.php";
+                include "fill_up_calendar.php";
             } else {
                 echo "Error: " . $stmt->error;
             }
         }
     }
 }
+
 
