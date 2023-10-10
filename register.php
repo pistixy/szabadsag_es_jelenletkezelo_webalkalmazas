@@ -49,7 +49,7 @@ if ($age < 18) {
 
             if ($stmt->affected_rows > 0) {
                 $_SESSION['email'] = $email;
-                include "fill_up_calendar.php";
+                include "fill_up_calendar_when_register.php";
                 include "login.php";
 
                 header("Location: index.php");
