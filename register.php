@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include "connect.php";
 
 $name = $_POST["name"];
@@ -9,15 +9,15 @@ $password = $_POST["password"];
 $birthdate = $_POST["birthday"];
 $phone = $_POST["phone"];
 
-
 try {
     $birthdate = new DateTime($birthdate);
 } catch (Exception $e) {
-} // Convert to DateTime object
-$birthdateString = $birthdate->format('Y-m-d'); // Format as string in 'Y-m-d' format
+
+}
+
+$birthdateString = $birthdate->format('Y-m-d');
 $today = new DateTime();
 $age = $today->diff($birthdate)->y;
-
 
 if ($age < 18) {
     echo "Az oldal használatához legalább 18 évesnek kell lenned! <a href='registration_form.php'>Próbálkozás újra</a>";
@@ -27,7 +27,7 @@ if ($age < 18) {
     $usern = $temparray[0];
     $joined = date("Y-m-d H:i:s");
     $admin = 0;
-    $position =0;
+    $position = 0;
 
     $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
@@ -46,21 +46,18 @@ if ($age < 18) {
             $stmt = $conn->prepare("INSERT INTO users (surname, name, email, password, phone, birthdate, admin, joined, position) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->bind_param("ssssssisi", $surname, $name, $email, $hashed_password, $phone, $birthdateString, $admin, $joined, $position);
             $stmt->execute();
-            session_start();
-            $_SESSION['email'] = $email;
-            include "fill_up_calendar.php";
 
             if ($stmt->affected_rows > 0) {
-                echo "Sikeres regisztráció!";
                 $_SESSION['email'] = $email;
-
-                include_once "login.php";
                 include "fill_up_calendar.php";
+                include "login.php";
+
+                header("Location: index.php");
+                exit;
             } else {
-                echo "Error: " . $stmt->error;
+                echo "Sikeres regisztráció!";
             }
         }
     }
 }
-
-
+?>

@@ -473,3 +473,12 @@ h1 {
     margin-top: 20px;
 }
 
+.vacation-day {
+    background-color: green;
+}
+
+.working-day {
+    background-color: orange;
+}
+
+

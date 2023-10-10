@@ -22,8 +22,8 @@ if (isset($_SESSION['email'])) {
 }
 
 $currentDate = date("Y-m-d");
-
-for ($i = 0; $i < 50; $i++) {
+$limit=365;
+for ($i = 0; $i < $limit; $i++) {
     $date = date("Y-m-d", strtotime($currentDate . " + " . $i . " days"));
 
     $dayOfWeek = date("N", strtotime($date));
@@ -35,7 +35,7 @@ for ($i = 0; $i < 50; $i++) {
     $stmt = $conn->prepare("INSERT INTO calendar (WORKID, date, is_working_day, is_vacation_day) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("isii", $userWorkId, $date, $isWorkingDay, $isVacationDay);
     if ($stmt->execute()) {
-        echo "Inserted data for date: " . $date . "<br>";
+    //    echo "Inserted data for date: " . $date . "<br>";
     } else {
         echo "Error inserting data for date: " . $date . "<br>";
         echo "Error: " . $stmt->error . "<br>";
@@ -46,5 +46,5 @@ for ($i = 0; $i < 50; $i++) {
     }
 }
 
-echo "Calendar data for the next 50 days has been filled.";
+echo "Calendar data for the next $limit days has been filled.";
 ?>

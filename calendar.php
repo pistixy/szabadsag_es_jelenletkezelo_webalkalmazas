@@ -1,5 +1,7 @@
 <?php
 session_start();
+$userWorkId = $_SESSION['WORKID'];
+
 if (isset($_GET['year']) && isset($_GET['month'])) {
     $year = intval($_GET['year']);
     $month = intval($_GET['month']);
@@ -47,6 +49,8 @@ include "nav-bar.php";
         </tr>
         <tr>
             <?php
+            include "connect.php";
+
             for ($i = 1; $i < $firstDayOfWeek; $i++) {
                 echo "<td class='calendar-cell'></td>";
             }
@@ -54,7 +58,19 @@ include "nav-bar.php";
             for ($day = 1; $day <= $daysInMonth; $day++) {
                 $linkURL = "date_details.php?date=$year-$month-$day";
 
-                echo "<td class='calendar-cell'><a href='$linkURL'>$day</a></td>";
+                $dateToCheck = "$year-$month-$day";
+                $stmt = $conn->prepare("SELECT is_working_day FROM calendar WHERE WORKID = ? AND date = ?");
+                $stmt->bind_param("is", $userWorkId, $dateToCheck);
+                $stmt->execute();
+                $stmt->bind_result($isWorkingDay);
+
+                $stmt->fetch();
+
+                $stmt->close();
+
+                $cssClass = ($isWorkingDay == 1) ? "working-day" : "vacation-day";
+
+                echo "<td class='calendar-cell $cssClass'><a href='$linkURL'>$day</a></td>";
 
                 if (($day + $firstDayOfWeek - 1) % 7 == 0 || $day == $daysInMonth) {
                     echo "</tr>";
@@ -64,6 +80,8 @@ include "nav-bar.php";
                     }
                 }
             }
+
+
             ?>
         </tr>
     </table>
