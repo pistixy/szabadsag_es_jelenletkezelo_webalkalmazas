@@ -48,3 +48,4 @@ for ($i = 0; $i < $limit; $i++) {
 
 echo "Calendar data for the next $limit days has been filled.";
 ?>
+
