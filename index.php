@@ -5,17 +5,20 @@
     <title>Szabadságkezelő</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-
 <?php
 session_start();
-include "nav-bar.php";
 ?>
 <body>
+
+
 <?php
-if (!(isset($_SESSION['logged']))) {
-    include "gallery.php";
-}
+if ($_SESSION['logged'] == true){
+    include "csempek.php";
+}else
+    include "login_form.php";
 ?>
+
+
 <?php
 include "footer.php";
 ?>

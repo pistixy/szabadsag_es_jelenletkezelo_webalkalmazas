@@ -26,7 +26,7 @@ if ($result->num_rows > 0) {
         }
         var_dump($_SESSION);
 
-        header("Location: ../index.php");
+        header("index.php");
         exit;
     }
 }

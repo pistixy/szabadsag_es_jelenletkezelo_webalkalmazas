@@ -24,7 +24,6 @@ if ($result->num_rows > 0) {
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-    <?php include "nav-bar.php"; ?>
     <div class="profile-container">
         <div class="profile-picture">
             <?php
