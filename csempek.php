@@ -12,7 +12,7 @@
     </tr>
     <tr>
         <td>
-            <a href="uni.sze.hu"> Széchenyi Egyetem oldala</a>
+            <a href="https://www.uni.sze.hu"> Széchenyi Egyetem oldala</a>
         </td>
         <td>
             <a href="hrsegedlet.php">HR segédlet</a>

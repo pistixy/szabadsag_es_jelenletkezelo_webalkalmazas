@@ -9,12 +9,13 @@ if (!isset($_SESSION['logged'])) {
 
 $email = $_SESSION['email'];
 $name = $_POST['name'];
-$surname = $_POST['surname'];
-$phone = $_POST['phone'];
-$birthdate = $_POST['birthdate'];
+$cim = $_POST['cim'];
+$adoazonosito = $_POST['adoazonosito'];
+$szervezetszam = $_POST['szervezetszam'];
+$alkalmazottikartyaszama = $_POST['alkalmazottikartyaszama'];
 
-$stmt = $conn->prepare("UPDATE users SET name = ?, surname = ?, phone = ?, birthdate = ? WHERE email = ?");
-$stmt->bind_param("sssss", $name, $surname, $phone, $birthdate, $email);
+$stmt = $conn->prepare("UPDATE users SET name = ?, cim = ?, adoazonosito = ?, szervezetszam = ?, alkalmazottikartya = ? WHERE email = ?");
+$stmt->bind_param("ssssss", $name, $cim, $adoazonosito, $szervezetszam, $alkalmazottikartyaszama, $email);
 if ($stmt->execute()) {
     header("Location: profile.php");
 } else {

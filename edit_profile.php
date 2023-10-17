@@ -9,7 +9,6 @@
 <?php
 session_start();
 
-
 if (!isset($_SESSION['logged'])) {
     header("Location: login_form.php");
     exit;
@@ -31,17 +30,22 @@ if ($result->num_rows > 0) {
 <div class="profile-container">
     <h1 class="profile-heading">Profil szerkesztése</h1>
     <form action="update_profile.php" method="post">
-        <label for="name">Név:</label>
+        <label for="name">Teljes név:</label>
         <input type="text" id="name" name="name" value="<?php echo $row['name']; ?>" required>
 
-        <label for="surname">Családnév:</label>
-        <input type="text" id="surname" name="surname" value="<?php echo $row['surname']; ?>" required>
+        <label for="cim">Lakcím:</label>
+        <input type="text" id="cim" name="cim" value="<?php echo $row['cim']; ?>" required>
 
-        <label for="phone">Telefonszám:</label>
-        <input type="text" id="phone" name="phone" value="<?php echo $row['phone']; ?>" required>
+        <label for="adoazonosito">Adóazonosító:</label>
+        <input type="text" id="adoazonosito" name="adoazonosito" value="<?php echo $row['adoazonosito']; ?>" required>
 
-        <label for="birthdate">Születési dátum:</label>
-        <input type="date" id="birthdate" name="birthdate" value="<?php echo $row['birthdate']; ?>" required>
+        <label for="szervezetszam">Szervezetszám:</label>
+        <input type="text" id="szervezetszam" name="szervezetszam" value="<?php echo $row['szervezetszam']; ?>" required>
+
+        <label for="alkalmazottikartyaszama">Alkalmazotti kártyaszám:</label>
+        <input type="text" id="alkalmazottikartyaszama" name="alkalmazottikartyaszama" value="<?php echo $row['alkalmazottikartya']; ?>" required>
+
+        <!-- You can add more fields for any other user data here -->
 
         <input type="submit" value="Mentés">
     </form>

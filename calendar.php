@@ -30,7 +30,9 @@ $firstDayOfWeek = date("N", mktime(0, 0, 0, $month, 1, $year));
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
+<?php
+include "nav-bar.php";
+?>
 <h1><?php echo $monthName . " " . $year; ?></h1>
 <div class="calendar">
     <a href="calendar.php?year=<?php echo $prevYear; ?>&month=<?php echo $prevMonth; ?>" class="prev-month">Előző hónap</a>
