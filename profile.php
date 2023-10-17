@@ -36,12 +36,14 @@ if ($result->num_rows > 0) {
         <div class="profile-details">
             <h1 class="profile-heading">Profilod</h1>
             <p class="profile-data"><strong>Email:</strong> <?php echo $row['email']; ?></p>
-            <p class="profile-data"><strong>Név:</strong> <?php echo $row['name']; ?></p>
-            <p class="profile-data"><strong>Családnév:</strong> <?php echo $row['surname']; ?></p>
-            <p class="profile-data"><strong>Telszám:</strong> <?php echo $row['phone']; ?></p>
-            <p class="profile-data"><strong>Születési dátum:</strong> <?php echo $row['birthdate']; ?></p>
+            <p class="profile-data"><strong>Teljes név:</strong> <?php echo $row['name']; ?></p>
             <p class="profile-data"><strong>WORKID:</strong> <?php echo $row['WORKID']; ?></p>
-            <a class="edit-profile-link" href="edit_profile.php">Edit Profile</a>
+            <p class="profile-data"><strong>Lakcím:</strong> <?php echo $row['cim']; ?></p>
+            <p class="profile-data"><strong>Adóazonosító:</strong> <?php echo $row['adoazonosito']; ?></p>
+            <p class="profile-data"><strong>Szervezetszám:</strong> <?php echo $row['szervezetszam']; ?></p>
+            <p class="profile-data"><strong>Alkalmazotti kártyaszám:</strong> <?php echo $row['alkalmazottikartya']; ?></p>
+            <p class="profile-data"><strong>Beosztás:</strong><?php echo $row['position']; ?></p>
+            <a class="edit-profile-link" href="edit_profile.php">Profil szerkesztése</a>
         </div>
         <form action="upload_profile_picture.php" method="POST" enctype="multipart/form-data" class="profile-picture-upload-form">
             <label>Profilkép feltöltése:</label>

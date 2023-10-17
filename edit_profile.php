@@ -8,7 +8,7 @@
 <body>
 <?php
 session_start();
-include "nav-bar.php";
+
 
 if (!isset($_SESSION['logged'])) {
     header("Location: login_form.php");

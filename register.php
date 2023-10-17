@@ -3,81 +3,48 @@ session_start();
 include "connect.php";
 
 $name = $_POST["name"];
-$surname = $_POST["surname"];
 $email = $_POST["email"];
 $password = $_POST["password"];
-$birthdate = $_POST["birthday"];
-$phone = $_POST["phone"];
+$passwordRepeat = $_POST["jelszoujra"];
+$cim = $_POST["cim"];
+$adoazonosito = $_POST["adoazonosito"];
+$szervezetszam = $_POST["szervezetszam"];
+$alkalmazottikartyaszama = $_POST["alkalmazottikartyaszama"];
 
-try {
-    $birthdate = new DateTime($birthdate);
-} catch (Exception $e) {
-
+// Check if the passwords match
+if ($password !== $passwordRepeat) {
+    echo "A jelszavak nem egyeznek. <a href='registration_form.php'>Próbálkozás újra</a>";
+    exit;
 }
 
-$birthdateString = $birthdate->format('Y-m-d');
-$today = new DateTime();
-$age = $today->diff($birthdate)->y;
+$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+$joined = date("Y-m-d H:i:s");
+$admin = 0;
+$position = 0;
 
-if ($age < 18) {
-    echo "Az oldal használatához legalább 18 évesnek kell lenned! <a href='registration_form.php'>Próbálkozás újra</a>";
+$stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    echo "A megadott email címmel már regisztráltak! Kérjük, használjon másik email címet. <a href='registration_form.php'>Próbálkozás újra</a>";
 } else {
-    $temp = $_POST["email"];
-    $temparray = explode("@", $temp);
-    $usern = $temparray[0];
-    $joined = date("Y-m-d H:i:s");
-    $admin = 0;
-    $position = 0;
-
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-    $stmt->bind_param("s", $email);
+    $stmt = $conn->prepare("INSERT INTO users (name, email, password, cim, adoazonosito, szervezetszam, alkalmazottikartya, position) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssssi", $name, $email, $hashed_password, $cim, $adoazonosito, $szervezetszam, $alkalmazottikartyaszama, $position);
     $stmt->execute();
-    $result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        echo "A megadott email címmel már regisztráltak! Kérjük, használjon másik email címet. <a href='registration_form.php'>Próbálkozás újra</a>";
+    if ($stmt->affected_rows > 0) {
+        $_SESSION['email'] = $email;
+
+        include "fill_up_calendar_when_register.php";
+        include "edit_calendar_with_holidays.php";
+        include "login.php";
+
+        header("Location: index.php");
+        exit;
     } else {
-        $jelszoujra = $_POST["jelszoujra"];
-        if ($jelszoujra !== $password) {
-            echo "A jelszavak nem egyeznek, <a href='registration_form.php'>Próbálja újra</a>";
-        } else {
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-            $stmt = $conn->prepare("INSERT INTO users (surname, name, email, password, phone, birthdate, admin, joined, position) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssssssisi", $surname, $name, $email, $hashed_password, $phone, $birthdateString, $admin, $joined, $position);
-            $stmt->execute();
-
-
-            if ($stmt->affected_rows > 0) {
-                $_SESSION['email'] = $email;
-                $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-                $stmt->bind_param("s", $email);
-                $stmt->execute();
-                $result = $stmt->get_result();
-
-                if ($result->num_rows > 0) {
-                    $row = $result->fetch_assoc();
-
-                    if (password_verify($password, $row['password'])) {
-
-                        $_SESSION['email'] = $row['email'];
-                        $_SESSION['logged'] = true;
-                        $_SESSION['WORKID'] = $row['WORKID'];
-
-                    }
-                }
-
-                include "fill_up_calendar_when_register.php";
-                include "edit_calendar_with_holidays.php";
-                include "login.php";
-
-
-                header("Location: index.php");
-                exit;
-            } else {
-                echo "Sikeres regisztráció!";
-            }
-        }
+        echo "Sikeres regisztráció!";
     }
 }
 ?>
