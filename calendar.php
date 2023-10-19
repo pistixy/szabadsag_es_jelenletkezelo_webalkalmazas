@@ -86,7 +86,11 @@ include "nav-bar.php";
         </tr>
     </table>
 </div>
-<?php include "footer.php"; ?>
+
+<?php
+include "csuszka.php";
+include "footer.php";
+?>
 
 </body>
 </html>
