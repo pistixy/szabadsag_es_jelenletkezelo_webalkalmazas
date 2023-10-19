@@ -1,4 +1,4 @@
-<table>
+<table class="csempe">
     <tr>
         <td>
             <a href="profile.php">Profil megtekintése</a>

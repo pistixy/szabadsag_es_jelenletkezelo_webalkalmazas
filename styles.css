@@ -480,5 +480,33 @@ h1 {
 .working-day {
     background-color: orange;
 }
+.csempe {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.csempe a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    width: 150px;
+    height: 150px;
+    margin: 10px;
+    background-color: #3498db;
+    color: #fff;
+    text-align: center;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+}
+
+.csempe a:hover {
+    background-color: #2980b9;
+}
 
 
