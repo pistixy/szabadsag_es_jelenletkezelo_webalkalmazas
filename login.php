@@ -25,7 +25,7 @@ if ($result->num_rows > 0) {
             $_SESSION['isAdmin'] = false;
         }
 
-        header("Location: index.php"); // Use "Location" to properly redirect
+        header("Location: index.php");
         exit;
     }
 }

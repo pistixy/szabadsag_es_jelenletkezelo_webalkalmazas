@@ -37,9 +37,35 @@ if ($result->num_rows > 0) {
     if ($stmt->affected_rows > 0) {
         $_SESSION['email'] = $email;
 
+
+        //---------------------
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+        $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+
+            if (password_verify($password, $row['password'])) {
+
+                $_SESSION['email'] = $row['email'];
+                $_SESSION['logged'] = true;
+                $_SESSION['WORKID'] = $row['WORKID'];
+
+                if (isset($row['admin']) && $row['admin'] == 1) {
+                    $_SESSION['isAdmin'] = true;
+                } else {
+                    $_SESSION['isAdmin'] = false;
+                }
+            }
+        }
+        //----------------------
         include "fill_up_calendar_when_register.php";
         include "edit_calendar_with_holidays.php";
-        include "login.php";
 
         header("Location: index.php");
         exit;
