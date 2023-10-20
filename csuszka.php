@@ -1,10 +1,10 @@
 <?php
-$sql = "SELECT free, taken, requested, planned FROM users WHERE WORKID = ?";
+$sql = "SELECT free,planned, taken, requested FROM users WHERE WORKID = ?";
 
 if ($stmt = $conn->prepare($sql)) {
-    $stmt->bind_param("i", $_SESSION['WORKID']); // "i" represents an integer data type
+    $stmt->bind_param("i", $_SESSION['WORKID']);
     $stmt->execute();
-    $stmt->bind_result($free, $taken, $requested, $planned);
+    $stmt->bind_result($free, $planned, $taken, $requested);
 
     if ($stmt->fetch()) {
     } else {
@@ -93,15 +93,16 @@ $conn->close();
         <div class="section free">
             <span class="tooltiptext">Fel nem használt szabadnapok száma: <?php echo $free; ?></span>
         </div>
+        <div class="section planned">
+            <span class="tooltiptext">Betervezett és már engedélyezett szabadnapok száma: <?php echo $planned; ?></span>
+        </div>
         <div class="section taken">
             <span class="tooltiptext">Felhasznált szabadnapok száma (múltbeli): <?php echo $taken; ?></span>
         </div>
         <div class="section requested">
             <span class="tooltiptext">Betervezett de még nem engedélyezett szabadnapok száma: <?php echo $requested; ?></span>
         </div>
-        <div class "section planned">
-        <span class="tooltiptext">Betervezett és már engedélyezett szabadnapok száma: <?php echo $planned; ?></span>
-    </div>
+
     </div>
 </fieldset>
 </body>

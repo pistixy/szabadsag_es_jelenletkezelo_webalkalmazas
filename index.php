@@ -7,21 +7,15 @@
 </head>
 <?php
 session_start();
-include "nav-bar.php";
-?>
-<body>
 
-
-<?php
-if ($_SESSION['logged'] == true){
+if (isset($_SESSION['logged']) && $_SESSION['logged'] === true) {
+    include "nav-bar.php";
     include "csempek.php";
-}else
+    include "footer.php";
+} else {
     include "login_form.php";
+}
 ?>
 
-
-<?php
-include "footer.php";
-?>
 </body>
 </html>
