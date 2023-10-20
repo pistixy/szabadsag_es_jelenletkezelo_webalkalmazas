@@ -21,6 +21,10 @@ $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 $joined = date("Y-m-d H:i:s");
 $admin = 0;
 $position = 0;
+$free=20;
+$taken=0;
+$requested=0;
+$planned=0;
 
 $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
 $stmt->bind_param("s", $email);
@@ -30,8 +34,8 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     echo "A megadott email címmel már regisztráltak! Kérjük, használjon másik email címet. <a href='registration_form.php'>Próbálkozás újra</a>";
 } else {
-    $stmt = $conn->prepare("INSERT INTO users (name, email, password, cim, adoazonosito, szervezetszam, alkalmazottikartya, position) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssssi", $name, $email, $hashed_password, $cim, $adoazonosito, $szervezetszam, $alkalmazottikartyaszama, $position);
+    $stmt = $conn->prepare("INSERT INTO users (name, email, password, cim, adoazonosito, szervezetszam, alkalmazottikartya, position, free, taken, requested, planned) VALUES (?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssssiiiii", $name, $email, $hashed_password, $cim, $adoazonosito, $szervezetszam, $alkalmazottikartyaszama, $position, $free, $taken, $requested, $planned);
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {

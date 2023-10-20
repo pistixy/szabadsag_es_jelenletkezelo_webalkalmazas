@@ -1,87 +1,108 @@
 <?php
-    $free=10;
-    $taken= 6;
-    $requested= 8;
-    $planned =7;
-    ?>
-<style>
-    .csuszka {
+$sql = "SELECT free, taken, requested, planned FROM users WHERE WORKID = ?";
 
-        horiz-align: center;
-        width: 100%;
-        background-color: #f0f0f0;
-        height: 20px;
-        border: 1px solid #ccc;
-        display: flex;
+if ($stmt = $conn->prepare($sql)) {
+    $stmt->bind_param("i", $_SESSION['WORKID']); // "i" represents an integer data type
+    $stmt->execute();
+    $stmt->bind_result($free, $taken, $requested, $planned);
+
+    if ($stmt->fetch()) {
+    } else {
+        echo "User not found in the database.";
     }
 
-    .section {
-        text-align: center;
-        color: #fff;
-        font-weight: bold;
-        padding: 5px;
-        display: flex;
-        align-items: center;
-        position: relative;
-    }
+    $stmt->close();
+} else {
+    echo "Error with the database query: " . $conn->error;
+}
 
-    .section:hover .tooltiptext {
-        display: block;
-    }
+$conn->close();
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .csuszka {
+            margin: 0 auto;
+            width: 100%;
+            background-color: #f0f0f0;
+            height: 20px;
+            border: 1px solid #ccc;
+            display: flex;
+        }
 
-    .free {
-        flex: <?php echo $free?>;
-        background-color: green;
-    }
+        .section {
+            text-align: center;
+            color: #fff;
+            font-weight: bold;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
 
-    .taken {
-        flex: <?php echo $taken?>;;
-        background-color: red;
-    }
+        .section:hover .tooltiptext {
+            display: block;
+        }
 
-    .requested {
-        flex: <?php echo $requested?>;;
-        background-color: lightsalmon;
-    }
+        .free {
+            flex: <?php echo $free; ?>;
+            background-color: green;
+        }
 
-    .planned {
-        flex: <?php echo $planned?>;;
-        background-color: lightgreen;
-    }
+        .taken {
+            flex: <?php echo $taken; ?>;
+            background-color: red;
+        }
 
-    .tooltiptext {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: #000;
-        color: #fff;
-        padding: 5px;
-        border-radius: 4px;
-        text-align: center;
-    }
-    .fieldset{
-        width: 60%;
-        margin: 0 auto;
-        background: #dddddd;
-    }
-</style>
+        .requested {
+            flex: <?php echo $requested; ?>;
+            background-color: lightsalmon;
+        }
+
+        .planned {
+            flex: <?php echo $planned; ?>;
+            background-color: lightgreen;
+        }
+
+        .tooltiptext {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #000;
+            color: #fff;
+            padding: 5px;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .fieldset {
+            width: 60%;
+            margin: 0 auto;
+            background: #dddddd;
+        }
+    </style>
+</head>
+<body>
 <fieldset class="fieldset">
     <legend>Fizetett szabadságok állása</legend>
     <div class="csuszka">
         <div class="section free">
-            <span class="tooltiptext">Fel nem használt szabadnapok száma: <?php echo $free?></span>
+            <span class="tooltiptext">Fel nem használt szabadnapok száma: <?php echo $free; ?></span>
         </div>
         <div class="section taken">
-            <span class="tooltiptext">Felhasznált szabadnapok száma (múltbeli): <?php echo $taken ?></span>
+            <span class="tooltiptext">Felhasznált szabadnapok száma (múltbeli): <?php echo $taken; ?></span>
         </div>
         <div class="section requested">
-            <span class="tooltiptext">Betervezett de még nem engedélyezett szabadnapok száma: <?php echo $requested?></span>
+            <span class="tooltiptext">Betervezett de még nem engedélyezett szabadnapok száma: <?php echo $requested; ?></span>
         </div>
-        <div class="section planned">
-            <span class="tooltiptext">Betervezett és már engedélyezett szabadnapok száma: <?php echo $planned?></span>
-        </div>
-
+        <div class "section planned">
+        <span class="tooltiptext">Betervezett és már engedélyezett szabadnapok száma: <?php echo $planned; ?></span>
+    </div>
     </div>
 </fieldset>
+</body>
+</html>
