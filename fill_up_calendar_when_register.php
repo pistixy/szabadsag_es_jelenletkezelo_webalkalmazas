@@ -32,7 +32,6 @@ for ($i = 0; $i < $limit; $i++) {
     $stmt = $conn->prepare("INSERT INTO calendar (WORKID, date, is_working_day, is_vacation_day) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("isii", $userWorkId, $date, $isWorkingDay, $isVacationDay);
     if ($stmt->execute()) {
-    //    echo "Inserted data for date: " . $date . "<br>";
     } else {
         echo "Error inserting data for date: " . $date . "<br>";
         echo "Error: " . $stmt->error . "<br>";

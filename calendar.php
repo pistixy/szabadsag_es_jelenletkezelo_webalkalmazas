@@ -68,7 +68,27 @@ include "nav-bar.php";
 
                 $stmt->close();
 
-                $cssClass = ($isWorkingDay == 1) ? "working-day" : "vacation-day";
+                switch ($isWorkingDay == 1) {
+                    case 0:
+                        $cssClass = "vacation-day";
+                        break;
+                    case 1:
+                        $cssClass =$cssClass = "working-day";
+                        break;
+                    case 2:
+                        $cssClass = "online-day";
+                        break;
+                    case 3:
+                        $cssClass = "sick-leave";
+                        break;
+                    case 4:
+                        $cssClass = "non-payed-leave";
+                        break;
+                    case 5:
+                        $cssClass = "planned-vacation";
+                        break;
+                }
+
 
                 echo "<td class='calendar-cell $cssClass'><a href='$linkURL'>$day</a></td>";
 

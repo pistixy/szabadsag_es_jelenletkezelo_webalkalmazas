@@ -473,12 +473,28 @@ h1 {
     margin-top: 20px;
 }
 
+.working-day {
+    background-color: orange;
+}
+
 .vacation-day {
     background-color: green;
 }
 
-.working-day {
-    background-color: orange;
+.online-day {
+    background-color: blue;
+}
+
+.sick-leave {
+    background-color: red;
+}
+
+.non-payed-vacation {
+    background-color: white;
+}
+
+.planned-vacation {
+    background-color: lightgreen;
 }
 .csempe {
     display: flex;
