@@ -53,6 +53,18 @@ if (isset($_GET['date'])) {
 <p>Státusz: <?php echo $isWorkingDay; ?></p>
 <p>Megjegyzés: <?php echo $comment; ?></p>
 
+<div>
+    <form action="request.php">
+        <label>Válassza ki, hogy milyen státuszra kívánja módosítani a <?php echo $date ?> dátumú napot!</label>
+            <input type="radio" name="nap" id="0" value="Fizetett Szabadnap">
+            <input type="radio" name="nap" id="0" value="Munkanap">
+            <input type="radio" name="nap" id="0" value="Online Munka">
+            <input type="radio" name="nap" id="0" value="Betegszabadság">
+            <input type="radio" name="nap" id="0" value="Fizetetlen szabadság">
+            <input type="radio" name="nap" id="0" value="Tervezett szabadság">
+        <input type="submit" name="nap">
+    </form>
+</div>
 <?php
 include "footer.php";
 ?>
