@@ -1,45 +1,77 @@
 <!DOCTYPE html>
 <html lang="hu-HU">
+
 <head>
-    <title>Holiday Calendar Regisztráció</title>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="styles.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Széchenyi István Egyetem - Szabadságkezelő bejelentkező oldal</title>
+    <link href="styles2.css" rel="stylesheet">
+    <link href="styles3.css" rel="stylesheet">
 </head>
-<body class="registration_form">
-<div id="login-form">
-    <h1 style="color: #333333">Üdvözlünk a Holiday Calendarben!</h1>
-    <form action="register.php" method="POST">
-        <label for="name">Teljes név:</label>
-        <input type="text" id="name" name="name" placeholder="A neved.." required>
+<body>
 
-        <label for="email">Egyetemi e-mail cím:</label>
-        <input type="text" id="email" name="email" placeholder="Az email címed.." required>
+<div class="loginbox">
+    <div class="logoline">
 
-        <label for="password">Jelszó:</label>
-        <input type="password" id="password" name="password" placeholder="A jelszavad.." required>
+        <div class="szelogo" onclick="window.location='http://uni.sze.hu/';"></div>
+    </div>
+    <div class="innerbox">
+        <h1 class="loginheader">Kérjük regisztráljon!</h1>
+        <div class="line"></div>
+        <h2 class="loginreq"> Please register!</h2>
+        <form action="register.php" method="post">
 
-        <label for="jelszoujra">Jelszó újra:</label>
-        <input type="password" id="jelszoujra" name="jelszoujra" placeholder="A jelszavad újra.." required>
-
-        <label for="cim">Lakcím:</label>
-        <input type="text" id="cim" name="cim" placeholder="A lakcímed.." required>
-
-        <label for="adoazonosito">Adóazonosító:</label>
-        <input type="text" id="adoazonosito" name="adoazonosito" placeholder="Az adóazonosítód.." required>
-
-        <label for="szervezetszam">Szervezetszám:</label>
-        <input type="text" id="szervezetszam" name="szervezetszam" placeholder="A szervezetszámod.." required>
-
-        <label for="alkalmazottikartyaszama">Alkalmazotti kártyaszám:</label>
-        <input type="text" id="alkalmazottikartyaszama" name="alkalmazottikartyaszama" placeholder="Az alkalmazotti kártyaszámod.." required>
-
-        <button class="register_button" type="submit" name="register_btn">Regisztráció</button>
-
-    </form>
-    <p>Már tag vagy? <a href="login_form.php">Jelentkezz be!</a></p>
-    <p>Vissza a kezdőlapra: <a href="index.php">Holiday Calendar!</a></p>
+            <div class="row" style="max-width: 500px;margin:0 auto;">
+                <div class="col-md-12" >
+                    <input class="logininput" type="text" id="name" name="name" placeholder="Teljes név" required>
+                </div>
+            </div>
+            <div class="row" style="max-width: 500px;margin:0 auto;">
+                <div class="col-md-12" >
+                    <input class="logininput" type="text" id="email" name="email" placeholder="Egyetemi email cím" required>
+                </div>
+            </div>
+            <div class="row" style="max-width: 500px;margin:0 auto;">
+                <div class="col-md-12" >
+                    <input class="logininput" type="password" id="password" name="password" placeholder="Jelszó" required>
+                </div>
+            </div>
+            <div class="row" style="max-width: 500px;margin:0 auto;">
+                <div class="col-md-12" >
+                    <input class="logininput" type="password" id="jelszoujra" name="jelszoujra" placeholder="Jelszó újra" required>
+                </div>
+            </div>
+            <div class="row" style="max-width: 500px;margin:0 auto;">
+                <div class="col-md-12" >
+                    <input class="logininput" type="text" id="cim" name="cim" placeholder="Lakcím" required>
+                </div>
+            </div>
+            <div class="row" style="max-width: 500px;margin:0 auto;">
+                <div class="col-md-12" >
+                    <input class="logininput" type="text" id="adoazonosito" name="adoazonosito" placeholder="Adóazonosító" required>
+                </div>
+            </div>
+            <div class="row" style="max-width: 500px;margin:0 auto;">
+                <div class="col-md-12" >
+                    <input class="logininput" type="text" id="szervezetszam" name="szervezetszam" placeholder="Szervezetszám" required>
+                </div>
+            </div>
+            <div class="row" style="max-width: 500px;margin:0 auto;">
+                <div class="col-md-12" >
+                    <input class="logininput" type="text" id="alkalmazottikartyaszama" name="alkalmazottikartyaszama" placeholder="Alkalmazotti kártyaszám" required>
+                </div>
+            </div>
+            <p class="reminder">  <a class="newreg" href="login_form.php" target="_blank">Már tag? - Already a member? </a> / <a class="newreg" href="index.php">Vissza a kezdőlapra! - Back to the landing page! </a></p>
+            <div class="row" style="max-width: 500px;margin:0 auto;padding-bottom: 95px;">
+                <div class="col-md-12">
+                    <input class="loginbutton" type="submit" value="Regisztráció / Register">
+                </div>
+            </div>
+        </form>
+    </div>
 
 </div>
+
 <?php
 include "footer.php";
 ?>
