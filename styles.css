@@ -1,50 +1,48 @@
+.body{
+    background-color: #428bca;
+}
 .login-container{
     font-size: 100px;
 }
 .navbar {
+    background-color: #0073e6; /* Example color; use the color that matches your design */
+    color: white;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    background-color: #333;
-    padding: 10px 20px;
+    justify-content: space-between;
+    padding: 10px;
+    font-family: Arial, sans-serif;
 }
-.logo a img {
-    height: 50px;
-    width: auto;
-    display: block;
+
+.navbar .logo img {
+    height: 50px; /* Adjust as needed */
 }
-.navbar_items {
-    margin-left: 20px;
-    color: #fff;
-    text-decoration: none;
+
+.navbar_menu {
+    display: flex;
+    gap: 20px; /* Space between menu items */
     font-weight: bold;
-    font-size: 18px;
-    transition: color 0.3s;
 }
-.navbar_items a {
-    color: #fff;
+
+.navbar_menu a {
+    color: white;
     text-decoration: none;
     padding: 5px 10px;
-    border: 1px solid #fff;
-    border-radius: 5px;
-    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+    transition: background-color 0.3s ease;
 }
-.navbar_items a:hover {
-    background-color: #fff;
-    color: #333;
+
+.navbar_menu a:hover {
+    color: black;
 }
+
+/* Media query for responsive design */
 @media (max-width: 768px) {
-    .navbar {
+    .navbar_menu {
         flex-direction: column;
         align-items: flex-start;
     }
-    .navbar_items {
-        margin: 10px 0;
-    }
-    .logo a img {
-        margin-bottom: 20px;
-    }
 }
+
 .gallery {
     position: relative;
     width: 100%;

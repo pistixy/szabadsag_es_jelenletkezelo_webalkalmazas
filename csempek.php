@@ -21,4 +21,30 @@
             <a href="logout.php">Kijelentkezés</a>
         </td>
     </tr>
+
+    <tr>
+        <td>
+            <?php
+            if (isset($_SESSION['logged']) && isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']) {
+
+                echo ' <a href="letszamjelentes.php">Letszámjelentés</a>';
+            }
+
+            ?>
+
+        </td>
+        <td>
+            <?php
+            if (isset($_SESSION['logged']) && isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']) {
+
+                echo ' <a href="jelenletiiv.php">Jelenléti Ív</a>';
+            }
+
+            ?>
+
+        </td>
+        <td>
+
+        </td>
+    </tr>
 </table>
