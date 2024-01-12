@@ -1,11 +1,23 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "holdaycalendar";
+$host = 'localhost';
+$port = '5433';
+$dbname = 'holidaycalendar';
+$user = 'postgres';
+$password = '123';
 
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
+// PDO DSN (Data Source Name) format for PostgreSQL
+$dsn = "pgsql:host=$host;port=$port;dbname=$dbname;user=$user;password=$password";
+
+try {
+    // Create a PDO instance as db connection
+    $conn = new PDO($dsn);
+
+    // Set error mode to exception to handle errors
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    echo "Connected to PostgreSQL successfully!";
+} catch (PDOException $e) {
+    // Catch any connection error and display it
+    echo "Connection failed: " . $e->getMessage();
 }
 ?>

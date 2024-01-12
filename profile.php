@@ -6,17 +6,18 @@ if (!isset($_SESSION['logged'])) {
     header("Location: login_form.php");
     exit;
 }
+
 include "connect.php";
 
 $email = $_SESSION['email'];
 
-$stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-$stmt->bind_param("s", $email);
+$stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
+$stmt->bindParam(':email', $email);
 $stmt->execute();
-$result = $stmt->get_result();
+$result = $stmt->fetchAll();
 
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
+if (count($result) > 0) {
+    $row = $result[0];
     ?>
     <!DOCTYPE html>
     <html lang="hu-HU">
@@ -38,7 +39,7 @@ if ($result->num_rows > 0) {
             <h1 class="profile-heading">Profilod</h1>
             <p class="profile-data"><strong>Email:</strong> <?php echo $row['email']; ?></p>
             <p class="profile-data"><strong>Teljes név:</strong> <?php echo $row['name']; ?></p>
-            <p class="profile-data"><strong>WORKID:</strong> <?php echo $row['WORKID']; ?></p>
+            <p class="profile-data"><strong>WORKID:</strong> <?php echo $row['work_id']; ?></p>
             <p class="profile-data"><strong>Lakcím:</strong> <?php echo $row['cim']; ?></p>
             <p class="profile-data"><strong>Adóazonosító:</strong> <?php echo $row['adoazonosito']; ?></p>
             <p class="profile-data"><strong>Szervezetszám:</strong> <?php echo $row['szervezetszam']; ?></p>
@@ -59,9 +60,8 @@ if ($result->num_rows > 0) {
     echo "User data not found.";
 }
 
-$stmt->close();
-$conn->close();
 ?>
+
 <?php
 include "footer.php";
 ?>

@@ -11,14 +11,14 @@ include "connect.php";
 if (isset($_POST['upload_profile_picture']) && isset($_FILES['profile_picture'])) {
     $email = $_SESSION['email'];
 
-    $stmt = $conn->prepare("SELECT WORKID FROM users WHERE email = ?");
-    $stmt->bind_param("s", $email);
+    $stmt = $conn->prepare("SELECT work_id FROM users WHERE email = :email");
+    $stmt->bindParam(':email', $email);
     $stmt->execute();
-    $result = $stmt->get_result();
+    $result = $stmt->fetchAll();
 
-    if ($result->num_rows == 1) {
-        $row = $result->fetch_assoc();
-        $workId = $row['WORKID'];
+    if (count($result) == 1) {
+        $row = $result[0];
+        $workId = $row['work_id'];
 
         $uploadDir = "profile_pictures/";
 
@@ -34,8 +34,9 @@ if (isset($_POST['upload_profile_picture']) && isset($_FILES['profile_picture'])
 
         if (in_array($fileExtension, $validImageTypes)) {
             if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $uploadFile)) {
-                $stmt = $conn->prepare("UPDATE users SET profile_picture = ? WHERE email = ?");
-                $stmt->bind_param("ss", $newFileName, $email);
+                $stmt = $conn->prepare("UPDATE users SET profile_picture = :profile_picture WHERE email = :email");
+                $stmt->bindParam(':profile_picture', $newFileName);
+                $stmt->bindParam(':email', $email);
 
                 if ($stmt->execute()) {
                     header("Location: profile.php");
@@ -54,3 +55,4 @@ if (isset($_POST['upload_profile_picture']) && isset($_FILES['profile_picture'])
     }
 }
 ?>
+

@@ -1,3 +1,6 @@
+<?php
+include "check_login.php";
+?>
 <table class="csempe">
     <tr>
         <td>
@@ -25,6 +28,7 @@
     <tr>
         <td>
             <?php
+                echo '<a href="letszamjelentes.php">Letszámjelentés</a>';
             if (isset($_SESSION['logged']) && isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']) {
 
                 echo ' <a href="letszamjelentes.php">Letszámjelentés</a>';
@@ -35,6 +39,7 @@
         </td>
         <td>
             <?php
+                echo ' <a href="jelenletiiv.php">Jelenléti Ív</a>';
             if (isset($_SESSION['logged']) && isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']) {
 
                 echo ' <a href="jelenletiiv.php">Jelenléti Ív</a>';

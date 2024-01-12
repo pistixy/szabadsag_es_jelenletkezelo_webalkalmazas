@@ -21,6 +21,7 @@
         <h2 class="loginreq"> Please register!</h2>
         <form action="register.php" method="post">
 
+
             <div class="row" style="max-width: 500px;margin:0 auto;">
                 <div class="col-md-12" >
                     <input class="logininput" type="text" id="name" name="name" placeholder="Teljes név" required>

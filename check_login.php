@@ -1,29 +1,27 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 $loggedIn = false;
 $isAdmin = false;
 
 if (isset($_SESSION['logged']) && $_SESSION['logged'] === true) {
     $loggedIn = true;
-    $username = $_SESSION['email'];
+    $email = $_SESSION['email'];
 
     include "connect.php";
 
-    $email = $_SESSION['email'];
-
-    $stmt = $conn->prepare("SELECT admin FROM users WHERE email = ?");
-    $stmt->bind_param("s", $email);
+    $stmt = $conn->prepare("SELECT position FROM users WHERE email = :email");
+    $stmt->bindParam(':email', $email);
     $stmt->execute();
-    $result = $stmt->get_result();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        if ($row['admin'] == 1) {
+    if (count($result) > 0) {
+        $row = $result[0];
+        if ($row['position'] == 1) {
             $isAdmin = true;
         }
     }
-
-    $stmt->close();
-    $conn->close();
 }
 
 $_SESSION['isAdmin'] = $isAdmin;

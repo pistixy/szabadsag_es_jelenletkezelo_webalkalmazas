@@ -1,23 +1,29 @@
 <?php
-$sql = "SELECT free,planned, taken, requested FROM users WHERE WORKID = ?";
+$sql = "SELECT free, planned, taken, requested FROM users WHERE work_id = :work_id";
 
-if ($stmt = $conn->prepare($sql)) {
-    $stmt->bind_param("i", $_SESSION['WORKID']);
+$stmt = $conn->prepare($sql);
+
+if ($stmt) {
+    $stmt->bindParam(':work_id', $_SESSION['work_id']);
     $stmt->execute();
-    $stmt->bind_result($free, $planned, $taken, $requested);
 
-    if ($stmt->fetch()) {
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result) {
+        $free = $result['free'];
+        $planned = $result['planned'];
+        $taken = $result['taken'];
+        $requested = $result['requested'];
     } else {
         echo "User not found in the database.";
     }
-
-    $stmt->close();
 } else {
-    echo "Error with the database query: " . $conn->error;
+    echo "Error with the database query: " . $conn->errorInfo()[2];
 }
 
-$conn->close();
+$conn = null;
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

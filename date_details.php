@@ -19,21 +19,23 @@ if (!isset($_SESSION['logged'])) {
 if (isset($_GET['date'])) {
     $clickedDate = $_GET['date'];
 
-    if (isset($_SESSION['WORKID'])) {
-        $userWorkID = $_SESSION['WORKID'];
+    if (isset($_SESSION['work_id'])) {
+        $userWorkID = $_SESSION['work_id'];
 
-        $sql = "SELECT * FROM calendar WHERE date = ? AND WORKID = ?";
+        $sql = "SELECT * FROM calendar WHERE date = :clickedDate AND work_id = :userWorkID";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('si', $clickedDate, $userWorkID);
+        $stmt->bindParam(':clickedDate', $clickedDate);
+        $stmt->bindParam(':userWorkID', $userWorkID, PDO::PARAM_INT);
         $stmt->execute();
-        $result = $stmt->get_result();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        if ($result->num_rows == 1) {
-            $row = $result->fetch_assoc();
+        if (count($result) == 1) {
+            $row = $result[0];
             $date = $row['date'];
             $dayOfWeek = date('l', strtotime($date));
             $isWorkingDay = $row['is_working_day'] == 1 ? "Munkanap" : "Szabadnap";
             $comment = $row['comment'];
+            // Here you can add code to display these details in your desired format
         } else {
             echo "Date details not found for the current user.";
             exit;
@@ -47,6 +49,7 @@ if (isset($_GET['date'])) {
     exit;
 }
 ?>
+
 
 <h1>Date: <?php echo $date; ?></h1>
 <p>Nap: <?php echo $dayOfWeek; ?></p>
@@ -108,22 +111,25 @@ Oka:
 
 Tisztelettel,
 <?php
-if (isset($_SESSION['WORKID'])) {
-    $userWorkID = $_SESSION['WORKID'];
+if (isset($_SESSION['work_id'])) {
+    $userWorkID = $_SESSION['work_id'];
 
-    $sql = "SELECT * FROM users WHERE WORKID = ?";
+    $sql = "SELECT * FROM users WHERE work_id = :userWorkID";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param('i', $userWorkID);
+    $stmt->bindParam(':userWorkID', $userWorkID, PDO::PARAM_INT);
     $stmt->execute();
-    $result = $stmt->get_result();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    if ($result->num_rows == 1) {
-        $row = $result->fetch_assoc();
+    if (count($result) == 1) {
+        $row = $result[0];
         $name = $row['name'];
+        echo $name;
+    } else {
+        echo "User not found.";
     }
-    echo $name;
 }
-?></textarea>
+?>
+</textarea>
 
         </label>
 

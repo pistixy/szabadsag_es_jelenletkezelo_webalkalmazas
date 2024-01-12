@@ -17,4 +17,5 @@ if (isset($_SESSION['logged'])) {
     header("Location: includes/login_form.php");
     exit;
 }
+
 ?>

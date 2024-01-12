@@ -6,7 +6,7 @@ include "connect.php";
 <div class="navbar">
     <div class="logo">
         <a href="index.php">
-            <img src="logo.png" alt="Logo">
+            <img src="unilogo.png" alt="Logo">
         </a>
     </div>
     <div class="navbar_items">
@@ -15,6 +15,7 @@ include "connect.php";
             echo '<a href="index.php">Kezdőlap</a>';
         }
         ?>
+
     </div>
     <div class="navbar_items">
         <?php

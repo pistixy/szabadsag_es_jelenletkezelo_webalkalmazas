@@ -1,4 +1,5 @@
 <link href="styles.css" rel="stylesheet">
+
 <footer class="footer">
     <p>Takó István</p>
     <p>AVCKU9</p>

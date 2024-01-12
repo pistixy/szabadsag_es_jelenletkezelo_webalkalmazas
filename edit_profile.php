@@ -18,15 +18,19 @@ include "connect.php";
 
 $email = $_SESSION['email'];
 
-$stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-$stmt->bind_param("s", $email);
+$stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
+$stmt->bindParam(':email', $email);
 $stmt->execute();
-$result = $stmt->get_result();
+$result = $stmt->fetchAll();
 
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
+if (count($result) > 0) {
+    $row = $result[0];
+    // Now you can use $row to access user details
+} else {
+    echo "No user found with the specified email.";
 }
 ?>
+
 <div class="profile-container">
     <h1 class="profile-heading">Profil szerkesztése</h1>
     <form action="update_profile.php" method="post">
@@ -45,7 +49,6 @@ if ($result->num_rows > 0) {
         <label for="alkalmazottikartyaszama">Alkalmazotti kártyaszám:</label>
         <input type="text" id="alkalmazottikartyaszama" name="alkalmazottikartyaszama" value="<?php echo $row['alkalmazottikartya']; ?>" required>
 
-        <!-- You can add more fields for any other user data here -->
 
         <input type="submit" value="Mentés">
     </form>

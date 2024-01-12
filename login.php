@@ -5,24 +5,27 @@ include "connect.php";
 $email = $_POST['email'];
 $password = $_POST['password'];
 
-$stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-$stmt->bind_param("s", $email);
+$stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
+$stmt->bindParam(':email', $email);
 $stmt->execute();
-$result = $stmt->get_result();
 
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
+$result = $stmt->fetchAll();
+
+if ($result) {
+    $row = $result[0];
 
     if (password_verify($password, $row['password'])) {
 
         $_SESSION['email'] = $row['email'];
         $_SESSION['logged'] = true;
-        $_SESSION['WORKID'] = $row['WORKID'];
+        $_SESSION['work_id'] = $row['work_id'];
 
-        if (isset($row['admin']) && $row['admin'] == 1) {
+        if (isset($row['position']) && $row['position'] == 1) {
             $_SESSION['isAdmin'] = true;
+            echo "admin";
         } else {
             $_SESSION['isAdmin'] = false;
+            echo "nemadmin";
         }
 
         header("Location: index.php");
@@ -32,6 +35,4 @@ if ($result->num_rows > 0) {
 
 echo "Helytelen felhasználónév vagy jelszó! <a href='login_form.php'>Bejelentkezés újra</a>";
 
-$stmt->close();
-$conn->close();
 ?>

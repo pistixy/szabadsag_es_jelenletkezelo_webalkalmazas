@@ -18,7 +18,6 @@
             <div class="line"></div>
             <h2 class="loginreq"> Please login!</h2>
             <form action="login.php" method="post">
-
                 <div class="row" style="max-width: 500px;margin:0 auto;">
                     <div class="col-md-12" >
 
