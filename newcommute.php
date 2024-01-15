@@ -16,8 +16,27 @@ if (isset($_POST['upload_receipt'])) {
     $hova = $_POST['hova'];
     $how = $_POST['how'];
 
+    $work_id = $_SESSION['work_id'];
     $price = null;
     $km = null;
+
+    try {
+        $stmt = $conn->prepare("SELECT * FROM calendar WHERE date = :date AND work_id = :work_id AND day_status = 1");
+        $stmt->bindParam(':date', $date);
+        $stmt->bindParam(':work_id', $work_id);
+        $stmt->execute();
+
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (count($results) < 1) {
+            echo "Csak olyan napra vehet fel munkábajárást, amelyiken dolgozott is!";
+            exit;
+        }
+    } catch (PDOException $e) {
+        echo "Database error: " . $e->getMessage();
+    }
+
+
 
     if ($how === "PublicTransport") {
         $price = $_POST['price'];
@@ -43,7 +62,6 @@ if (isset($_POST['upload_receipt'])) {
         exit;
     }
 
-    $work_id = $_SESSION['work_id'];
     $fileName = null;
 
     // File upload handling for public transport receipts

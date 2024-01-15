@@ -471,10 +471,18 @@ h1 {
     margin-top: 20px;
 }
 
+.weekend-day {
+    background-color: ghostwhite;
+}
+
 .working-day {
     background-color: orange;
 }
 
+
+.holiday-day {
+    background-color: red;
+}
 .vacation-day {
     background-color: green;
 }
@@ -484,7 +492,7 @@ h1 {
 }
 
 .sick-leave {
-    background-color: red;
+    background-color: #48ff00;
 }
 
 .non-payed-vacation {

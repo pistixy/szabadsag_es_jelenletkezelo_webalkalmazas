@@ -28,17 +28,15 @@ if (isset($_SESSION['work_id'])) {
     }
 
     $commentToUpdate = 'Ünnep';
-    $isWorkingDayValue = 0;
-    $isVacationDayValue = 1;
+    $day_status = 2;
 
-    $sql = "UPDATE calendar SET is_working_day = ?, is_vacation_day = ? WHERE comment = ?";
+    $sql = "UPDATE calendar SET day_status = ? WHERE comment = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(1, $isWorkingDayValue, PDO::PARAM_INT);
-    $stmt->bindParam(2, $isVacationDayValue, PDO::PARAM_INT);
-    $stmt->bindParam(3, $commentToUpdate);
+    $stmt->bindParam(1, $day_status, PDO::PARAM_INT);
+    $stmt->bindParam(2, $commentToUpdate);
 
     if ($stmt->execute()) {
-        echo "Entries with comment 'Ünnep' updated successfully. is_working_day set to 1 and is_vacation_day set to 0.<br>";
+        echo "Entries with comment 'Ünnep' updated successfully. day_status set to 2.<br>";
     } else {
         echo "Error updating entries with comment 'Ünnep': " . $stmt->errorInfo()[2] . "<br>";
     }

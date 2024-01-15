@@ -39,7 +39,7 @@ if (count($result) > 0) {
             <h1 class="profile-heading">Profilod</h1>
             <p class="profile-data"><strong>Email:</strong> <?php echo $row['email']; ?></p>
             <p class="profile-data"><strong>Teljes név:</strong> <?php echo $row['name']; ?></p>
-            <p class="profile-data"><strong>WORKID:</strong> <?php echo $row['work_id']; ?></p>
+            <p class="profile-data"><strong>work_id:</strong> <?php echo $row['work_id']; ?></p>
             <p class="profile-data"><strong>Lakcím:</strong> <?php echo $row['cim']; ?></p>
             <p class="profile-data"><strong>Adóazonosító:</strong> <?php echo $row['adoazonosito']; ?></p>
             <p class="profile-data"><strong>Szervezetszám:</strong> <?php echo $row['szervezetszam']; ?></p>

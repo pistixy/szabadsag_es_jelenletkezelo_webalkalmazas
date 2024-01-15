@@ -55,34 +55,41 @@ $firstDayOfWeek = date("N", mktime(0, 0, 0, $month, 1, $year));
 
             for ($day = 1; $day <= $daysInMonth; $day++) {
                 $dateToCheck = sprintf("%04d-%02d-%02d", $year, $month, $day);
-                $stmt = $conn->prepare("SELECT is_working_day FROM calendar WHERE work_id = :work_id AND date = :date");
+                $stmt = $conn->prepare("SELECT day_status FROM calendar WHERE work_id = :work_id AND date = :date");
                 $stmt->bindParam(':work_id', $userWorkId);
                 $stmt->bindParam(':date', $dateToCheck);
                 $stmt->execute();
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 if ($result) {
-                    $isWorkingDay = $result['is_working_day'];
-                    switch ($isWorkingDay == 1) {
+                    $day_status = $result['day_status'];
+                    switch ($day_status) {
                         case 0:
-                            $cssClass = "vacation-day";
+                            $cssClass = "weekend-day";
                             break;
                         case 1:
-                            $cssClass =$cssClass = "working-day";
+                            $cssClass = "working-day";
                             break;
                         case 2:
-                            $cssClass = "online-day";
+                            $cssClass = "holiday-day";
                             break;
                         case 3:
-                            $cssClass = "sick-leave";
+                            $cssClass = "online-day";
                             break;
                         case 4:
-                            $cssClass = "non-payed-leave";
+                            $cssClass = "sick-leave";
                             break;
                         case 5:
+                            $cssClass = "non-payed-leave";
+                            break;
+                        case 6:
                             $cssClass = "planned-vacation";
                             break;
+                        default:
+                            $cssClass = "";
+                            break;
                     }
+
 
                 } else {
                     $cssClass = "";

@@ -15,7 +15,7 @@ try {
     // Set error mode to exception to handle errors
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    echo "Connected to PostgreSQL successfully!";
+   // echo "Connected to PostgreSQL successfully!";
 } catch (PDOException $e) {
     // Catch any connection error and display it
     echo "Connection failed: " . $e->getMessage();

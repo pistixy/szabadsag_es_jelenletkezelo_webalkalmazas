@@ -33,9 +33,8 @@ if (isset($_GET['date'])) {
             $row = $result[0];
             $date = $row['date'];
             $dayOfWeek = date('l', strtotime($date));
-            $isWorkingDay = $row['is_working_day'] == 1 ? "Munkanap" : "Szabadnap";
+            $day_status = $row['day_status'] == 1 ? "Munkanap" : "Szabadnap";
             $comment = $row['comment'];
-            // Here you can add code to display these details in your desired format
         } else {
             echo "Date details not found for the current user.";
             exit;
@@ -53,7 +52,7 @@ if (isset($_GET['date'])) {
 
 <h1>Date: <?php echo $date; ?></h1>
 <p>Nap: <?php echo $dayOfWeek; ?></p>
-<p>Státusz: <?php echo $isWorkingDay; ?></p>
+<p>Státusz: <?php echo $day_status; ?></p>
 <p>Megjegyzés: <?php echo $comment; ?></p>
 
 <div>
@@ -62,42 +61,42 @@ if (isset($_GET['date'])) {
     <form action="request.php" method="post">
 
         <label for="fizetett_szabadnap">
-            <input type="radio" name="nap" id="fizetett_szabadnap" value="Fizetett Szabadnap" <?php if($row['is_working_day']=="0"){
+            <input type="radio" name="nap" id="fizetett_szabadnap" value="Fizetett Szabadnap" <?php if($row['day_status']=="0"){
                 echo "checked";
             }?>>
             Fizetett Szabadnap
         </label><br>
 
         <label for="munkanap">
-            <input type="radio" name="nap" id="munkanap" value="Munkanap" <?php if($row['is_working_day']=="1"){
+            <input type="radio" name="nap" id="munkanap" value="Munkanap" <?php if($row['day_status']=="1"){
                 echo "checked";
             }?>>
             Munkanap
         </label><br>
 
         <label for="online_munka">
-            <input type="radio" name="nap" id="online_munka" value="Online Munka"<?php if($row['is_working_day']=="2"){
+            <input type="radio" name="nap" id="online_munka" value="Online Munka"<?php if($row['day_status']=="2"){
                 echo "checked";
             }?>>
             Online Munka
         </label><br>
 
         <label for="betegszabadsag">
-            <input type="radio" name="nap" id="betegszabadsag" value="Betegszabadság"<?php if($row['is_working_day']=="3"){
+            <input type="radio" name="nap" id="betegszabadsag" value="Betegszabadság"<?php if($row['day_status']=="3"){
                 echo "checked";
             }?>>
             Betegszabadság
         </label><br>
 
         <label for="fizetetlen_szabadsag">
-            <input type="radio" name="nap" id="fizetetlen_szabadsag" value="Fizetetlen szabadság"<?php if($row['is_working_day']=="4"){
+            <input type="radio" name="nap" id="fizetetlen_szabadsag" value="Fizetetlen szabadság"<?php if($row['day_status']=="4"){
                 echo "checked";
             }?>>
             Fizetetlen szabadság
         </label><br>
 
         <label for="tervezett_szabadsag">
-            <input type="radio" name="nap" id="tervezett_szabadsag" value="Tervezett szabadság"<?php if($row['is_working_day']=="5"){
+            <input type="radio" name="nap" id="tervezett_szabadsag" value="Tervezett szabadság"<?php if($row['day_status']=="5"){
                 echo "checked";
             }?>>
             Tervezett szabadság

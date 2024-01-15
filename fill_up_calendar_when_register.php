@@ -26,14 +26,13 @@ if (isset($_SESSION['email'])) {
 
         for ($i = 0; $i < $limit; $i++) {
             $date = date("Y-m-d", strtotime($currentDate->format("Y-m-d") . " + " . $i . " days"));
-            $isWorkingDay = date('N', strtotime($date)) <= 5 ? 1 : 0;
-            $isVacationDay = $isWorkingDay ? 0 : 1;
+            $day_status = date('N', strtotime($date)) <= 5 ? 1 : 0;
 
-            $stmt = $conn->prepare("INSERT INTO calendar (work_id, date, is_working_day, is_vacation_day) VALUES (:work_id, :date, :is_working_day, :is_vacation_day)");
+
+            $stmt = $conn->prepare("INSERT INTO calendar (work_id, date, day_status ) VALUES (:work_id, :date, :day_status )");
             $stmt->bindParam(':work_id', $userWorkId);
             $stmt->bindParam(':date', $date);
-            $stmt->bindParam(':is_working_day', $isWorkingDay);
-            $stmt->bindParam(':is_vacation_day', $isVacationDay);
+            $stmt->bindParam(':day_status', $day_status);
 
             if ($stmt->execute()) {
                 // Successful insert
