@@ -8,7 +8,6 @@
 <body style="background: fff">
     <?php
     session_start();
-
     if (isset($_SESSION['logged']) && $_SESSION['logged'] === true) {
         include "nav-bar.php";
         include "csempek.php";
@@ -16,6 +15,7 @@
     } else {
         include "login_form.php";
     }
+
     ?>
 
 </body>

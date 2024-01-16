@@ -28,9 +28,7 @@ include "check_login.php";
     <tr>
         <td>
             <?php
-                echo '<a href="letszamjelentes.php">Letszámjelentés</a>';
-            if (isset($_SESSION['logged']) && isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']) {
-
+            if (isset($_SESSION['logged']) && $_SESSION['isAdmin']) {
                 echo ' <a href="letszamjelentes.php">Letszámjelentés</a>';
             }
 
@@ -39,9 +37,7 @@ include "check_login.php";
         </td>
         <td>
             <?php
-                echo ' <a href="jelenletiiv.php">Jelenléti Ív</a>';
-            if (isset($_SESSION['logged']) && isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']) {
-
+            if (isset($_SESSION['logged']) && $_SESSION['isAdmin']) {
                 echo ' <a href="jelenletiiv.php">Jelenléti Ív</a>';
             }
 
@@ -49,7 +45,24 @@ include "check_login.php";
 
         </td>
         <td>
+            <?php
+            if (isset($_SESSION['logged']) && $_SESSION['isAdmin']) {
+                $workId = $_SESSION['work_id'];
+                $stmt = $conn->prepare("SELECT szervezetszam FROM users WHERE work_id = :work_id");
+                $stmt->bindParam(':work_id', $workId, PDO::PARAM_INT);
+                $stmt->execute();
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                $szervezetszam = $result['szervezetszam'] ?? '';
 
+                echo '<div class="csempe-item">';
+                echo '<h class="csempe-heading">Szervezetszám:</h>';
+                echo '<form action="workers.php" method="post" class="csempe-form">';
+                echo '<input type="text" name="szervezetszam" value="' . htmlspecialchars($szervezetszam) . '" />';
+                echo '<input type="submit" value="Dolgozók lekérdezése" class="csempe-button">';
+                echo '</form>';
+                echo '</div>';
+            }
+            ?>
         </td>
     </tr>
 </table>
