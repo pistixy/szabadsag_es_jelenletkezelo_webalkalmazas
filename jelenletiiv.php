@@ -6,6 +6,12 @@
     <link rel="stylesheet" href="jelenletiivstyles.css">
 </head>
 <body>
+<?php
+include "connect.php";
+session_start();
+include "nav-bar.php";
+?>
+
 <h1>Válasszon dátumot!</h1>
 <form action="process_date.php" method="post">
     <label for="selectedDate">Dátum:</label>
@@ -52,6 +58,10 @@
     <br>
     <input type="submit" value="Submit" name="submit">
 </form>
+
+<?php
+include "footer.php";
+?>
 </body>
 </html>
 

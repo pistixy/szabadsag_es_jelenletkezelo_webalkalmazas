@@ -58,7 +58,7 @@ if (isset($_GET['date'])) {
 <div>
     <fieldset>
     <h2>Válassza ki, mire módosítaná az adott napot!</h2>
-    <form action="request.php" method="post">
+    <form action="new_request.php" method="post">
 
         <label for="fizetett_szabadnap">
             <input type="radio" name="nap" id="fizetett_szabadnap" value="Fizetett Szabadnap" <?php if($row['day_status']=="0"){
@@ -103,7 +103,7 @@ if (isset($_GET['date'])) {
         </label><br>
 
         <label>Ide írja le kérését és indokolja!
-            <textarea style="width: 100%; height: 200px">Tisztelt ...!
+            <textarea name="message" style="width: 100%; height: 200px">Tisztelt ...!
 A <?php echo $date ?> napot szeretném...
 
 Oka:

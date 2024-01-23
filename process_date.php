@@ -1,5 +1,8 @@
 <?php
+
 include "connect.php";
+session_start();
+include "nav-bar.php";
 
 if (isset($_POST['submit'])) {
     $selectedDate = $_POST['selectedDate'];
@@ -18,7 +21,7 @@ if (isset($_POST['submit'])) {
     $sql = "SELECT c.work_id, u.name, u.email, u.szervezetszam
             FROM calendar AS c
             LEFT JOIN users AS u ON c.work_id = u.work_id
-            WHERE c.date = :selectedDate AND c.is_working_day = :status AND u.szervezetszam = :szervezetszam";
+            WHERE c.date = :selectedDate AND c.day_status = :status AND u.szervezetszam = :szervezetszam";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':selectedDate', $selectedDate);
     $stmt->bindParam(':status', $status, PDO::PARAM_INT);
@@ -36,10 +39,28 @@ if (isset($_POST['submit'])) {
         echo "</table>";
         echo "<br>";
         echo "Összesen a kijelölt napon ($selectedDate) a $szervezetszam számú szervezetben ennyien voltak $statusLabels[$status] státuszban: " . count($result);
+
+        // "Jelentés küldése" button
+        echo '<form action="send_report.php" method="post">';
+        echo '<input type="hidden" name="selectedDate" value="' . $selectedDate . '">';
+        echo '<input type="hidden" name="status" value="' . $status . '">';
+        echo '<input type="hidden" name="szervezetszam" value="' . $szervezetszam . '">';
+        echo '<input type="submit" value="Jelentés küldése" name="sendReport">';
+        echo '</form>';
+
+        // "Jelentés letöltése" button
+        echo '<form action="download_report.php" method="post">';
+        echo '<input type="hidden" name="selectedDate" value="' . $selectedDate . '">';
+        echo '<input type="hidden" name="status" value="' . $status . '">';
+        echo '<input type="hidden" name="szervezetszam" value="' . $szervezetszam . '">';
+        echo '<input type="submit" value="Jelentés letöltése" name="downloadReport">';
+        echo '</form>';
     } else {
         echo "Nincs az adott napon adott státuszban lévő dolgozó az adott szervezetből.";
     }
 } else {
     echo "Nincs submit.";
 }
+
+include "footer.php";
 ?>

@@ -102,11 +102,11 @@ $conn = null;
         <div class="section planned">
             <span class="tooltiptext">Betervezett és már engedélyezett szabadnapok száma: <?php echo $planned; ?></span>
         </div>
-        <div class="section taken">
-            <span class="tooltiptext">Felhasznált szabadnapok száma (múltbeli): <?php echo $taken; ?></span>
-        </div>
         <div class="section requested">
             <span class="tooltiptext">Betervezett de még nem engedélyezett szabadnapok száma: <?php echo $requested; ?></span>
+        </div>
+        <div class="section taken">
+            <span class="tooltiptext">Felhasznált szabadnapok száma (múltbeli): <?php echo $taken; ?></span>
         </div>
 
     </div>

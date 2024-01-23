@@ -37,12 +37,36 @@ include "check_login.php";
         </td>
         <td>
             <?php
+            if (isset($_SESSION['logged'])) {
+                echo ' <a href="my_messages.php">Üzeneteim</a>';
+            }
+
+            ?>
+
+        </td>
+        <td>
+            <?php
             if (isset($_SESSION['logged']) && $_SESSION['isAdmin']) {
                 echo ' <a href="jelenletiiv.php">Jelenléti Ív</a>';
             }
 
             ?>
+        </td>
+        <td>
+            <?php
+            if (isset($_SESSION['logged']) && $_SESSION['isAdmin']) {
+                echo ' <a href="incomming_requests.php">Bejövő kérelmek</a>';
+            }
 
+            ?>
+        </td>
+        <td>
+            <?php
+            if (isset($_SESSION['logged'])){
+                echo ' <a href="my_requests.php">Kérelmeim</a>';
+            }
+
+            ?>
         </td>
         <td>
             <?php
