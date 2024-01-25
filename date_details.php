@@ -7,9 +7,10 @@
 </head>
 <body>
 <?php
-session_start();
+include "session_check.php";
 include "connect.php";
 include "nav-bar.php";
+include "check_login.php";
 
 if (!isset($_SESSION['logged'])) {
     header("Location: login_form.php");
@@ -22,23 +23,21 @@ if (isset($_GET['date'])) {
     if (isset($_SESSION['work_id'])) {
         $userWorkID = $_SESSION['work_id'];
 
+        // Fetch calendar details
         $sql = "SELECT * FROM calendar WHERE date = :clickedDate AND work_id = :userWorkID";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':clickedDate', $clickedDate);
         $stmt->bindParam(':userWorkID', $userWorkID, PDO::PARAM_INT);
         $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $calendarResult = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (count($result) == 1) {
-            $row = $result[0];
-            $date = $row['date'];
-            $dayOfWeek = date('l', strtotime($date));
-            $day_status = $row['day_status'] == 1 ? "Munkanap" : "Szabadnap";
-            $comment = $row['comment'];
-        } else {
-            echo "Date details not found for the current user.";
-            exit;
-        }
+        // Fetch requests for the date
+        $requestSql = "SELECT * FROM requests WHERE work_id = :userWorkID AND calendar_id = :calendarId";
+        $requestStmt = $conn->prepare($requestSql);
+        $requestStmt->bindParam(':userWorkID', $userWorkID, PDO::PARAM_INT);
+        $requestStmt->bindParam(':calendarId', $calendarResult['calendar_id'], PDO::PARAM_INT);
+        $requestStmt->execute();
+        $requests = $requestStmt->fetchAll(PDO::FETCH_ASSOC);
     } else {
         echo "User session not found.";
         exit;
@@ -47,64 +46,155 @@ if (isset($_GET['date'])) {
     echo "Date not specified.";
     exit;
 }
+
 ?>
 
+<h1>Date: <?php echo $calendarResult['date']; ?></h1>
+<p>Nap: <?php echo date('l', strtotime($calendarResult['date'])); ?></p>
+<p>Státusz: <?php echo $calendarResult['day_status'] == 1 ? "Munkanap" : "Szabadnap"; ?></p>
+<p>Megjegyzés: <?php echo $calendarResult['comment']; ?></p>
 
-<h1>Date: <?php echo $date; ?></h1>
-<p>Nap: <?php echo $dayOfWeek; ?></p>
-<p>Státusz: <?php echo $day_status; ?></p>
-<p>Megjegyzés: <?php echo $comment; ?></p>
+<?php if (!$_SESSION['isAdmin']): ?>
+    <h3>Az én kéréseim:</h3>
+    <?php if (!empty($requests)): ?>
+        <ul>
+            <?php foreach ($requests as $request): ?>
+                <li><?php echo htmlspecialchars($request['message']); ?></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php else: ?>
+        <p>Nincsenek kérelmek erre a napra.</p>
+    <?php endif; ?>
+<?php elseif($_SESSION['isAdmin']): ?>
+    <h3>Kérések erre a napra:</h3>
+    <?php
+// Fetch the calendar_id for the given date
+    $calendarSql = "SELECT calendar_id FROM calendar WHERE date = :clickedDate";
+    $calendarStmt = $conn->prepare($calendarSql);
+    $calendarStmt->bindParam(':clickedDate', $clickedDate);
+    $calendarStmt->execute();
+    $calendarIds = $calendarStmt->fetchAll(PDO::FETCH_COLUMN, 0);
 
+// Fetch requests for all calendar_ids
+    if (!empty($calendarIds)) {
+        $placeholders = implode(',', array_fill(0, count($calendarIds), '?'));
+        $adminSql = "SELECT r.*, u.name FROM requests r
+                     LEFT JOIN users u ON r.work_id = u.work_id
+                     WHERE r.calendar_id IN ($placeholders)";
+        $adminStmt = $conn->prepare($adminSql);
+        $adminStmt->execute($calendarIds);
+        $adminRequests = $adminStmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (!empty($adminRequests)): ?>
+            <table>
+                <tr>
+                    <th>Kérelem</th>
+                    <th>Műveletek</th>
+                </tr>
+                <?php foreach ($adminRequests as $adminRequest): ?>
+                    <tr>
+                        <td>
+                            <?php
+                            $requestDetailsUrl = "request.php?request_id=" . urlencode($adminRequest['request_id']);
+                            $profileUrl = "profile.php?work_id=" . urlencode($adminRequest['work_id']);
+                            ?>
+                            <a href="<?php echo $requestDetailsUrl; ?>">
+                                <?php echo "ID: " . htmlspecialchars($adminRequest['request_id']); ?>
+                            </a>
+                            <?php echo ", "; ?>
+                            <a href="<?php echo $profileUrl; ?>">
+                                <?php echo "work_id: " . htmlspecialchars($adminRequest['work_id']); ?>
+                            </a>
+                            <?php echo ", "; ?>
+                            <a href="<?php echo $profileUrl; ?>">
+                                <?php echo htmlspecialchars($adminRequest['name']); ?>
+                            </a>
+                            <?php echo ": " . htmlspecialchars($adminRequest['message']); ?>
+                        </td>
+                        <td>
+                            <!-- Accept Button -->
+                            <form action="accept_request.php" method="post">
+                                <input type="hidden" name="request_id" value="<?php echo $adminRequest['request_id']; ?>">
+                                <input type="submit" value="Elfogad">
+                            </form>
+
+                            <!-- Reject Button -->
+                            <form action="reject_request.php" method="post">
+                                <input type="hidden" name="request_id" value="<?php echo $adminRequest['request_id']; ?>">
+                                <input type="submit" value="Elutasít">
+                            </form>
+
+                            <!-- Respond Button -->
+                            <form action="respond_request_form.php" method="get">
+                                <input type="hidden" name="request_id" value="<?php echo $adminRequest['request_id']; ?>">
+                                <input type="submit" value="Válaszol">
+                            </form>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        <?php else: ?>
+            <p>Nincsenek kérelmek erre a napra.</p>
+        <?php endif;
+    } else {
+        echo "<p>Nincsenek adatok a megadott dátumhoz a naptárban.</p>";
+    }
+    ?>
+<?php endif; ?>
+<?php
+include "list_day_users.php";
+?>
 <div>
     <fieldset>
     <h2>Válassza ki, mire módosítaná az adott napot!</h2>
     <form action="new_request.php" method="post">
 
         <label for="fizetett_szabadnap">
-            <input type="radio" name="nap" id="fizetett_szabadnap" value="Fizetett Szabadnap" <?php if($row['day_status']=="0"){
+            <input type="radio" name="nap" id="fizetett_szabadnap" value="Fizetett Szabadnap" <?php if($calendarResult['day_status']=="0"){
                 echo "checked";
             }?>>
             Fizetett Szabadnap
         </label><br>
 
         <label for="munkanap">
-            <input type="radio" name="nap" id="munkanap" value="Munkanap" <?php if($row['day_status']=="1"){
+            <input type="radio" name="nap" id="munkanap" value="Munkanap" <?php if($calendarResult['day_status']=="1"){
                 echo "checked";
             }?>>
             Munkanap
         </label><br>
 
         <label for="online_munka">
-            <input type="radio" name="nap" id="online_munka" value="Online Munka"<?php if($row['day_status']=="2"){
+            <input type="radio" name="nap" id="online_munka" value="Online Munka"<?php if($calendarResult['day_status']=="2"){
                 echo "checked";
             }?>>
             Online Munka
         </label><br>
 
         <label for="betegszabadsag">
-            <input type="radio" name="nap" id="betegszabadsag" value="Betegszabadság"<?php if($row['day_status']=="3"){
+            <input type="radio" name="nap" id="betegszabadsag" value="Betegszabadság"<?php if($calendarResult['day_status']=="3"){
                 echo "checked";
             }?>>
             Betegszabadság
         </label><br>
 
         <label for="fizetetlen_szabadsag">
-            <input type="radio" name="nap" id="fizetetlen_szabadsag" value="Fizetetlen szabadság"<?php if($row['day_status']=="4"){
+            <input type="radio" name="nap" id="fizetetlen_szabadsag" value="Fizetetlen szabadság"<?php if($calendarResult['day_status']=="4"){
                 echo "checked";
             }?>>
             Fizetetlen szabadság
         </label><br>
 
         <label for="tervezett_szabadsag">
-            <input type="radio" name="nap" id="tervezett_szabadsag" value="Tervezett szabadság"<?php if($row['day_status']=="5"){
+            <input type="radio" name="nap" id="tervezett_szabadsag" value="Tervezett szabadság"<?php if($calendarResult['day_status']=="5"){
                 echo "checked";
             }?>>
             Tervezett szabadság
         </label><br>
 
         <label>Ide írja le kérését és indokolja!
-            <textarea name="message" style="width: 100%; height: 200px">Tisztelt ...!
-A <?php echo $date ?> napot szeretném...
+            <textarea name="message" style="width: 100%; height: 200px">
+Tisztelt ...!
+A <?php echo htmlspecialchars($calendarResult['date']); ?> napot szeretném...
 
 Oka:
 
@@ -128,10 +218,9 @@ if (isset($_SESSION['work_id'])) {
     }
 }
 ?>
-</textarea>
-
+    </textarea>
         </label>
-
+        <?php $date=$calendarResult['date']; ?>
         <input type="hidden" name="date" value="<?php echo $date; ?>">
         <input type="submit" name="submit" value="Submit">
     </fieldset>
@@ -143,7 +232,4 @@ if (isset($_SESSION['work_id'])) {
 include "footer.php";
 ?>
 </body>
-<script>
-
-</script>
 </html>

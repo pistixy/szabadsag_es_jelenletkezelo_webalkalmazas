@@ -7,7 +7,7 @@
 </head>
 <body>
 <?php
-session_start();
+include "session_check.php";
 
 if (!isset($_SESSION['logged'])) {
     header("Location: login_form.php");

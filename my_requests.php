@@ -1,5 +1,5 @@
 <?php
-session_start();
+include "session_check.php";
 include "connect.php";
 include "nav-bar.php";
 
@@ -12,8 +12,12 @@ if (!isset($_SESSION['logged'])) {
 if (isset($_SESSION['work_id'])) {
     $userWorkID = $_SESSION['work_id'];
 
-    // Prepare a SQL statement to retrieve all requests made by the logged-in user
-    $sql = "SELECT * FROM requests WHERE work_id = :userWorkID ORDER BY request_id DESC";
+    // Prepare a SQL statement to retrieve all requests made by the logged-in user with the date from the calendar
+    $sql = "SELECT r.*, c.date 
+            FROM requests r
+            LEFT JOIN calendar c ON r.calendar_id = c.calendar_id
+            WHERE r.work_id = :userWorkID 
+            ORDER BY r.request_id DESC";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':userWorkID', $userWorkID, PDO::PARAM_INT);
     $stmt->execute();
@@ -41,6 +45,7 @@ if (isset($_SESSION['work_id'])) {
         <tr>
             <th>Kérelem ID</th>
             <th>Naptár ID</th>
+            <th>Dátum</th> <!-- Added Date Column -->
             <th>Szabadnap típusa</th>
             <th>Üzenet</th>
             <th>Kinek</th>
@@ -53,6 +58,15 @@ if (isset($_SESSION['work_id'])) {
             <tr>
                 <td><?php echo htmlspecialchars($request['request_id']); ?></td>
                 <td><?php echo htmlspecialchars($request['calendar_id']); ?></td>
+                <td>
+                    <?php if (isset($request['date'])): ?>
+                        <a href="date_details.php?date=<?php echo urlencode($request['date']); ?>">
+                            <?php echo htmlspecialchars($request['date']); ?>
+                        </a>
+                    <?php else: ?>
+                        N/A
+                    <?php endif; ?>
+                </td>
                 <td><?php echo htmlspecialchars($request['requested_status']); ?></td>
                 <td><?php echo htmlspecialchars($request['message']); ?></td>
                 <td><?php echo htmlspecialchars($request['to_whom']); ?></td>
@@ -60,24 +74,26 @@ if (isset($_SESSION['work_id'])) {
                 <td><?php echo htmlspecialchars($request['timestamp']); ?></td>
                 <td><?php echo htmlspecialchars($request['modified_date']); ?></td>
                 <td>
+                <td>
                     <!-- Modify Button -->
                     <?php if ($request['request_status'] == "pending" || $request['request_status'] == "messaged"): ?>
                         <form action="modify_request.php" method="post">
-                        <input type="hidden" name="request_id" value="<?php echo $request['request_id']; ?>">
-                        <input type="submit" value="Módosít">
-                    </form>
+                            <input type="hidden" name="request_id" value="<?php echo $request['request_id']; ?>">
+                            <input type="submit" value="Módosít">
+                        </form>
                     <?php endif; ?>
 
                     <!-- Delete Button -->
                     <?php if ($request['request_status'] == "pending" || $request['request_status'] == "messaged"): ?>
                         <form action="delete_request.php" method="post" onsubmit="return confirm('Biztosan törölni szeretné ezt a kérelmet?');">
-                        <input type="hidden" name="request_id" value="<?php echo $request['request_id']; ?>">
-                        <input type="submit" value="Töröl">
-                    </form>
+                            <input type="hidden" name="request_id" value="<?php echo $request['request_id']; ?>">
+                            <input type="submit" value="Töröl">
+                        </form>
                     <?php endif; ?>
                     <?php if ($request['request_status'] == "rejected" || $request['request_status'] == "accepted"):
                         echo "Nincsenek műveletek";
                     endif; ?>
+                </td>
                 </td>
             </tr>
         <?php endforeach; ?>

@@ -7,7 +7,7 @@
 </head>
 <body style="background: fff">
     <?php
-    session_start();
+    include "session_check.php";
     if (isset($_SESSION['logged']) && $_SESSION['logged'] === true) {
         include "nav-bar.php";
         include "csempek.php";

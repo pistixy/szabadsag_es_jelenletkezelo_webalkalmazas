@@ -18,14 +18,20 @@ $userPosition = $positionStmt->fetch(PDO::FETCH_ASSOC);
 $pozicio = $userPosition['position'];
 $statusFilter = isset($_POST['statusFilter']) ? $_POST['statusFilter'] : 'all'; // Default to 'all'
 
-if ($statusFilter === 'all') {
-    $requestsSql = "SELECT * FROM requests WHERE to_whom = :pozicio ORDER BY request_id DESC";
-    $requestsStmt = $conn->prepare($requestsSql);
-    $requestsStmt->bindParam(':pozicio', $pozicio, PDO::PARAM_STR);
-} else {
-    $requestsSql = "SELECT * FROM requests WHERE to_whom = :pozicio AND request_status = :statusFilter ORDER BY request_id DESC";
-    $requestsStmt = $conn->prepare($requestsSql);
-    $requestsStmt->bindParam(':pozicio', $pozicio, PDO::PARAM_STR);
+$requestsSql = "SELECT r.*, u.name, u.work_id 
+                FROM requests r
+                LEFT JOIN users u ON r.work_id = u.work_id 
+                WHERE r.to_whom = :pozicio";
+
+if ($statusFilter !== 'all') {
+    $requestsSql .= " AND r.request_status = :statusFilter";
+}
+
+$requestsSql .= " ORDER BY r.request_id DESC";
+$requestsStmt = $conn->prepare($requestsSql);
+$requestsStmt->bindParam(':pozicio', $pozicio, PDO::PARAM_STR);
+
+if ($statusFilter !== 'all') {
     $requestsStmt->bindParam(':statusFilter', $statusFilter, PDO::PARAM_STR);
 }
 
@@ -61,6 +67,7 @@ $requests = $requestsStmt->fetchAll(PDO::FETCH_ASSOC);
         <tr>
             <th>Kérelem ID</th>
             <th>Work ID</th>
+            <th>Név</th> <!-- Added Name column -->
             <th>Naptár ID</th>
             <th>Szabadnap típusa</th>
             <th>Üzenet</th>
@@ -73,7 +80,8 @@ $requests = $requestsStmt->fetchAll(PDO::FETCH_ASSOC);
         <?php foreach ($requests as $request): ?>
             <tr>
                 <td><?php echo htmlspecialchars($request['request_id']); ?></td>
-                <td><?php echo htmlspecialchars($request['work_id']); ?></td>
+                <td><a href="profile.php?work_id=<?php echo htmlspecialchars($request['work_id']); ?>"><?php echo htmlspecialchars($request['work_id']); ?></a></td>
+                <td><a href="profile.php?work_id=<?php echo htmlspecialchars($request['work_id']); ?>"><?php echo htmlspecialchars($request['name']); ?></a></td>
                 <td><?php echo htmlspecialchars($request['calendar_id']); ?></td>
                 <td><?php echo htmlspecialchars($request['requested_status']); ?></td>
                 <td><?php echo htmlspecialchars($request['message']); ?></td>
@@ -84,10 +92,10 @@ $requests = $requestsStmt->fetchAll(PDO::FETCH_ASSOC);
                 <td>
                     <!-- Accept Button -->
                     <?php if ($request['request_status'] == "pending" || $request['request_status'] == "messaged"): ?>
-                    <form action="accept_request.php" method="post">
-                        <input type="hidden" name="request_id" value="<?php echo $request['request_id']; ?>">
-                        <input type="submit" value="Elfogad">
-                    </form>
+                        <form action="accept_request.php" method="post">
+                            <input type="hidden" name="request_id" value="<?php echo htmlspecialchars($request['request_id']); ?>">
+                            <input type="submit" value="Elfogad">
+                        </form>
                     <?php endif; ?>
 
                     <!-- Reject Button -->

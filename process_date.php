@@ -1,7 +1,7 @@
 <?php
 
 include "connect.php";
-session_start();
+include "session_check.php";
 include "nav-bar.php";
 
 if (isset($_POST['submit'])) {
@@ -34,7 +34,12 @@ if (isset($_POST['submit'])) {
         echo "<table>";
         echo "<tr><th>work_id</th><th>Név</th><th>Email cím</th><th>Szervezetszám</th></tr>";
         foreach ($result as $row) {
-            echo "<tr><td>" . $row['work_id'] . "</td><td>" . $row['name'] . "</td><td>" . $row['email'] . "</td><td>" . $row['szervezetszam'] . "</td></tr>";
+            echo "<tr>";
+            echo "<td><a href='profile.php?work_id=" . $row['work_id'] . "'>" . $row['work_id'] . "</a></td>";
+            echo "<td><a href='profile.php?work_id=" . $row['work_id'] . "'>" . $row['name'] . "</a></td>";
+            echo "<td>" . $row['email'] . "</td>";
+            echo "<td>" . $row['szervezetszam'] . "</td>";
+            echo "</tr>";
         }
         echo "</table>";
         echo "<br>";

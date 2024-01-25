@@ -1,5 +1,5 @@
 <?php
-session_start();
+include "session_check.php";
 include "connect.php";
 
 if (!isset($_SESSION['logged']) || !isset($_SESSION['work_id'])) {
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['request_id'])) {
     echo "Invalid request method.";
 }
 
-// Redirect or inform the user
+// Optionally redirect or inform the user
 // header('Location: incoming_requests.php');
 // exit;
 ?>

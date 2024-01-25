@@ -1,7 +1,8 @@
 <?php
 
-session_start();
+include "session_check.php";
 include "connect.php";
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['email'])) {
     $selectedDate = $_POST['selectedDate'];

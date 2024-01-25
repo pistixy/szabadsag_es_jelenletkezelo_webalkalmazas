@@ -6,6 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 if (isset($_SESSION['logged']) && $_SESSION['logged'] === true) {
     $email = $_SESSION['email'];
 
+
     include "connect.php";
 
     try {
@@ -15,11 +16,12 @@ if (isset($_SESSION['logged']) && $_SESSION['logged'] === true) {
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
+            $_SESSION['position']=$result['position'];
             $position = trim($result['position']);
-            if ($position === 'admin') {
-                $_SESSION['isAdmin'] = true;
-            } else {
+            if ($position != 'admin') {
                 $_SESSION['isAdmin'] = false;
+            } else {
+                $_SESSION['isAdmin'] = true;
             }
         } else {
             echo "No result found for email: $email";
@@ -30,4 +32,11 @@ if (isset($_SESSION['logged']) && $_SESSION['logged'] === true) {
         $_SESSION['isAdmin'] = false;
     }
 }
-?>
+
+//if($_SESSION['isAdmin'] == true) {
+  //  echo "ADMIN VAGYOK";
+//}
+//if($_SESSION['isAdmin'] == false) {
+  //  echo "NEM VAGYOK ADMIN";
+//}
+

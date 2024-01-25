@@ -1,6 +1,28 @@
 <?php
-session_start();
-$userWorkId = $_SESSION['work_id'];
+include "session_check.php";
+include "connect.php";
+include "nav-bar.php";
+
+if (!isset($_SESSION['logged'])) {
+    header("Location: login_form.php");
+    exit;
+}
+
+// Check if work_id is passed in URL and user is admin, else use session work_id
+if (isset($_GET['work_id']) && $_SESSION['isAdmin']) {
+    $userWorkId = $_GET['work_id'];
+    $isOwnCalendar = $userWorkId == $_SESSION['work_id'];
+} else {
+    $userWorkId = $_SESSION['work_id'];
+    $isOwnCalendar = true;
+}
+
+// Fetch user's name for the calendar header
+$stmt = $conn->prepare("SELECT name FROM users WHERE work_id = :work_id");
+$stmt->bindParam(':work_id', $userWorkId);
+$stmt->execute();
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+$calendarOwnerName = $user ? $user['name'] : "Unknown User";
 
 if (isset($_GET['year']) && isset($_GET['month'])) {
     $year = intval($_GET['year']);
@@ -26,15 +48,17 @@ $firstDayOfWeek = date("N", mktime(0, 0, 0, $month, 1, $year));
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Calendar</title>
+    <title><?php echo $isOwnCalendar ? "Naptárad" : "{$calendarOwnerName} Naptára"; ?></title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<?php include "nav-bar.php"; ?>
-<h1><?php echo $monthName . " " . $year; ?></h1>
+
+<h1><?php echo $isOwnCalendar ? "Naptárad" : $calendarOwnerName . " Naptára"; ?></h1>
+
 <div class="calendar">
-    <a href="calendar.php?year=<?php echo $prevYear; ?>&month=<?php echo $prevMonth; ?>" class="prev-month">Előző hónap</a>
-    <a href="calendar.php?year=<?php echo $nextYear; ?>&month=<?php echo $nextMonth; ?>" class="next-month">Következő hónap</a>
+    <!-- Update links to retain the work_id -->
+    <a href="calendar.php?year=<?php echo $prevYear; ?>&month=<?php echo $prevMonth; ?>&work_id=<?php echo $userWorkId; ?>" class="prev-month">Előző hónap</a>
+    <a href="calendar.php?year=<?php echo $nextYear; ?>&month=<?php echo $nextMonth; ?>&work_id=<?php echo $userWorkId; ?>" class="next-month">Következő hónap</a>
     <table class="calendar-table">
         <tr class="calendar-header">
             <th>Hétfő</th>
@@ -89,7 +113,6 @@ $firstDayOfWeek = date("N", mktime(0, 0, 0, $month, 1, $year));
                             $cssClass = "";
                             break;
                     }
-
 
                 } else {
                     $cssClass = "";

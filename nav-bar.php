@@ -1,6 +1,7 @@
 <?php
 
 include "connect.php";
+include "check_login.php";
 ?>
 
 <div class="navbar">

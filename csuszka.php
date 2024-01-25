@@ -1,10 +1,19 @@
 <?php
-$sql = "SELECT free, planned, taken, requested FROM users WHERE work_id = :work_id";
+include "connect.php";
+include "session_check.php";
 
+// Determine whose details to show: either from URL (if admin and provided) or from session
+if (isset($_GET['work_id']) && $_SESSION['isAdmin']) {
+    $workIdToCheck = $_GET['work_id'];
+} else {
+    $workIdToCheck = $_SESSION['work_id'];
+}
+
+$sql = "SELECT free, planned, taken, requested FROM users WHERE work_id = :work_id";
 $stmt = $conn->prepare($sql);
 
 if ($stmt) {
-    $stmt->bindParam(':work_id', $_SESSION['work_id']);
+    $stmt->bindParam(':work_id', $workIdToCheck, PDO::PARAM_INT);
     $stmt->execute();
 
     $result = $stmt->fetch(PDO::FETCH_ASSOC);

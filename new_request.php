@@ -1,5 +1,5 @@
 <?php
-session_start();
+include "session_check.php";
 include "connect.php";
 
 if (!isset($_SESSION['logged'])) {
@@ -10,10 +10,10 @@ if (!isset($_SESSION['logged'])) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $requestedStatus = $_POST['nap'];
     $message = $_POST['message'];
-    $date = $_POST['date'];
+    $date = $_POST['date']; // Ensure this date is in 'YYYY-MM-DD' format
     $userWorkID = $_SESSION['work_id'];
-    $toWhom = "admin"; // This should be dynamically determined based on your application's logic
-    $currentTimestamp = date('Y-m-d H:i:s'); // Get the current timestamp
+    $toWhom = "admin"; // Dynamically determined recipient
+    $currentTimestamp = date('Y-m-d H:i:s');
 
     // Begin transaction
     $conn->beginTransaction();
@@ -30,7 +30,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($calendarResult) {
             $calendarID = $calendarResult['calendar_id'];
 
-            // Insert the new request into the database with timestamp and modified_date
+            // Update the day_status in the calendar table
+            $updateCalendarSql = "UPDATE calendar SET day_status = 6 WHERE calendar_id = :calendar_id";
+            $updateCalendarStmt = $conn->prepare($updateCalendarSql);
+            $updateCalendarStmt->bindParam(':calendar_id', $calendarID, PDO::PARAM_INT);
+            $updateCalendarStmt->execute();
+
+            // Insert the new request
             $insertSql = "INSERT INTO requests (work_id, calendar_id, requested_status, message, to_whom, request_status, timestamp, modified_date) VALUES (:work_id, :calendar_id, :requested_status, :message, :to_whom, 'pending', :timestamp, NULL)";
             $insertStmt = $conn->prepare($insertSql);
             $insertStmt->bindParam(':work_id', $userWorkID);
@@ -50,7 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Commit the transaction
             $conn->commit();
 
-            echo "Sikeres kérelmezés.";
+            // Pop-up window or message for successful request
+            echo "Sikeres kérelmezés a $date napra.";
         } else {
             // Rollback if no calendar entry found
             $conn->rollBack();

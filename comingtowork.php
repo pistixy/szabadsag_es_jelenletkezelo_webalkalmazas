@@ -7,7 +7,7 @@
 </head>
 <body>
     <?php
-    session_start();
+    include "session_check.php";
     include "nav-bar.php";
     ?>
 

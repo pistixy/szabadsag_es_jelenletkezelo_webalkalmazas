@@ -1,5 +1,5 @@
 <?php
-session_start();
+include "session_check.php";
 include "connect.php";
 include "nav-bar.php";
 
@@ -11,8 +11,14 @@ if (!isset($_SESSION['logged']) || !isset($_SESSION['work_id'])) {
 
 $userWorkID = $_SESSION['work_id'];
 
-// Prepare a SQL statement to retrieve all messages received by the logged-in user
-$sql = "SELECT * FROM messages WHERE to_work_id = :userWorkID ORDER BY timestamp DESC";
+// Prepare a SQL statement to retrieve all messages received by the logged-in user along with the date from the calendar
+$sql = "SELECT m.*, r.calendar_id, c.date 
+        FROM messages m
+        LEFT JOIN requests r ON m.request_id = r.request_id
+        LEFT JOIN calendar c ON r.calendar_id = c.calendar_id
+        WHERE m.to_work_id = :userWorkID 
+        ORDER BY m.timestamp DESC";
+
 $stmt = $conn->prepare($sql);
 $stmt->bindParam(':userWorkID', $userWorkID, PDO::PARAM_INT);
 $stmt->execute();
@@ -36,18 +42,37 @@ $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <tr>
             <th>Message ID</th>
             <th>From Work ID</th>
+            <th>To Work ID</th>
+            <th>To Position</th>
+            <th>Type</th>
+            <th>Request ID</th>
+            <th>Date</th>
             <th>Message</th>
             <th>Timestamp</th>
-            <th>Type</th>
-            <!-- Add other columns as necessary -->
         </tr>
         <?php foreach ($messages as $message): ?>
             <tr>
                 <td><?php echo htmlspecialchars($message['message_id']); ?></td>
                 <td><?php echo htmlspecialchars($message['from_work_id']); ?></td>
+                <td><?php echo htmlspecialchars($message['to_work_id']); ?></td>
+                <td><?php echo htmlspecialchars($message['to_position']); ?></td>
+                <td><?php echo htmlspecialchars($message['type']); ?></td>
+                <td>
+                    <a href="request.php?request_id=<?php echo urlencode($message['request_id']); ?>">
+                        <?php echo htmlspecialchars($message['request_id']); ?>
+                    </a>
+                </td>
+                <td>
+                    <?php if (isset($message['calendar_id']) && isset($message['date'])): ?>
+                        <a href="date_details.php?date=<?php echo urlencode($message['date']); ?>">
+                            <?php echo htmlspecialchars($message['date']); ?>
+                        </a>
+                    <?php else: ?>
+                        N/A
+                    <?php endif; ?>
+                </td>
                 <td><?php echo htmlspecialchars($message['message']); ?></td>
                 <td><?php echo htmlspecialchars($message['timestamp']); ?></td>
-                <td><?php echo htmlspecialchars($message['type']); ?></td>
             </tr>
         <?php endforeach; ?>
     </table>
