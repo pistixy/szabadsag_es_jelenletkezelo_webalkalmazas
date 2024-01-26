@@ -57,6 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $conn->commit();
 
             // Pop-up window or message for successful request
+            header("Location: calendar.php");
             echo "Sikeres kérelmezés a $date napra.";
         } else {
             // Rollback if no calendar entry found
