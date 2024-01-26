@@ -5,7 +5,7 @@
     <title>Szabadságkezelő</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body style="background: fff">
+<body>
     <?php
     include "session_check.php";
     if (isset($_SESSION['logged']) && $_SESSION['logged'] === true) {

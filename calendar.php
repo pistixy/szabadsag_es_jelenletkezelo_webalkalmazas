@@ -54,82 +54,68 @@ $firstDayOfWeek = date("N", mktime(0, 0, 0, $month, 1, $year));
 <body>
 
 <h1><?php echo $isOwnCalendar ? "Naptárad" : $calendarOwnerName . " Naptára"; ?></h1>
+<form action="" method="get">
+    <input type="hidden" name="year" value="<?php echo $year; ?>">
+    <input type="hidden" name="work_id" value="<?php echo $userWorkId; ?>">
+    <select name="view" onchange="this.form.submit()">
+        <option value="yearly" <?php echo (!isset($_GET['view']) || $_GET['view'] == 'yearly') ? 'selected' : ''; ?>>Éves Nézet</option>
+        <option value="monthly" <?php echo (isset($_GET['view']) && $_GET['view'] == 'monthly') ? 'selected' : ''; ?>>Havi Nézet</option>
+    </select>
+</form>
+<?php
+// Default to yearly view if no view is set or if yearly view is selected
+$selectedView = $_GET['view'] ?? 'yearly';
 
-<div class="calendar">
-    <!-- Update links to retain the work_id -->
-    <a href="calendar.php?year=<?php echo $prevYear; ?>&month=<?php echo $prevMonth; ?>&work_id=<?php echo $userWorkId; ?>" class="prev-month">Előző hónap</a>
-    <a href="calendar.php?year=<?php echo $nextYear; ?>&month=<?php echo $nextMonth; ?>&work_id=<?php echo $userWorkId; ?>" class="next-month">Következő hónap</a>
-    <table class="calendar-table">
-        <tr class="calendar-header">
-            <th>Hétfő</th>
-            <th>Kedd</th>
-            <th>Szerda</th>
-            <th>Csütörtök</th>
-            <th>Péntek</th>
-            <th>Szombat</th>
-            <th>Vasárnap</th>
-        </tr>
-        <tr>
-            <?php
-            include "connect.php";
+if ($selectedView == 'yearly') {
+    include "year_view.php"; // Assuming you have a separate file for the yearly view
+} elseif ($selectedView == 'monthly') {
+    include "month_view.php"; // Assuming you have a separate file for the monthly view
+}
+?>
 
-            for ($i = 1; $i < $firstDayOfWeek; $i++) {
-                echo "<td class='calendar-cell'></td>";
-            }
 
-            for ($day = 1; $day <= $daysInMonth; $day++) {
-                $dateToCheck = sprintf("%04d-%02d-%02d", $year, $month, $day);
-                $stmt = $conn->prepare("SELECT day_status FROM calendar WHERE work_id = :work_id AND date = :date");
-                $stmt->bindParam(':work_id', $userWorkId);
-                $stmt->bindParam(':date', $dateToCheck);
-                $stmt->execute();
-                $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                if ($result) {
-                    $day_status = $result['day_status'];
-                    switch ($day_status) {
-                        case 0:
-                            $cssClass = "weekend-day";
-                            break;
-                        case 1:
-                            $cssClass = "working-day";
-                            break;
-                        case 2:
-                            $cssClass = "holiday-day";
-                            break;
-                        case 3:
-                            $cssClass = "online-day";
-                            break;
-                        case 4:
-                            $cssClass = "sick-leave";
-                            break;
-                        case 5:
-                            $cssClass = "non-payed-leave";
-                            break;
-                        case 6:
-                            $cssClass = "planned-vacation";
-                            break;
-                        default:
-                            $cssClass = "";
-                            break;
-                    }
 
-                } else {
-                    $cssClass = "";
-                }
 
-                $linkURL = "date_details.php?date=$dateToCheck";
-                echo "<td class='calendar-cell $cssClass'><a href='$linkURL'>$day</a></td>";
 
-                if (($day + $firstDayOfWeek - 1) % 7 == 0 || $day == $daysInMonth) {
-                    echo "</tr><tr>";
-                }
-            }
-            ?>
-        </tr>
-    </table>
-</div>
 
+<?php
+// Define getStatusName function somewhere in your script
+function getStatusName($statusCode) {
+    $statusNames = [
+        0 => "Szabadnap",
+        1 => "Munkanap",
+        2 => "Online Munka",
+        3 => "Betegszabadság",
+        4 => "Fizetetlen szabadság",
+        5 => "Tervezett szabadság",
+        6 => "Planned Vacation"
+        // ... other statuses
+    ];
+    return $statusNames[$statusCode] ?? "Unknown";
+}
+function getCssClass($dayStatus) {
+    switch ($dayStatus) {
+        case 0:
+            return "weekend-day";
+        case 1:
+            return "working-day";
+        case 2:
+            return "holiday-day";
+        case 3:
+            return "online-day";
+        case 4:
+            return "sick-leave";
+        case 5:
+            return "non-payed-leave";
+        case 6:
+            return "planned-vacation";
+        default:
+            return ""; // Default case if status is not recognized
+    }
+}
+
+?>
 <?php
 include "csuszka.php";
 include "footer.php";
