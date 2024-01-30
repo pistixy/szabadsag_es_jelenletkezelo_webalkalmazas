@@ -28,7 +28,7 @@ if (!empty($dayUsers)) {
         echo "<td><a href='$profileUrl'>" . htmlspecialchars($user['work_id']) . "</a></td>";
         echo "<td><a href='$profileUrl'>" . htmlspecialchars($user['email']) . "</a></td>";
         echo "<td>".htmlspecialchars($user['szervezetszam'])."</td>";
-        echo "<td>" . getStatusName($user['day_status']) . "</td>"; // A function to convert status code to name
+        echo "<td>" . getStatusName($user['day_status']) . "</td>";
         echo "</tr>";
     }
     echo "</table>";
@@ -37,17 +37,6 @@ if (!empty($dayUsers)) {
 }
 
 // Function to get the status name
-function getStatusName($statusCode) {
-    $statusNames = [
-        0 => "Szabadnap",
-        1 => "Munkanap",
-        2 => "Online Munka",
-        3 => "Betegszabadság",
-        4 => "Fizetetlen szabadság",
-        5 => "Tervezett szabadság",
-        6 => "Planned Vacation"
-        // ... other statuses
-    ];
-    return $statusNames[$statusCode] ?? "Unknown";
-}
+
+
 ?>

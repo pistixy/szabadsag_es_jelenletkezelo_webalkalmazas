@@ -1,17 +1,18 @@
 .body{
     background-color: #428bca;
+    font-family: Montserrat, Tahoma;
 }
 .login-container{
     font-size: 100px;
 }
 .navbar {
-    background-color: #0073e6; /* Example color; use the color that matches your design */
+    background-color: #242943;
     color: white;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px;
-    font-family: Arial, sans-serif;
+    font-family: Montserrat, Tahoma;
 }
 
 .navbar .logo img {
@@ -33,6 +34,9 @@
 
 .navbar_menu a:hover {
     color: black;
+}
+.navbar_items a{
+    color: white;
 }
 
 /* Media query for responsive design */
@@ -59,7 +63,7 @@ img:first-child {
     display: block;
 }
 .registration_form{
-    font-family: Arial, sans-serif;
+    font-family: Montserrat, Tahoma;
     background-color: #f7f7f7;
 }
 #login-form {
@@ -70,15 +74,18 @@ img:first-child {
     max-width: 400px;
     padding: 20px;
     text-align: center;
+    font-family: Montserrat, Tahoma;
 }
 .registration_form form{
     text-align: left;
+    font-family: Montserrat, Tahoma;
     }
 .registration_form label{
     display: block;
     margin-bottom: 5px;
     color: #333;
     font-weight: bold;
+    font-family: Montserrat, Tahoma;
 }
 .registration_form input[type="text"], intput[type="email"],input[type="password"],input[type="date"] {
     width: 100%;
@@ -87,6 +94,7 @@ img:first-child {
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
+    font-family: Montserrat, Tahoma;
 }
 .registration_form button{
     background-color: #007bff;
@@ -96,6 +104,7 @@ img:first-child {
     padding: 10px 20px;
     font-size: 18px;
     cursor: pointer;
+    font-family: Montserrat, Tahoma;
 }
 .registration_form button:hover {
     background-color: #0056b3;
@@ -103,6 +112,7 @@ img:first-child {
 .registration_form a {
     color: #007bff;
     text-decoration: none;
+    font-family: Montserrat, Tahoma;
 }
 
 .registration_form a:hover {
@@ -116,6 +126,7 @@ img:first-child {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: left;
+    font-family: Montserrat, Tahoma;
 }
 .login-form h1 {
     font-size: 24px;
@@ -126,6 +137,7 @@ img:first-child {
     display: block;
     font-weight: bold;
     margin-bottom: 8px;
+    font-family: Montserrat, Tahoma;
 }
 .login-form input[type="text"],
 .login-form input[type="password"] {
@@ -168,6 +180,7 @@ img:first-child {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     min-width: 300px;
     min-height: 300px;
+    font-family: Montserrat, Tahoma;
 }
 
 .profile-heading {
@@ -245,6 +258,7 @@ img:first-child {
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: Montserrat, Tahoma;
 }
 
 .message {
@@ -253,6 +267,7 @@ img:first-child {
     padding: 10px;
     margin-bottom: 20px;
     background-color: #f7f7f7;
+    font-family: Montserrat, Tahoma;
 }
 
 .message p {
@@ -283,6 +298,7 @@ img:first-child {
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: Montserrat, Tahoma;
 }
 
 .profile-heading {
@@ -293,6 +309,7 @@ img:first-child {
 
 form {
     text-align: left;
+    font-family: Montserrat, Tahoma;
 }
 
 label {
@@ -332,12 +349,14 @@ h1 {
     margin-top: 20px;
     font-size: 24px;
     font-weight: bold;
+    font-family: Montserrat, Tahoma;
 }
 
 .calendar {
     margin: 20px auto;
     width: 80%;
     text-align: center;
+    font-family: Montserrat, Tahoma;
 }
 
 .prev-month,
@@ -423,6 +442,7 @@ h1 {
 
 .reply-form {
     margin-top: 20px;
+    font-family: Montserrat, Tahoma;
 }
 
 .reply-textarea {
@@ -453,6 +473,7 @@ h1 {
     text-decoration: none;
     color: #007bff;
     font-weight: bold;
+    font-family: Montserrat, Tahoma;
 }
 
 .back-to-messages:hover {
@@ -463,12 +484,13 @@ h1 {
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: #333;
+    background-color: #242943;
     color: white;
     text-align: center;
     padding: 10px;
     clear: both;
     margin-top: 20px;
+    font-family: Montserrat, Tahoma;
 }
 
 .weekend-day {
@@ -510,6 +532,7 @@ h1 {
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
+    font-family: Montserrat, Tahoma;
 }
 
 .csempe a {
@@ -520,15 +543,17 @@ h1 {
     width: 150px;
     height: 150px;
     margin: 10px;
-    background-color: #3498db;
+    background-color: #50ADC9;
     color: #fff;
     text-align: center;
     border-radius: 10px;
     transition: background-color 0.3s;
+    font-family: Montserrat, Tahoma;
 }
 
 .csempe a:hover {
-    background-color: #2980b9;
+    background-color: #D9D9D9;
+    font-family: Montserrat, Tahoma;
 }
 .csempe-item {
     display: flex;
@@ -537,11 +562,12 @@ h1 {
     align-items: center;
     width: 150px;
     height: 150px;
-    background-color: #3498db;
+    background-color: #50ADC9;
     color: #fff;
     text-align: center;
     border-radius: 10px;
     margin-left: 10px;
+    font-family: Montserrat, Tahoma;
 }
 
 .csempe-heading {
@@ -570,6 +596,7 @@ h1 {
     font-weight: bold;
     text-decoration: none; /* Remove underlines from links */
     animation: blinker 3s linear infinite; /* Blinking effect */
+    font-family: Montserrat, Tahoma;
 }
 
 /* Keyframes for blinking effect */

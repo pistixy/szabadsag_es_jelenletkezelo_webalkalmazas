@@ -10,6 +10,34 @@ $cim = $_POST["cim"];
 $adoazonosito = $_POST["adoazonosito"];
 $szervezetszam = $_POST["szervezetszam"];
 $alkalmazottikartyaszama = $_POST["alkalmazottikartyaszama"];
+$letterCode = $_POST["letterCode"];
+$payed_free=20; //20
+$payed_requested=0;
+$payed_planned=0;
+$payed_taken=0;
+$payed_past_free=0;
+$payed_past_requested=0;
+$payed_past_planned=0;
+$payed_past_taken=0;
+$payed_edu_free=5; //5
+$payed_edu_requested=0;
+$payed_edu_planned=0;
+$payed_edu_taken=0;
+$payed_award_free=0;
+$payed_award_requested=0;
+$payed_award_planned=0;
+$payed_award_taken=0;
+$unpayed_sickness_taken=0;
+$unpayed_uncertified_taken=0;
+$unpayed_dad_free=0;
+$unpayed_dad_requested=0;
+$unpayed_dad_planned=0;
+$unpayed_dad_taken=0;
+$unpayed_home_free=20; //20
+$unpayed_home_requested=0;
+$unpayed_home_planned=0;
+$unpayed_home_taken=0;
+
 
 // Check if the passwords match
 if ($password !== $passwordRepeat) {
@@ -18,13 +46,6 @@ if ($password !== $passwordRepeat) {
 }
 
 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-$joined = date("Y-m-d H:i:s");
-$admin = 0;
-$position = 0;
-$free=20;
-$taken=0;
-$requested=0;
-$planned=0;
 
 $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
 $stmt->bindParam(1, $email);
@@ -35,20 +56,27 @@ if (count($result) > 0) {
     echo "A megadott email címmel már regisztráltak! Kérjük, használjon másik email címet. <a href='registration_form.php'>Próbálkozás újra</a>";
     exit;
 } else {
-    $stmt = $conn->prepare("INSERT INTO users (name, email, password, cim, adoazonosito, szervezetszam, alkalmazottikartya, position, free, taken, requested, planned) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bindParam(1, $name);
-    $stmt->bindParam(2, $email);
-    $stmt->bindParam(3, $hashed_password);
-    $stmt->bindParam(4, $cim);
-    $stmt->bindParam(5, $adoazonosito);
-    $stmt->bindParam(6, $szervezetszam);
-    $stmt->bindParam(7, $alkalmazottikartyaszama);
-    $stmt->bindParam(8, $position, PDO::PARAM_INT);
-    $stmt->bindParam(9, $free, PDO::PARAM_INT);
-    $stmt->bindParam(10, $taken, PDO::PARAM_INT);
-    $stmt->bindParam(11, $requested, PDO::PARAM_INT);
-    $stmt->bindParam(12, $planned, PDO::PARAM_INT);
-    $stmt->execute();
+    $stmt = $conn->prepare("INSERT INTO users (
+        name, email, password, cim, adoazonosito, szervezetszam, alkalmazottikartya, 
+        kar, payed_free, payed_requested, payed_planned, payed_taken, 
+        payed_past_free, payed_past_requested, payed_past_planned, payed_past_taken,
+        payed_edu_free, payed_edu_requested, payed_edu_planned, payed_edu_taken, 
+        payed_award_free, payed_award_requested, payed_award_planned, payed_award_taken, 
+        unpayed_sickness_taken, unpayed_uncertified_taken, unpayed_dad_free, unpayed_dad_requested, 
+        unpayed_dad_planned, unpayed_dad_taken, unpayed_home_free, unpayed_home_requested, 
+        unpayed_home_planned, unpayed_home_taken
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+    $stmt->execute([
+        $name, $email, $hashed_password, $cim, $adoazonosito, $szervezetszam,
+        $alkalmazottikartyaszama, $letterCode, $payed_free, $payed_requested,
+        $payed_planned, $payed_taken, $payed_past_free, $payed_past_requested,
+        $payed_past_planned, $payed_award_taken, $payed_edu_free, $payed_edu_requested,
+        $payed_edu_planned, $payed_edu_taken, $payed_award_free, $payed_award_requested,
+        $payed_award_planned, $payed_award_taken, $unpayed_sickness_taken, $unpayed_uncertified_taken,
+        $unpayed_dad_free, $unpayed_dad_requested, $unpayed_dad_planned, $unpayed_dad_taken,
+        $unpayed_home_free, $unpayed_home_requested, $unpayed_home_planned, $unpayed_home_taken
+    ]);
 
     if ($stmt->rowCount() > 0) {
         $_SESSION['email'] = $email;

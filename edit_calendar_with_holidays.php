@@ -28,7 +28,7 @@ if (isset($_SESSION['work_id'])) {
     }
 
     $commentToUpdate = 'Ünnep';
-    $day_status = 2;
+    $day_status = "holiday";
 
     $sql = "UPDATE calendar SET day_status = ? WHERE comment = ?";
     $stmt = $conn->prepare($sql);

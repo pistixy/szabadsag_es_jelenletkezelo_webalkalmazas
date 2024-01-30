@@ -62,6 +62,22 @@
                     <input class="logininput" type="text" id="alkalmazottikartyaszama" name="alkalmazottikartyaszama" placeholder="Alkalmazotti kártyaszám" required>
                 </div>
             </div>
+            <div class="row" style="max-width: 500px;margin:0 auto;">
+                <div class="col-md-12" >
+                    <label for="letterCode">Kar kiválasztása</label>
+                    <select class="logininput" id="letterCode" name="letterCode" required>
+                        <option value="ESK">ESK</option>
+                        <option value="DFK">DFK</option>
+                        <option value="GIVK">GIVK</option>
+                        <option value="KGYK">KGYK</option>
+                        <option value="MK">MK</option>
+                        <option value="EEKK">ÉÉKK</option>
+                        <option value="MEK">MÉK</option>
+                        <option value="AK">AK</option>
+                        <option value="AHJK">AHJK</option>
+                    </select>
+                </div>
+            </div>
             <p class="reminder">  <a class="newreg" href="login_form.php" target="_blank">Már tag? - Already a member? </a> / <a class="newreg" href="index.php">Vissza a kezdőlapra! - Back to the landing page! </a></p>
             <div class="row" style="max-width: 500px;margin:0 auto;padding-bottom: 95px;">
                 <div class="col-md-12">

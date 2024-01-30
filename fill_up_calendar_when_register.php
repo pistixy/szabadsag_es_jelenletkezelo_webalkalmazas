@@ -26,7 +26,7 @@ if (isset($_SESSION['email'])) {
 
         for ($i = 0; $i < $limit; $i++) {
             $date = date("Y-m-d", strtotime($currentDate->format("Y-m-d") . " + " . $i . " days"));
-            $day_status = date('N', strtotime($date)) <= 5 ? 1 : 0;
+            $day_status = date('N', strtotime($date)) <= 5 ? "work_day" : "weekend";
 
 
             $stmt = $conn->prepare("INSERT INTO calendar (work_id, date, day_status ) VALUES (:work_id, :date, :day_status )");

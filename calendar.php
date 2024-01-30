@@ -2,6 +2,7 @@
 include "session_check.php";
 include "connect.php";
 include "nav-bar.php";
+include "function_get_status_name.php";
 
 if (!isset($_SESSION['logged'])) {
     header("Location: login_form.php");
@@ -80,36 +81,17 @@ if ($selectedView == 'yearly') {
 
 
 <?php
-// Define getStatusName function somewhere in your script
-function getStatusName($statusCode) {
-    $statusNames = [
-        0 => "Szabadnap",
-        1 => "Munkanap",
-        2 => "Online Munka",
-        3 => "Betegszabadság",
-        4 => "Fizetetlen szabadság",
-        5 => "Tervezett szabadság",
-        6 => "Planned Vacation"
-        // ... other statuses
-    ];
-    return $statusNames[$statusCode] ?? "Unknown";
-}
+
+
 function getCssClass($dayStatus) {
     switch ($dayStatus) {
-        case 0:
+        case "weekend":
             return "weekend-day";
-        case 1:
+        case "work_day":
             return "working-day";
-        case 2:
+        case "holiday":
             return "holiday-day";
-        case 3:
-            return "online-day";
-        case 4:
-            return "sick-leave";
-        case 5:
-            return "non-payed-leave";
-        case 6:
-            return "planned-vacation";
+        /////////////HERE TODO
         default:
             return ""; // Default case if status is not recognized
     }

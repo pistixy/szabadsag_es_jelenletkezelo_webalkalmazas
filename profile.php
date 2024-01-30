@@ -8,6 +8,19 @@ if (!isset($_SESSION['logged'])) {
 }
 
 include "connect.php";
+$facultyColors = [
+    "ESK" => "#AC112B",
+    "DFK" => "#EEC344",
+    "GIVK" => "#A1C038",
+    "KGYK" => "#357ABE",
+    "MK" => "#7765A6",
+    "ÉÉKK" => "#AE791D",
+    "MÉK" => "#D67C1C",
+    "AK" => "#2A8C46",
+    "AHJK" => "#B7B2AC",
+];
+
+
 
 // Check if work_id is provided in the URL, otherwise use the session's work_id
 $work_id = isset($_GET['work_id']) ? $_GET['work_id'] : $_SESSION['work_id'];
@@ -16,6 +29,8 @@ $stmt = $conn->prepare("SELECT * FROM users WHERE work_id = :work_id");
 $stmt->bindParam(':work_id', $work_id);
 $stmt->execute();
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
+$facultyCode = $result['kar'];
+$backgroundColor = isset($facultyColors[$facultyCode]) ? $facultyColors[$facultyCode] : "#FFFFFF"; // Default color
 
 if ($result) {
     ?>
@@ -24,6 +39,9 @@ if ($result) {
     <head>
         <title>Profil</title>
         <link rel="stylesheet" href="styles.css">
+        <style>
+            body { background-color: <?php echo $backgroundColor; ?>; }
+        </style>
     </head>
     <body>
     <div class="profile-container">
@@ -52,6 +70,7 @@ if ($result) {
             <p class="profile-data"><strong>Szervezetszám:</strong> <?php echo $result['szervezetszam']; ?></p>
             <p class="profile-data"><strong>Alkalmazotti kártyaszám:</strong> <?php echo $result['alkalmazottikartya']; ?></p>
             <p class="profile-data"><strong>Beosztás:</strong> <?php echo $result['position']; ?></p>
+            <p class="profile-data"><strong>Kar:</strong> <?php echo $result['kar']; ?></p>
             <?php
             // Only show the edit link if viewing own profile
             if ($work_id == $_SESSION['work_id']) {
