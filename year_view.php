@@ -50,7 +50,7 @@ $nextYear = $year + 1;
         $stmt->execute();
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $dayOfMonth = date('j', strtotime($row['date']));
-            $monthDays[$dayOfMonth] = getCssClass($row['day_status']);
+            $monthDays[$dayOfMonth] = $row['day_status'];
         }
 
         // Display each day in the month

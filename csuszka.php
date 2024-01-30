@@ -67,40 +67,40 @@ $conn = null;
             display: block;
         }
 
-        .payed_free {
+        .payed_free_csuszka {
             flex: <?php echo $payed_free; ?>;
             background-color: green;
         }
-        .payed_requested {
+        .payed_requested_csuszka {
             flex: <?php echo $payed_requested; ?>;
             background-color: lightsalmon;
         }
 
-        .payed_planned {
+        .payed_planned_csuszka {
             flex: <?php echo $payed_planned; ?>;
             background-color: lightgreen;
         }
 
-        .payed_taken {
+        .payed_taken_csuszka {
             flex: <?php echo $payed_taken; ?>;
             background-color: red;
         }
 
-        .unpayed_free {
+        .unpayed_free_csuszka {
             flex: <?php echo $unpayed_free; ?>;
             background-color: green;
         }
-        .unpayed_requested {
+        .unpayed_requested_csuszka {
             flex: <?php echo $unpayed_requested; ?>;
             background-color: lightsalmon;
         }
 
-        .unpayed_planned {
+        .unpayed_planned_csuszka {
             flex: <?php echo $unpayed_planned; ?>;
             background-color: lightgreen;
         }
 
-        .unpayed_taken {
+        .unpayed_taken_csuszka {
             flex: <?php echo $unpayed_taken; ?>;
             background-color: red;
         }
@@ -122,7 +122,8 @@ $conn = null;
 
         .fieldset {
             width: 60%;
-            margin: 0 auto;
+            margin: auto;
+            margin-bottom: 100px;
             background: #dddddd;
         }
     </style>
@@ -131,7 +132,7 @@ $conn = null;
 <fieldset class="fieldset">
     <legend>Fizetett szabadságok állása</legend>
     <div class="csuszka">
-        <div class="section payed_free">
+        <div class="section payed_free_csuszka">
             <span class="tooltiptext"><?php
         echo "Összesen fel nem használt: " . $payed_free . "<br>";
         echo "Fizetett szabadság: " . $result['payed_free'] . "<br>";
@@ -142,7 +143,7 @@ $conn = null;
         </div>
 
 
-        <div class="section payed_requested">
+        <div class="section payed_requested_csuszka">
             <span class="tooltiptext"><?php
                 echo "Összesen kérelmezett: " . $payed_requested . "<br>";
                 echo "Fizetett szabadság: " . $result['payed_requested'] . "<br>";
@@ -151,7 +152,7 @@ $conn = null;
                 echo "Előző évi szabadság: " . $result['payed_past_requested'] . "<br>";
                 ?></span>
         </div>
-        <div class="section payed_planned">
+        <div class="section payed_planned_csuszka">
             <span class="tooltiptext"><?php
                 echo "Összesen betervezett: " . $payed_planned . "<br>";
                 echo "Fizetett szabadság: " . $result['payed_planned'] . "<br>";
@@ -160,7 +161,7 @@ $conn = null;
                 echo "Előző évi szabadság: " . $result['payed_past_planned'] . "<br>";
                 ?></span>
         </div>
-        <div class="section payed_taken">
+        <div class="section payed_taken_csuszka">
             <span class="tooltiptext"><?php
                 echo "Összesen felhasznált: " . $payed_taken . "<br>";
                 echo "Fizetett szabadság: " . $result['payed_taken'] . "<br>";
@@ -172,17 +173,12 @@ $conn = null;
 
     </div>
 </fieldset>
-<p>
-0
-</p>
-<p>
-    0
-</p>
+
 
 <fieldset class="fieldset">
     <legend>Fizetetlen szabadságok állása</legend>
     <div class="csuszka">
-        <div class="section unpayed_free">
+        <div class="section unpayed_free_csuszka">
             <span class="tooltiptext"><?php
                 echo "Összesen fel nem használt: " . $unpayed_free . "<br>";
                 echo "Apanap: " . $result['unpayed_dad_free'] . "<br>";
@@ -192,7 +188,7 @@ $conn = null;
         </div>
 
 
-        <div class="section unpayed_requested">
+        <div class="section unpayed_requested_csuszka">
             <span class="tooltiptext"><?php
                 echo "Összesen kérelmezett: " . $unpayed_requested . "<br>";
                 echo "Apanap: " . $result['unpayed_dad_requested'] . "<br>";
@@ -200,7 +196,7 @@ $conn = null;
                 ?>
             </span>
         </div>
-        <div class="section unpayed_planned">
+        <div class="section unpayed_planned_csuszka">
             <span class="tooltiptext"><?php
                 echo "Összesen betervezett: " . $unpayed_planned . "<br>";
                 echo "Apanap: " . $result['unpayed_dad_planned'] . "<br>";
@@ -208,7 +204,7 @@ $conn = null;
                 ?>
             </span>
         </div>
-        <div class="section unpayed_taken">
+        <div class="section unpayed_taken_csuszka">
             <span class="tooltiptext"><?php
                 echo "Összesen felhasznált: " . $unpayed_taken . "<br>";
                 echo "Apanap: " . $result['unpayed_dad_taken'] . "<br>";

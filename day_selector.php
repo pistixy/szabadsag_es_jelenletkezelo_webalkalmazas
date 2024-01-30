@@ -5,46 +5,66 @@
         <form action="new_request.php" method="post">
 
             <label for="fizetett_szabadnap">
-                <input type="radio" name="nap" id="fizetett_szabadnap" value="Fizetett Szabadnap" <?php if($calendarResult['day_status']=="0"){
+                <input type="radio" name="nap" id="fizetett_szabadnap" value="payed_leave" <?php
+                if($calendarResult['day_status']=="payed_free" or
+                    $calendarResult['day_status']=="payed_requested" or
+                    $calendarResult['day_status']=="payed_planned" or
+                    $calendarResult['day_status']=="payed_takend" or
+                    $calendarResult['day_status']=="payed_past_free" or
+                    $calendarResult['day_status']=="payed_past_requested" or
+                    $calendarResult['day_status']=="payed_past_planned" or
+                    $calendarResult['day_status']=="payed_past_taken")
+                    {
                     echo "checked";
                 }?>>
                 Fizetett Szabadnap
             </label><br>
 
             <label for="munkanap">
-                <input type="radio" name="nap" id="munkanap" value="Munkanap" <?php if($calendarResult['day_status']=="1"){
+                <input type="radio" name="nap" id="munkanap" value="work_day" <?php if($calendarResult['day_status']=="work_day"){
                     echo "checked";
                 }?>>
                 Munkanap
             </label><br>
 
-            <label for="online_munka">
-                <input type="radio" name="nap" id="online_munka" value="Online Munka"<?php if($calendarResult['day_status']=="2"){
+            <label for="online_work">
+                <input type="radio" name="nap" id="online_work" value="online_work"<?php
+                if($calendarResult['day_status']=="unpayed_home_free" or
+                    $calendarResult['day_status']=="unpayed_home_requested" or
+                    $calendarResult['day_status']=="unpayed_home_planned" or
+                    $calendarResult['day_status']=="unpayed_home_taken"){
                     echo "checked";
                 }?>>
                 Online Munka
             </label><br>
+            <label for="award_leave">
+                <input type="radio" name="nap" id="award_leave" value="award_leave"<?php
+                if($calendarResult['day_status']=="payed_award_free" or
+                    $calendarResult['day_status']=="payed_award_requested" or
+                    $calendarResult['day_status']=="payed_award_planned" or
+                    $calendarResult['day_status']=="payed_arard_taken"){
+                    echo "checked";
+                }?>>
+                Jutalmi szabadság
+            </label><br>
+            <label for="dad_leave">
+                <input type="radio" name="nap" id="dad_leave" value="dad_leave"<?php
+                if($calendarResult['day_status']=="unpayed_dad_free" or
+                    $calendarResult['day_status']=="unpayed_dad_requested" or
+                    $calendarResult['day_status']=="unpayed_dad_planned" or
+                    $calendarResult['day_status']=="unpayed_dad_taken"){
+                    echo "checked";
+                }?>>
+                Apanap
+            </label><br>
 
-            <label for="betegszabadsag">
-                <input type="radio" name="nap" id="betegszabadsag" value="Betegszabadság"<?php if($calendarResult['day_status']=="3"){
+            <label for="unpayed_sickness_taken">
+                <input type="radio" name="nap" id="unpayed_sickness_taken" value="unpayed_sickness_taken"<?php if($calendarResult['day_status']=="unpayed_sickness_taken"){
                     echo "checked";
                 }?>>
                 Betegszabadság
             </label><br>
 
-            <label for="fizetetlen_szabadsag">
-                <input type="radio" name="nap" id="fizetetlen_szabadsag" value="Fizetetlen szabadság"<?php if($calendarResult['day_status']=="4"){
-                    echo "checked";
-                }?>>
-                Fizetetlen szabadság
-            </label><br>
-
-            <label for="tervezett_szabadsag">
-                <input type="radio" name="nap" id="tervezett_szabadsag" value="Tervezett szabadság"<?php if($calendarResult['day_status']=="5"){
-                    echo "checked";
-                }?>>
-                Tervezett szabadság
-            </label><br>
 
             <label>Ide írja le kérését és indokolja!
                 <textarea name="message" style="width: 100%; height: 200px">
@@ -79,6 +99,10 @@ if (isset($_SESSION['work_id'])) {
             <input type="hidden" name="date" value="<?php echo $date; ?>">
             <input type="submit" name="submit" value="Submit">
     </fieldset>
+    <!-- TODO <input type="hidden" name="view" value="<?php echo htmlspecialchars($currentView); ?>">-->
+    <?PHP
+    //echo $currentView; TODO
+    ?>
     </form>
 
 

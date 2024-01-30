@@ -393,10 +393,6 @@ h1 {
     color: #333;
 }
 
-.calendar-cell {
-    background-color: #fff;
-    color: #333;
-}
 
 .calendar-cell:hover {
     background-color: #f0f0f0;
@@ -493,37 +489,7 @@ h1 {
     font-family: Montserrat, Tahoma;
 }
 
-.weekend-day {
-    background-color: ghostwhite;
-}
 
-.working-day {
-    background-color: orange;
-}
-
-
-.holiday-day {
-    background-color: red;
-}
-.vacation-day {
-    background-color: green;
-}
-
-.online-day {
-    background-color: blue;
-}
-
-.sick-leave {
-    background-color: #48ff00;
-}
-
-.non-payed-vacation {
-    background-color: white;
-}
-
-.planned-vacation {
-    background-color: lightgreen;
-}
 .csempe {
     display: flex;
     flex-wrap: wrap;
@@ -631,7 +597,7 @@ h1 {
 }
 .day-box {
     width: 40px; /* Fixed width */
-    height: 40px; /* Fixed height */
+    height: 30px; /* Fixed height */
     display: inline-block; /* Align boxes side by side */
     border: 0px;
     text-align: center; /* Center the text (day number) */

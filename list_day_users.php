@@ -36,7 +36,4 @@ if (!empty($dayUsers)) {
     echo "<p>Erre a napra nem jelentkezett be senki.</p>";
 }
 
-// Function to get the status name
-
-
 ?>

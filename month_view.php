@@ -1,7 +1,8 @@
 <div class="calendar">
     <h2><?php echo $monthName . " " . $year; ?></h2> <!-- Display the current month and year -->
-    <a href="calendar.php?year=<?php echo $prevYear; ?>&month=<?php echo $prevMonth; ?>&work_id=<?php echo $userWorkId; ?>" class="prev-month">Előző hónap</a>
-    <a href="calendar.php?year=<?php echo $nextYear; ?>&month=<?php echo $nextMonth; ?>&work_id=<?php echo $userWorkId; ?>" class="next-month">Következő hónap</a>
+    <a href="calendar.php?year=<?php echo $prevYear; ?>&month=<?php echo $prevMonth; ?>&work_id=<?php echo $userWorkId; ?>&view=<?php echo $selectedView; ?>" class="prev-month">Előző hónap</a>
+    <a href="calendar.php?year=<?php echo $nextYear; ?>&month=<?php echo $nextMonth; ?>&work_id=<?php echo $userWorkId; ?>&view=<?php echo $selectedView; ?>" class="next-month">Következő hónap</a>
+
     <table class="calendar-table">
         <tr class="calendar-header">
             <th>Hétfő</th>
@@ -29,40 +30,15 @@
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 if ($result) {
-                    $day_status = $result['day_status'];
-                    switch ($day_status) {
-                        case 0:
-                            $cssClass = "weekend-day";
-                            break;
-                        case 1:
-                            $cssClass = "working-day";
-                            break;
-                        case 2:
-                            $cssClass = "holiday-day";
-                            break;
-                        case 3:
-                            $cssClass = "online-day";
-                            break;
-                        case 4:
-                            $cssClass = "sick-leave";
-                            break;
-                        case 5:
-                            $cssClass = "non-payed-leave";
-                            break;
-                        case 6:
-                            $cssClass = "planned-vacation";
-                            break;
-                        default:
-                            $cssClass = "";
-                            break;
-                    }
-
-                } else {
-                    $cssClass = "";
+                    $cssClass = $result['day_status'];
+                }
+                else{
+                    $cssClass ="";
                 }
 
+
                 $linkURL = "date_details.php?date=$dateToCheck";
-                echo "<td class='calendar-cell $cssClass'><a href='$linkURL'>$day</a></td>";
+                echo "<td class='$cssClass calendar-cell'><a href='$linkURL'>$day</a></td>";
 
                 if (($day + $firstDayOfWeek - 1) % 7 == 0 || $day == $daysInMonth) {
                     echo "</tr><tr>";
