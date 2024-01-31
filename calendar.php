@@ -44,7 +44,6 @@ $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
 $monthName = date("F", mktime(0, 0, 0, $month, 1, $year));
 
 $firstDayOfWeek = date("N", mktime(0, 0, 0, $month, 1, $year));
-// TODO $currentView = isset($_GET['view']) ? $_GET['view'] : 'yearly';
 ?>
 
 <!DOCTYPE html>
@@ -86,9 +85,11 @@ $firstDayOfWeek = date("N", mktime(0, 0, 0, $month, 1, $year));
 $selectedView = $_GET['view'] ?? 'yearly';
 
 if ($selectedView == 'yearly') {
-    include "year_view.php"; // Assuming you have a separate file for the yearly view
+    $currentView= 'yearly';
+    include "year_view.php";
 } elseif ($selectedView == 'monthly') {
-    include "month_view.php"; // Assuming you have a separate file for the monthly view
+    $currentView= 'monthly';
+    include "month_view.php";
 }
 
 ?>

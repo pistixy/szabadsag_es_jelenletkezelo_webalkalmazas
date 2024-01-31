@@ -12,6 +12,9 @@ include "connect.php";
 include "nav-bar.php";
 include "check_login.php";
 include "function_get_status_name.php";
+if (isset($_GET['view'])) {
+    $currentView = $_GET['view'];
+}
 
 if (!isset($_SESSION['logged'])) {
     header("Location: login_form.php");
@@ -151,7 +154,6 @@ if (isset($_GET['date'])) {
 if ($_SESSION['isAdmin']){
     include "list_day_users.php";
 }
-
 
 include "day_selector.php"
 ?>

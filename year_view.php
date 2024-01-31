@@ -31,21 +31,21 @@ $nextYear = $year + 1;
     <h2><?php echo $year; ?> Éves Nézet</h2>
     <?php
 
-    for ($m = 1; $m <= 12; $m++) {
-        $monthName = date("F", mktime(0, 0, 0, $m, 1, $year));
+    for ($month = 1; $month<= 12; $month++) {
+        $monthName = date("F", mktime(0, 0, 0, $month, 1, $year));
 
         echo "<div class='month-container'>";
         echo "<div class='month-name'>" . $monthName . "</div>";
         echo "<div class='month-row'>";
 
         // Initialize an array to keep track of the days in the month
-        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $m, $year);
+        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
         $monthDays = array_fill(1, $daysInMonth, '');
 
         // Fetch important dates from the database and fill the array
         $stmt = $conn->prepare("SELECT date, day_status FROM calendar WHERE work_id = :work_id AND EXTRACT(MONTH FROM date) = :month AND EXTRACT(YEAR FROM date) = :year");
         $stmt->bindParam(':work_id', $userWorkId);
-        $stmt->bindParam(':month', $m);
+        $stmt->bindParam(':month', $month);
         $stmt->bindParam(':year', $year);
         $stmt->execute();
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -59,8 +59,8 @@ $nextYear = $year + 1;
             if (empty($cssClass)) {
                 $cssClass = "empty";
             }
-
-            $dateLink = sprintf("date_details.php?date=%04d-%02d-%02d", $year, $m, $day);
+            $datetocheck=sprintf("%04d-%02d-%02d", $year, $month, $day);
+            $dateLink ="date_details.php?date=".$datetocheck."&view=$currentView";
             echo "<a href='$dateLink' class='day-box $cssClass'>$day</a>";
         }
 

@@ -37,7 +37,7 @@
                 }
 
 
-                $linkURL = "date_details.php?date=$dateToCheck";
+                $linkURL = "date_details.php?date=$dateToCheck&view=$currentView";
                 echo "<td class='$cssClass calendar-cell'><a href='$linkURL'>$day</a></td>";
 
                 if (($day + $firstDayOfWeek - 1) % 7 == 0 || $day == $daysInMonth) {

@@ -106,13 +106,15 @@ if (isset($_SESSION['work_id'])) {
     </textarea>
             </label>
             <?php $date=$calendarResult['date']; ?>
+            <?php echo $date;
+            ?>
             <input type="hidden" name="date" value="<?php echo $date; ?>">
             <input type="submit" name="submit" value="Submit">
     </fieldset>
-    <!-- TODO <input type="hidden" name="view" value="<?php echo htmlspecialchars($currentView); ?>">-->
-    <?PHP
-    //echo $currentView; TODO
-    ?>
+    <input type="hidden" name="view" value="<?php echo htmlspecialchars($currentView); ?>">
+
+
+
     </form>
 
 

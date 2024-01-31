@@ -15,6 +15,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $userWorkID = $_SESSION['work_id'];
     $toWhom = "admin"; // Dynamically determined recipient
     $currentTimestamp = date('Y-m-d H:i:s');
+    $currentView=$_POST['view'];
+
+
+    // Explode the date into an array [year, month, day]
+    list($year, $month, $day) = explode('-', $date);
+
+    // Convert them to integers if necessary
+    $year = intval($year);
+    $month = intval($month);
+    $day = intval($day);
+
+
 
     // Begin transaction
     $conn->beginTransaction();
@@ -104,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $conn->commit();
 
                     // Pop-up window or message for successful request
-                    header("Location: calendar.php");
+                    header("Location: calendar.php?view=" . urlencode($currentView)."&month=".urlencode($month)."&year=".urlencode($year));
                     echo "Sikeres ", getStatusName($requestedStatus), " kérelmezés a $date napra.";
                 } else {
                     // Rollback if no calendar entry found
@@ -161,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $conn->commit();
 
                     // Pop-up window or message for successful request
-                    header("Location: calendar.php");
+                    header("Location: calendar.php?view=" . urlencode($currentView)."&month=".urlencode($month)."&year=".urlencode($year));
                     echo "Sikeres kérelmezés a $date napra.";
                 } else {
                     // Rollback if no calendar entry found
@@ -215,7 +227,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $conn->commit();
 
                     // Pop-up window or message for successful request
-                    header("Location: calendar.php");
+                    header("Location: calendar.php?view=" . urlencode($currentView)."&month=".urlencode($month)."&year=".urlencode($year));
+
                     echo "Sikeres kérelmezés a $date napra.";
                 } else {
                     // Rollback if no calendar entry found
@@ -269,7 +282,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $conn->commit();
 
                     // Pop-up window or message for successful request
-                    header("Location: calendar.php");
+                    header("Location: calendar.php?view=" . urlencode($currentView)."&month=".urlencode($month)."&year=".urlencode($year));
                     echo "Sikeres kérelmezés a $date napra.";
                 } else {
                     // Rollback if no calendar entry found
@@ -323,7 +336,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $conn->commit();
 
                     // Pop-up window or message for successful request
-                    header("Location: calendar.php");
+                    header("Location: calendar.php?view=" . urlencode($currentView)."&month=".urlencode($month)."&year=".urlencode($year));
                     echo "Sikeres kérelmezés a $date napra.";
                 } else {
                     // Rollback if no calendar entry found
@@ -365,8 +378,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     // Commit the transaction
                     $conn->commit();
 
-                    // Pop-up window or message for successful request
-                    header("Location: calendar.php");
+                    // TODO Pop-up window or message for successful request
+
+                    header("Location: calendar.php?view=" . urlencode($currentView)."&month=".urlencode($month)."&year=".urlencode($year));
                     echo "Sikeres betegszabadság a $date napra.";
                 } else {
                     // Rollback if no calendar entry found
