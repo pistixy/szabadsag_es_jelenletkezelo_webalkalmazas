@@ -55,9 +55,15 @@ $nextYear = $year + 1;
 
         // Display each day in the month
         foreach ($monthDays as $day => $cssClass) {
+            // Check if the $cssClass is empty and set it to "empty"
+            if (empty($cssClass)) {
+                $cssClass = "empty";
+            }
+
             $dateLink = sprintf("date_details.php?date=%04d-%02d-%02d", $year, $m, $day);
             echo "<a href='$dateLink' class='day-box $cssClass'>$day</a>";
         }
+
         echo "</div>"; // Close month-row
         echo "</div>"; // Close month-container
     }

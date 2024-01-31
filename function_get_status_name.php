@@ -32,6 +32,14 @@ function getStatusName($statusCode) {
         "unpayed_home_planned" => "Fizetetlen betervezett home office",
         "unpayed_home_taken" => "Fizetetlen felhasznált home office",
         // ... other statuses
+        "dad_day" => "Apanap",
+        "home" => "Home office",
+        "award" => "Fizetett jutalom szabadság",
+        "edu" => "Fizetett oktatási szabadság",
+        "payed" =>"Fizetett szabadság",
+        "payed_past" => "Fizetett előző évi szabadság"
+        //"work_day" => "Munknap"
+
     ];
     return $statusNames[$statusCode] ?? "Ismeretlen";
 }

@@ -24,35 +24,48 @@ include "nav-bar.php";
     <fieldset>
         <legend>Válassza ki a státuszt!</legend>
 
-        <label for="workingDay">
-            <input type="radio" id="workingDay" name="status" value="1" required>
+        <label for="work_day">
+            <input type="radio" id="work_day" name="status" value="work_day" required>
             Munkanap
         </label>
 
-        <label for="vacationDay">
-            <input type="radio" id="vacationDay" name="status" value="0" required>
-            Szabadnap
+        <label for="dad_day">
+            <input type="radio" id="dad_day" name="status" value="dad_day" required>
+            Apanap
         </label>
 
-        <label for="onlineDay">
-            <input type="radio" id="onlineDay" name="status" value="2" required>
-            Online Munka
+        <label for="home">
+            <input type="radio" id="home" name="status" value="home" required>
+            Home office
         </label>
 
-        <label for="sickLeave">
-            <input type="radio" id="sickLeave" name="status" value="3" required>
+        <label for="unpayed_sickness_taken">
+            <input type="radio" id="unpayed_sickness_taken" name="status" value="unpayed_sickness_taken" required>
             Betegszabadság
         </label>
 
-        <label for="nonPayedLeave">
-            <input type="radio" id="nonPayedLeave" name="status" value="4" required>
-            Fizetetlen szabadság
+        <label for="unpayed_uncertified_taken">
+            <input type="radio" id="unpayed_uncertified_taken" name="status" value="unpayed_uncertified_taken" required>
+            Igazolatlan távollét
         </label>
 
-        <label for="plannedVacation">
-            <input type="radio" id="plannedVacation" name="status" value="5" required>
-            Tervezett szabadság
+        <label for="award">
+            <input type="radio" id="award" name="status" value="award" required>
+            Jutalom szabadság
         </label>
+        <label for="edu">
+            <input type="radio" id="edu" name="status" value="edu" required>
+            Tanulmányi szabadság
+        </label>
+        <label for="payed">
+            <input type="radio" id="payed" name="status" value="payed" required>
+            Fizettett szabadság
+        </label>
+        <label for="payed_past">
+            <input type="radio" id="payed_past" name="status" value="payed" required>
+            Fizetett előző évi szabadság
+        </label>
+
     </fieldset>
 
     <br>

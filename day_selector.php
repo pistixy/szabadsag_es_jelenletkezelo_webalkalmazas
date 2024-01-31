@@ -57,6 +57,16 @@
                 }?>>
                 Apanap
             </label><br>
+            <label for="edu_leave">
+                <input type="radio" name="nap" id="edu_leave" value="edu_leave"<?php
+                if($calendarResult['day_status']=="unpayed_edu_free" or
+                    $calendarResult['day_status']=="unpayed_edu_requested" or
+                    $calendarResult['day_status']=="unpayed_edu_planned" or
+                    $calendarResult['day_status']=="unpayed_edu_taken"){
+                    echo "checked";
+                }?>>
+                Tanulmányi szabadság
+            </label><br>
 
             <label for="unpayed_sickness_taken">
                 <input type="radio" name="nap" id="unpayed_sickness_taken" value="unpayed_sickness_taken"<?php if($calendarResult['day_status']=="unpayed_sickness_taken"){

@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
             break;
         case 'work_day':
-            // Code to handle work_day
+            // Code to handle work_day TODO
             break;
         case 'online_work':
             $requestedStatus='unpayed_home_requested';
@@ -228,6 +228,60 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "An error occurred: " . $e->getMessage();
             }
     break;
+        case 'edu_leave':
+            $requestedStatus='payed_edu_requested';
+            try {
+                // Fetch the calendar_id for the given date and work_id
+                $sql = "SELECT calendar_id FROM calendar WHERE date = :date AND work_id = :userWorkID";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(':date', $date);
+                $stmt->bindParam(':userWorkID', $userWorkID, PDO::PARAM_INT);
+                $stmt->execute();
+                $calendarResult = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if ($calendarResult) {
+                    $calendarID = $calendarResult['calendar_id'];
+
+                    // Update the day_status in the calendar table
+                    $updateCalendarSql = "UPDATE calendar SET day_status = 'payed_edu_requested' WHERE calendar_id = :calendar_id";
+                    $updateCalendarStmt = $conn->prepare($updateCalendarSql);
+                    $updateCalendarStmt->bindParam(':calendar_id', $calendarID, PDO::PARAM_INT);
+                    $updateCalendarStmt->execute();
+
+                    // Insert the new request
+                    $insertSql = "INSERT INTO requests (work_id, calendar_id, requested_status, message, to_whom, request_status, timestamp, modified_date) VALUES (:work_id, :calendar_id, :requested_status, :message, :to_whom, 'pending', :timestamp, NULL)";
+                    $insertStmt = $conn->prepare($insertSql);
+                    $insertStmt->bindParam(':work_id', $userWorkID);
+                    $insertStmt->bindParam(':calendar_id', $calendarID);
+                    $insertStmt->bindParam(':requested_status', $requestedStatus);
+                    $insertStmt->bindParam(':message', $message);
+                    $insertStmt->bindParam(':to_whom', $toWhom);
+                    $insertStmt->bindParam(':timestamp', $currentTimestamp);
+                    $insertStmt->execute();
+
+                    // Update the user's free and requested counts
+                    $updateUserSql = "UPDATE users SET payed_edu_free = payed_edu_free - 1, payed_edu_requested = payed_edu_requested + 1 WHERE work_id = :work_id";
+                    $updateUserStmt = $conn->prepare($updateUserSql);
+                    $updateUserStmt->bindParam(':work_id', $userWorkID, PDO::PARAM_INT);
+                    $updateUserStmt->execute();
+
+                    // Commit the transaction
+                    $conn->commit();
+
+                    // Pop-up window or message for successful request
+                    header("Location: calendar.php");
+                    echo "Sikeres kérelmezés a $date napra.";
+                } else {
+                    // Rollback if no calendar entry found
+                    $conn->rollBack();
+                    echo "No calendar entry found for the specified date and user.";
+                }
+            } catch (Exception $e) {
+                // Rollback on any other exception
+                $conn->rollBack();
+                echo "An error occurred: " . $e->getMessage();
+            }
+            break;
         case 'dad_leave':
             $requestedStatus='unpayed_dad_requested';
             try {
@@ -302,19 +356,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $updateCalendarStmt->bindParam(':calendar_id', $calendarID, PDO::PARAM_INT);
                     $updateCalendarStmt->execute();
 
-                    // Insert the new request
-                    $insertSql = "INSERT INTO requests (work_id, calendar_id, requested_status, message, to_whom, request_status, timestamp, modified_date) VALUES (:work_id, :calendar_id, :requested_status, :message, :to_whom, 'pending', :timestamp, NULL)";
-                    $insertStmt = $conn->prepare($insertSql);
-                    $insertStmt->bindParam(':work_id', $userWorkID);
-                    $insertStmt->bindParam(':calendar_id', $calendarID);
-                    $insertStmt->bindParam(':requested_status', $requestedStatus);
-                    $insertStmt->bindParam(':message', $message);
-                    $insertStmt->bindParam(':to_whom', $toWhom);
-                    $insertStmt->bindParam(':timestamp', $currentTimestamp);
-                    $insertStmt->execute();
-
                     // Update the user's free and requested counts
-                    $updateUserSql = "UPDATE users SET unpayed_dad_requested = unpayed_sickness_taken + 1 WHERE work_id = :work_id";
+                    $updateUserSql = "UPDATE users SET unpayed_sickness_taken = unpayed_sickness_taken + 1 WHERE work_id = :work_id";
                     $updateUserStmt = $conn->prepare($updateUserSql);
                     $updateUserStmt->bindParam(':work_id', $userWorkID, PDO::PARAM_INT);
                     $updateUserStmt->execute();
@@ -341,7 +384,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             break;
     }}
 ?>
-
-
-
-

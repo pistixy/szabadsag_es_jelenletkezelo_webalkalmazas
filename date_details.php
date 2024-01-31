@@ -31,6 +31,11 @@ if (isset($_GET['date'])) {
         $stmt->bindParam(':userWorkID', $userWorkID, PDO::PARAM_INT);
         $stmt->execute();
         $calendarResult = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$calendarResult) {
+            echo "Nincsenek rekordok erre a napra.";
+            include "footer.php";
+            exit;
+        }
 
         // Fetch requests for the date
         $requestSql = "SELECT * FROM requests WHERE work_id = :userWorkID AND calendar_id = :calendarId";

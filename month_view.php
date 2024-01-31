@@ -33,7 +33,7 @@
                     $cssClass = $result['day_status'];
                 }
                 else{
-                    $cssClass ="";
+                    $cssClass ="empty";
                 }
 
 

@@ -7,58 +7,167 @@ if (!isset($_SESSION['logged']) || !isset($_SESSION['work_id'])) {
     exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['request_id'])) {
+if (isset($_POST['request_id'])) {
     $requestId = $_POST['request_id'];
-    $userWorkID = $_SESSION['work_id'];
 
-    // Start transaction
-    $conn->beginTransaction();
+    // Fetch the requested_status from the request
+    $statusSql = "SELECT requested_status, calendar_id, work_id FROM requests WHERE request_id = :requestId";
+    $statusStmt = $conn->prepare($statusSql);
+    $statusStmt->bindParam(':requestId', $requestId);
+    $statusStmt->execute();
+    $request = $statusStmt->fetch(PDO::FETCH_ASSOC);
 
-    try {
-        // Check if the request to be deleted belongs to the logged-in user
-        $checkSql = "SELECT calendar_id FROM requests WHERE request_id = :requestId AND work_id = :userWorkID";
-        $checkStmt = $conn->prepare($checkSql);
-        $checkStmt->bindParam(':requestId', $requestId, PDO::PARAM_INT);
-        $checkStmt->bindParam(':userWorkID', $userWorkID, PDO::PARAM_INT);
-        $checkStmt->execute();
-        $request = $checkStmt->fetch(PDO::FETCH_ASSOC);
+    if ($request) {
+        $requested_status = $request['requested_status'];
 
-        if ($request) {
-            $calendarId = $request['calendar_id'];
+        try {
+            // Start transaction
+            $conn->beginTransaction();
 
-            // Update the user's free and requested counts
-            $updateUserSql = "UPDATE users SET free = free + 1, requested = requested - 1 WHERE work_id = :userWorkID";
-            $updateUserStmt = $conn->prepare($updateUserSql);
-            $updateUserStmt->bindParam(':userWorkID', $userWorkID, PDO::PARAM_INT);
-            $updateUserStmt->execute();
+            switch ($requested_status) {
+                case 'payed_requested':
+                    // Update the calendar day_status back to 'work_day'
+                    $updateCalendarSql = "UPDATE calendar SET day_status = 'work_day' WHERE calendar_id = :calendarId";
+                    $updateCalendarStmt = $conn->prepare($updateCalendarSql);
+                    $updateCalendarStmt->bindParam(':calendarId', $request['calendar_id']);
+                    $updateCalendarStmt->execute();
 
-            // Update the calendar entry's day status back to '1'
-            $updateCalendarSql = "UPDATE calendar SET day_status = 1 WHERE calendar_id = :calendarId";
-            $updateCalendarStmt = $conn->prepare($updateCalendarSql);
-            $updateCalendarStmt->bindParam(':calendarId', $calendarId, PDO::PARAM_INT);
-            $updateCalendarStmt->execute();
+                    // Mark the request as deleted
+                    $updateRequestSql = "UPDATE requests SET request_status = 'deleted' WHERE request_id = :requestId";
+                    $updateRequestStmt = $conn->prepare($updateRequestSql);
+                    $updateRequestStmt->bindParam(':requestId', $requestId);
+                    $updateRequestStmt->execute();
 
-            // Mark the request as 'deleted' in the requests table
-            $deleteSql = "UPDATE requests SET request_status = 'deleted' WHERE request_id = :requestId";
-            $deleteStmt = $conn->prepare($deleteSql);
-            $deleteStmt->bindParam(':requestId', $requestId, PDO::PARAM_INT);
-            $deleteStmt->execute();
+                    // Update the user's payed_requested and payed_free counts
+                    $updateUserSql = "UPDATE users SET payed_requested = payed_requested - 1, payed_free = payed_free + 1 WHERE work_id = :workId";
+                    $updateUserStmt = $conn->prepare($updateUserSql);
+                    $updateUserStmt->bindParam(':workId', $request['work_id']);
+                    $updateUserStmt->execute();
 
-            // Commit the transaction
+                    echo "payed_requested request successfully deleted.";
+                    break;
+                case 'payed_past_requested':
+                    // Update the calendar day_status back to 'work_day'
+                    $updateCalendarSql = "UPDATE calendar SET day_status = 'work_day' WHERE calendar_id = :calendarId";
+                    $updateCalendarStmt = $conn->prepare($updateCalendarSql);
+                    $updateCalendarStmt->bindParam(':calendarId', $request['calendar_id']);
+                    $updateCalendarStmt->execute();
+
+                    // Mark the request as deleted
+                    $updateRequestSql = "UPDATE requests SET request_status = 'deleted' WHERE request_id = :requestId";
+                    $updateRequestStmt = $conn->prepare($updateRequestSql);
+                    $updateRequestStmt->bindParam(':requestId', $requestId);
+                    $updateRequestStmt->execute();
+
+                    // Update the user's payed_requested and payed_free counts
+                    $updateUserSql = "UPDATE users SET payed_past_requested = payed_past_requested - 1, payed_past_free = payed_past_free + 1 WHERE work_id = :workId";
+                    $updateUserStmt = $conn->prepare($updateUserSql);
+                    $updateUserStmt->bindParam(':workId', $request['work_id']);
+                    $updateUserStmt->execute();
+
+                    echo "payed_past_requested request successfully deleted.";
+                    break;
+                case 'payed_award_requested':
+                    // Update the calendar day_status back to 'work_day'
+                    $updateCalendarSql = "UPDATE calendar SET day_status = 'work_day' WHERE calendar_id = :calendarId";
+                    $updateCalendarStmt = $conn->prepare($updateCalendarSql);
+                    $updateCalendarStmt->bindParam(':calendarId', $request['calendar_id']);
+                    $updateCalendarStmt->execute();
+
+                    // Mark the request as deleted
+                    $updateRequestSql = "UPDATE requests SET request_status = 'deleted' WHERE request_id = :requestId";
+                    $updateRequestStmt = $conn->prepare($updateRequestSql);
+                    $updateRequestStmt->bindParam(':requestId', $requestId);
+                    $updateRequestStmt->execute();
+
+                    // Update the user's payed_requested and payed_free counts
+                    $updateUserSql = "UPDATE users SET payed_award_requested = payed_award_requested - 1, payed_award_free = payed_award_free + 1 WHERE work_id = :workId";
+                    $updateUserStmt = $conn->prepare($updateUserSql);
+                    $updateUserStmt->bindParam(':workId', $request['work_id']);
+                    $updateUserStmt->execute();
+
+                    echo "payed_award_requested request successfully deleted.";
+                    break;
+                case 'payed_edu_requested':
+                    // Update the calendar day_status back to 'work_day'
+                    $updateCalendarSql = "UPDATE calendar SET day_status = 'work_day' WHERE calendar_id = :calendarId";
+                    $updateCalendarStmt = $conn->prepare($updateCalendarSql);
+                    $updateCalendarStmt->bindParam(':calendarId', $request['calendar_id']);
+                    $updateCalendarStmt->execute();
+
+                    // Mark the request as deleted
+                    $updateRequestSql = "UPDATE requests SET request_status = 'deleted' WHERE request_id = :requestId";
+                    $updateRequestStmt = $conn->prepare($updateRequestSql);
+                    $updateRequestStmt->bindParam(':requestId', $requestId);
+                    $updateRequestStmt->execute();
+
+                    // Update the user's payed_requested and payed_free counts
+                    $updateUserSql = "UPDATE users SET payed_edu_requested = payed_edu_requested - 1, payed_edu_free = payed_edu_free + 1 WHERE work_id = :workId";
+                    $updateUserStmt = $conn->prepare($updateUserSql);
+                    $updateUserStmt->bindParam(':workId', $request['work_id']);
+                    $updateUserStmt->execute();
+
+                    echo "payed_edu_requested request successfully deleted.";
+                    break;
+                case 'unpayed_home_requested':
+                    // Update the calendar day_status back to 'work_day'
+                    $updateCalendarSql = "UPDATE calendar SET day_status = 'work_day' WHERE calendar_id = :calendarId";
+                    $updateCalendarStmt = $conn->prepare($updateCalendarSql);
+                    $updateCalendarStmt->bindParam(':calendarId', $request['calendar_id']);
+                    $updateCalendarStmt->execute();
+
+                    // Mark the request as deleted
+                    $updateRequestSql = "UPDATE requests SET request_status = 'deleted' WHERE request_id = :requestId";
+                    $updateRequestStmt = $conn->prepare($updateRequestSql);
+                    $updateRequestStmt->bindParam(':requestId', $requestId);
+                    $updateRequestStmt->execute();
+
+                    // Update the user's payed_requested and payed_free counts
+                    $updateUserSql = "UPDATE users SET unpayed_home_requested = unpayed_home_requested - 1, unpayed_home_free = unpayed_home_free + 1 WHERE work_id = :workId";
+                    $updateUserStmt = $conn->prepare($updateUserSql);
+                    $updateUserStmt->bindParam(':workId', $request['work_id']);
+                    $updateUserStmt->execute();
+
+                    echo "unpayed_home_requested request successfully deleted.";
+
+                    break;
+                case 'unpayed_dad_requested':
+                    // Update the calendar day_status back to 'work_day'
+                    $updateCalendarSql = "UPDATE calendar SET day_status = 'work_day' WHERE calendar_id = :calendarId";
+                    $updateCalendarStmt = $conn->prepare($updateCalendarSql);
+                    $updateCalendarStmt->bindParam(':calendarId', $request['calendar_id']);
+                    $updateCalendarStmt->execute();
+
+                    // Mark the request as deleted
+                    $updateRequestSql = "UPDATE requests SET request_status = 'deleted' WHERE request_id = :requestId";
+                    $updateRequestStmt = $conn->prepare($updateRequestSql);
+                    $updateRequestStmt->bindParam(':requestId', $requestId);
+                    $updateRequestStmt->execute();
+
+                    // Update the user's payed_requested and payed_free counts
+                    $updateUserSql = "UPDATE users SET unpayed_dad_requested = unpayed_dad_requested - 1, unpayed_dad_free = unpayed_dad_free + 1 WHERE work_id = :workId";
+                    $updateUserStmt = $conn->prepare($updateUserSql);
+                    $updateUserStmt->bindParam(':workId', $request['work_id']);
+                    $updateUserStmt->execute();
+
+                    echo "unpayed_dad_requested request successfully deleted.";
+
+                    break;
+                default:
+                    echo "Unrecognized request status.";
+                    break;
+            }
+
+            // Commit transaction
             $conn->commit();
-
-            // Redirect back to the requests page or show a success message
-            header("Location: my_requests.php");
-            exit;
-        } else {
-            echo "Unauthorized request or request not found.";
+        } catch (PDOException $e) {
+            // Rollback on any error
+            $conn->rollBack();
+            echo "Error: " . $e->getMessage();
         }
-    } catch (Exception $e) {
-        // An error occurred; roll back the transaction
-        $conn->rollBack();
-        echo "An error occurred: " . $e->getMessage();
+    } else {
+        echo "Request not found.";
     }
 } else {
-    echo "Invalid request method or missing request ID.";
+    echo "No request specified.";
 }
-?>
