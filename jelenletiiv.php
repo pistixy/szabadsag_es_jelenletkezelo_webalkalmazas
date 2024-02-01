@@ -61,9 +61,17 @@ include "nav-bar.php";
             <input type="radio" id="payed" name="status" value="payed" required>
             Fizettett szabadság
         </label>
+        <label for="unpayed">
+            <input type="radio" id="unpayed" name="status" value="unpayed" required>
+            Fizettlen igazolt távollét
+        </label>
         <label for="payed_past">
             <input type="radio" id="payed_past" name="status" value="payed" required>
             Fizetett előző évi szabadság
+        </label>
+        <label for="unpayed">
+            <input type="radio" id="unpayed" name="status" value="unpayed" required>
+            Fizettlen igazolt távollét
         </label>
 
     </fieldset>

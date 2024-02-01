@@ -38,6 +38,9 @@ if (isset($_POST['submit'])) {
         case 'payed_past':
             $searchstatus=['payed_past_planned','payed_past_taken'];
             break;
+        case 'unpayed':
+            $searchstatus=['unpayed_planned','unpayed_taken'];
+            break;
     }
 
     if (!empty($searchstatus)) {
