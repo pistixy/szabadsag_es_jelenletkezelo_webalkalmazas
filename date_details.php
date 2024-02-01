@@ -89,7 +89,7 @@ if (isset($_GET['date'])) {
         $placeholders = implode(',', array_fill(0, count($calendarIds), '?'));
         $adminSql = "SELECT r.*, u.name FROM requests r
                      LEFT JOIN users u ON r.work_id = u.work_id
-                     WHERE r.calendar_id IN ($placeholders)";
+                     WHERE r.calendar_id IN ($placeholders) AND r.request_status='pending'";
         $adminStmt = $conn->prepare($adminSql);
         $adminStmt->execute($calendarIds);
         $adminRequests = $adminStmt->fetchAll(PDO::FETCH_ASSOC);
@@ -143,7 +143,7 @@ if (isset($_GET['date'])) {
                 <?php endforeach; ?>
             </table>
         <?php else: ?>
-            <p>Nincsenek kérelmek erre a napra.</p>
+            <p>Nincsenek aktív kérelmek erre a napra.</p>
         <?php endif;
     } else {
         echo "<p>Nincsenek adatok a megadott dátumhoz a naptárban.</p>";

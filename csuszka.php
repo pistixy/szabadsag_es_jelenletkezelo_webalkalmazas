@@ -24,10 +24,10 @@ if ($stmt) {
         $payed_planned = $result['payed_planned'] + $result['payed_edu_planned']+ $result['payed_award_planned'] +$result['payed_past_planned'];
         $payed_taken = $result['payed_taken'] + $result['payed_edu_taken']+ $result['payed_award_taken'] +$result['payed_past_taken'];
 
-        $unpayed_free= $result['unpayed_dad_free']+$result['unpayed_home_free'];
-        $unpayed_requested=$result['unpayed_dad_requested']+$result['unpayed_home_requested'];
-        $unpayed_planned=$result['unpayed_dad_planned']+$result['unpayed_home_planned'];
-        $unpayed_taken=$result['unpayed_sickness_taken']+$result['unpayed_dad_taken']+$result['unpayed_home_taken']+$result['unpayed_uncertified_taken'];
+        $unpayed_free= $result['unpayed_dad_free']+$result['unpayed_home_free']+$result['unpayed_free'];
+        $unpayed_requested=$result['unpayed_dad_requested']+$result['unpayed_home_requested']+$result['unpayed_requested'];
+        $unpayed_planned=$result['unpayed_dad_planned']+$result['unpayed_home_planned']+$result['unpayed_planned'];
+        $unpayed_taken=$result['unpayed_sickness_taken']+$result['unpayed_dad_taken']+$result['unpayed_home_taken']+$result['unpayed_uncertified_taken']+$result['unpayed_taken'];
 
     } else {
         echo "User not found in the database.";
@@ -176,13 +176,14 @@ $conn = null;
 
 
 <fieldset class="fieldset">
-    <legend>Fizetetlen szabadságok állása</legend>
+    <legend>Fizetettlen szabadságok állása</legend>
     <div class="csuszka">
         <div class="section unpayed_free_csuszka">
             <span class="tooltiptext"><?php
                 echo "Összesen fel nem használt: " . $unpayed_free . "<br>";
                 echo "Apanap: " . $result['unpayed_dad_free'] . "<br>";
                 echo "Home office: " . $result['unpayed_home_free'] . "<br>";
+                echo "Igazolt távollét: " . $result['unpayed_free'] . "<br>";
                 ?>
             </span>
         </div>
@@ -193,6 +194,7 @@ $conn = null;
                 echo "Összesen kérelmezett: " . $unpayed_requested . "<br>";
                 echo "Apanap: " . $result['unpayed_dad_requested'] . "<br>";
                 echo "Home office: " . $result['unpayed_home_requested'] . "<br>";
+                echo "Igazolt távollét: " . $result['unpayed_requested'] . "<br>";
                 ?>
             </span>
         </div>
@@ -201,6 +203,7 @@ $conn = null;
                 echo "Összesen betervezett: " . $unpayed_planned . "<br>";
                 echo "Apanap: " . $result['unpayed_dad_planned'] . "<br>";
                 echo "Home office: " . $result['unpayed_home_planned'] . "<br>";
+                echo "Igazolt távollét: " . $result['unpayed_planned'] . "<br>";
                 ?>
             </span>
         </div>
@@ -211,6 +214,7 @@ $conn = null;
                 echo "Home office: " . $result['unpayed_home_taken'] . "<br>";
                 echo "Betegszabadság: " . $result['unpayed_sickness_taken'] . "<br>";
                 echo "Igazolatlan: " . $result['unpayed_uncertified_taken'] . "<br>";
+                echo "Igazolt távollét: " . $result['unpayed_taken'] . "<br>";
                 ?>
             </span>
         </div>

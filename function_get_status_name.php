@@ -31,6 +31,10 @@ function getStatusName($statusCode) {
         "unpayed_home_requested" => "Fizetetlen kérelmezett home office",
         "unpayed_home_planned" => "Fizetetlen betervezett home office",
         "unpayed_home_taken" => "Fizetetlen felhasznált home office",
+        "unpayed_free" => "Fizetés nélküli igazolt távollét",
+        "unpayed_requested" =>"Fizetés nélküli kérelmezett igazolt távollét",
+        "unpayed_planned" => "Fizetés nélküli betervezett igazolt távollét",
+        "unpayed_taken" => "Fizetés nélküli felhasznált igazolt távollét",
         // ... other statuses
         "dad_day" => "Apanap",
         "home" => "Home office",

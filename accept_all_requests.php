@@ -153,6 +153,22 @@ if (isset($_POST['request_ids']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                                 $calendarUpdateStmt->bindParam(':calendarId', $requestData['calendar_id'], PDO::PARAM_INT);
                                 $calendarUpdateStmt->execute();
                                 break;
+                            case 'unpayed_requested':
+                                $userUpdateSql = "UPDATE users SET unpayed_requested = unpayed_requested - 1, unpayed_planned = unpayed_planned + 1 WHERE work_id = :workId";
+                                $userUpdateStmt = $conn->prepare($userUpdateSql);
+                                $userUpdateStmt->bindParam(':workId', $requestData['work_id'], PDO::PARAM_INT);
+                                $userUpdateStmt->execute();
+
+                                $acceptRequestSql = "UPDATE requests SET request_status = 'accepted' WHERE request_id = :requestId";
+                                $acceptRequestStmt = $conn->prepare($acceptRequestSql);
+                                $acceptRequestStmt->bindParam(':requestId', $requestId, PDO::PARAM_INT);
+                                $acceptRequestStmt->execute();
+
+                                $calendarUpdateSql = "UPDATE calendar SET day_status = 'unpayed_planned' WHERE calendar_id = :calendarId";
+                                $calendarUpdateStmt = $conn->prepare($calendarUpdateSql);
+                                $calendarUpdateStmt->bindParam(':calendarId', $requestData['calendar_id'], PDO::PARAM_INT);
+                                $calendarUpdateStmt->execute();
+                                break;
                         }
 
 

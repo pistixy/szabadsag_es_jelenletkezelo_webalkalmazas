@@ -20,25 +20,121 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['request_id'])) {
         $requestStmt->bindParam(':requestId', $requestId, PDO::PARAM_INT);
         $requestStmt->execute();
         $requestData = $requestStmt->fetch(PDO::FETCH_ASSOC);
+        $requested_status=$requestData['requested_status'];
 
-        if ($requestData && $requestData['requested_status'] == 'Fizetett Szabadnap') {
-            // Decrement the requested count and increment the planned count for the user
-            $userUpdateSql = "UPDATE users SET requested = requested - 1, planned = planned + 1 WHERE work_id = :workId";
-            $userUpdateStmt = $conn->prepare($userUpdateSql);
-            $userUpdateStmt->bindParam(':workId', $requestData['work_id'], PDO::PARAM_INT);
-            $userUpdateStmt->execute();
+        switch ($requested_status){
+            case 'payed_requested':
+                $userUpdateSql = "UPDATE users SET payed_requested = payed_requested - 1, payed_planned = payed_planned + 1 WHERE work_id = :workId";
+                $userUpdateStmt = $conn->prepare($userUpdateSql);
+                $userUpdateStmt->bindParam(':workId', $requestData['work_id'], PDO::PARAM_INT);
+                $userUpdateStmt->execute();
 
-            // Update the request_status to "accepted" in the requests table
-            $acceptRequestSql = "UPDATE requests SET request_status = 'accepted' WHERE request_id = :requestId";
-            $acceptRequestStmt = $conn->prepare($acceptRequestSql);
-            $acceptRequestStmt->bindParam(':requestId', $requestId, PDO::PARAM_INT);
-            $acceptRequestStmt->execute();
+                $acceptRequestSql = "UPDATE requests SET request_status = 'accepted' WHERE request_id = :requestId";
+                $acceptRequestStmt = $conn->prepare($acceptRequestSql);
+                $acceptRequestStmt->bindParam(':requestId', $requestId, PDO::PARAM_INT);
+                $acceptRequestStmt->execute();
 
-            // Update the day_status in the calendar table
-            $calendarUpdateSql = "UPDATE calendar SET day_status = 2 WHERE calendar_id = :calendarId";
-            $calendarUpdateStmt = $conn->prepare($calendarUpdateSql);
-            $calendarUpdateStmt->bindParam(':calendarId', $requestData['calendar_id'], PDO::PARAM_INT);
-            $calendarUpdateStmt->execute();
+                $calendarUpdateSql = "UPDATE calendar SET day_status = 'payed_planned' WHERE calendar_id = :calendarId";
+                $calendarUpdateStmt = $conn->prepare($calendarUpdateSql);
+                $calendarUpdateStmt->bindParam(':calendarId', $requestData['calendar_id'], PDO::PARAM_INT);
+                $calendarUpdateStmt->execute();
+                break;
+            case 'payed_past_requested':
+                $userUpdateSql = "UPDATE users SET payed_past_requested = payed_past_requested - 1, payed_past_planned = payed_past_planned + 1 WHERE work_id = :workId";
+                $userUpdateStmt = $conn->prepare($userUpdateSql);
+                $userUpdateStmt->bindParam(':workId', $requestData['work_id'], PDO::PARAM_INT);
+                $userUpdateStmt->execute();
+
+                $acceptRequestSql = "UPDATE requests SET request_status = 'accepted' WHERE request_id = :requestId";
+                $acceptRequestStmt = $conn->prepare($acceptRequestSql);
+                $acceptRequestStmt->bindParam(':requestId', $requestId, PDO::PARAM_INT);
+                $acceptRequestStmt->execute();
+
+                $calendarUpdateSql = "UPDATE calendar SET day_status = 'payed_past_planned' WHERE calendar_id = :calendarId";
+                $calendarUpdateStmt = $conn->prepare($calendarUpdateSql);
+                $calendarUpdateStmt->bindParam(':calendarId', $requestData['calendar_id'], PDO::PARAM_INT);
+                $calendarUpdateStmt->execute();
+                break;
+            case 'payed_award_requested':
+                $userUpdateSql = "UPDATE users SET payed_award_requested = payed_award_requested - 1, payed_award_planned = payed_award_planned + 1 WHERE work_id = :workId";
+                $userUpdateStmt = $conn->prepare($userUpdateSql);
+                $userUpdateStmt->bindParam(':workId', $requestData['work_id'], PDO::PARAM_INT);
+                $userUpdateStmt->execute();
+
+                $acceptRequestSql = "UPDATE requests SET request_status = 'accepted' WHERE request_id = :requestId";
+                $acceptRequestStmt = $conn->prepare($acceptRequestSql);
+                $acceptRequestStmt->bindParam(':requestId', $requestId, PDO::PARAM_INT);
+                $acceptRequestStmt->execute();
+
+                $calendarUpdateSql = "UPDATE calendar SET day_status = 'payed_award_planned' WHERE calendar_id = :calendarId";
+                $calendarUpdateStmt = $conn->prepare($calendarUpdateSql);
+                $calendarUpdateStmt->bindParam(':calendarId', $requestData['calendar_id'], PDO::PARAM_INT);
+                $calendarUpdateStmt->execute();
+                break;
+            case 'payed_edu_requested':
+                $userUpdateSql = "UPDATE users SET payed_edu_requested = payed_edu_requested - 1, payed_edu_planned = payed_edu_planned + 1 WHERE work_id = :workId";
+                $userUpdateStmt = $conn->prepare($userUpdateSql);
+                $userUpdateStmt->bindParam(':workId', $requestData['work_id'], PDO::PARAM_INT);
+                $userUpdateStmt->execute();
+
+                $acceptRequestSql = "UPDATE requests SET request_status = 'accepted' WHERE request_id = :requestId";
+                $acceptRequestStmt = $conn->prepare($acceptRequestSql);
+                $acceptRequestStmt->bindParam(':requestId', $requestId, PDO::PARAM_INT);
+                $acceptRequestStmt->execute();
+
+                $calendarUpdateSql = "UPDATE calendar SET day_status = 'payed_edu_planned' WHERE calendar_id = :calendarId";
+                $calendarUpdateStmt = $conn->prepare($calendarUpdateSql);
+                $calendarUpdateStmt->bindParam(':calendarId', $requestData['calendar_id'], PDO::PARAM_INT);
+                $calendarUpdateStmt->execute();
+                break;
+            case 'unpayed_dad_requested':
+                $userUpdateSql = "UPDATE users SET unpayed_dad_requested = unpayed_dad_requested - 1, unpayed_dad_planned = unpayed_dad_planned + 1 WHERE work_id = :workId";
+                $userUpdateStmt = $conn->prepare($userUpdateSql);
+                $userUpdateStmt->bindParam(':workId', $requestData['work_id'], PDO::PARAM_INT);
+                $userUpdateStmt->execute();
+
+                $acceptRequestSql = "UPDATE requests SET request_status = 'accepted' WHERE request_id = :requestId";
+                $acceptRequestStmt = $conn->prepare($acceptRequestSql);
+                $acceptRequestStmt->bindParam(':requestId', $requestId, PDO::PARAM_INT);
+                $acceptRequestStmt->execute();
+
+                $calendarUpdateSql = "UPDATE calendar SET day_status = 'unpayed_dad_planned' WHERE calendar_id = :calendarId";
+                $calendarUpdateStmt = $conn->prepare($calendarUpdateSql);
+                $calendarUpdateStmt->bindParam(':calendarId', $requestData['calendar_id'], PDO::PARAM_INT);
+                $calendarUpdateStmt->execute();
+                break;
+            case 'unpayed_home_requested':
+                $userUpdateSql = "UPDATE users SET unpayed_home_requested = unpayed_home_requested - 1, unpayed_home_planned = unpayed_home_planned + 1 WHERE work_id = :workId";
+                $userUpdateStmt = $conn->prepare($userUpdateSql);
+                $userUpdateStmt->bindParam(':workId', $requestData['work_id'], PDO::PARAM_INT);
+                $userUpdateStmt->execute();
+
+                $acceptRequestSql = "UPDATE requests SET request_status = 'accepted' WHERE request_id = :requestId";
+                $acceptRequestStmt = $conn->prepare($acceptRequestSql);
+                $acceptRequestStmt->bindParam(':requestId', $requestId, PDO::PARAM_INT);
+                $acceptRequestStmt->execute();
+
+                $calendarUpdateSql = "UPDATE calendar SET day_status = 'unpayed_home_planned' WHERE calendar_id = :calendarId";
+                $calendarUpdateStmt = $conn->prepare($calendarUpdateSql);
+                $calendarUpdateStmt->bindParam(':calendarId', $requestData['calendar_id'], PDO::PARAM_INT);
+                $calendarUpdateStmt->execute();
+                break;
+            case 'unpayed_requested':
+                $userUpdateSql = "UPDATE users SET unpayed_requested = unpayed_requested - 1, unpayed_planned = unpayed_planned + 1 WHERE work_id = :workId";
+                $userUpdateStmt = $conn->prepare($userUpdateSql);
+                $userUpdateStmt->bindParam(':workId', $requestData['work_id'], PDO::PARAM_INT);
+                $userUpdateStmt->execute();
+
+                $acceptRequestSql = "UPDATE requests SET request_status = 'accepted' WHERE request_id = :requestId";
+                $acceptRequestStmt = $conn->prepare($acceptRequestSql);
+                $acceptRequestStmt->bindParam(':requestId', $requestId, PDO::PARAM_INT);
+                $acceptRequestStmt->execute();
+
+                $calendarUpdateSql = "UPDATE calendar SET day_status = 'unpayed_planned' WHERE calendar_id = :calendarId";
+                $calendarUpdateStmt = $conn->prepare($calendarUpdateSql);
+                $calendarUpdateStmt->bindParam(':calendarId', $requestData['calendar_id'], PDO::PARAM_INT);
+                $calendarUpdateStmt->execute();
+                break;
         }
 
         // Commit the transaction
@@ -53,7 +149,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['request_id'])) {
     echo "Invalid request method.";
 }
 
-// Optionally redirect or inform the user
-// header('Location: incoming_requests.php');
-// exit;
 ?>

@@ -67,6 +67,16 @@
                 }?>>
                 Tanulmányi szabadság
             </label><br>
+            <label for="unpayed_leave">
+                <input type="radio" name="nap" id="unpayed_leave" value="unpayed_leave"<?php
+                if($calendarResult['day_status']=="unpayed_free" or
+                    $calendarResult['day_status']=="unpayed_requested" or
+                    $calendarResult['day_status']=="unpayed_planned" or
+                    $calendarResult['day_status']=="unpayed_taken"){
+                    echo "checked";
+                }?>>
+                Fizetés nélküli igazolt távollét
+            </label><br>
 
             <label for="unpayed_sickness_taken">
                 <input type="radio" name="nap" id="unpayed_sickness_taken" value="unpayed_sickness_taken"<?php if($calendarResult['day_status']=="unpayed_sickness_taken"){

@@ -163,6 +163,26 @@ if (isset($_POST['request_ids']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                                 $updateUserStmt->bindParam(':requestingUserID', $requestingUserID, PDO::PARAM_INT);
                                 $updateUserStmt->execute();
                                 break;
+                            case 'unpayed_requested':
+                                // Update the request status to "rejected" in the requests table
+                                $updateRequestSql = "UPDATE requests SET request_status = 'rejected', modified_date = :modifiedDate WHERE request_id = :requestId";
+                                $updateRequestStmt = $conn->prepare($updateRequestSql);
+                                $updateRequestStmt->bindParam(':requestId', $requestId, PDO::PARAM_INT);
+                                $updateRequestStmt->bindParam(':modifiedDate', $currentTimestamp, PDO::PARAM_STR);
+                                $updateRequestStmt->execute();
+
+                                // Update the day status in the calendar table back to '1'
+                                $updateCalendarSql = "UPDATE calendar SET day_status = 'work_day' WHERE calendar_id = :calendarId";
+                                $updateCalendarStmt = $conn->prepare($updateCalendarSql);
+                                $updateCalendarStmt->bindParam(':calendarId', $calendarId, PDO::PARAM_INT);
+                                $updateCalendarStmt->execute();
+
+                                // Update the user's free and requested counts
+                                $updateUserSql = "UPDATE users SET unpayed_free = unpayed_free + 1, unpayed_requested = unpayed_requested - 1 WHERE work_id = :requestingUserID";
+                                $updateUserStmt = $conn->prepare($updateUserSql);
+                                $updateUserStmt->bindParam(':requestingUserID', $requestingUserID, PDO::PARAM_INT);
+                                $updateUserStmt->execute();
+                                break;
                             default:
                                 // Optional: Handle unknown requested status
                                 break;

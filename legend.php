@@ -39,6 +39,12 @@
         <div class="day-box unpayed_home_taken"></div>
         <div>Fizetettlen home office-os napok</div>
     </div>
+    <div class="month-row">
+        <div class="day-box unpayed_requested"></div>
+        <div class="day-box unpayed_planned"></div>
+        <div class="day-box unpayed_taken"></div>
+        <div>Fizetettlen igazolt távollét napok</div>
+    </div>
 
     <div class="month-row">
         <div class="day-box unpayed_sickness_taken"></div>

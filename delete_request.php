@@ -153,6 +153,28 @@ if (isset($_POST['request_id'])) {
                     echo "unpayed_dad_requested request successfully deleted.";
 
                     break;
+                case 'unpayed_requested':
+                    // Update the calendar day_status back to 'work_day'
+                    $updateCalendarSql = "UPDATE calendar SET day_status = 'work_day' WHERE calendar_id = :calendarId";
+                    $updateCalendarStmt = $conn->prepare($updateCalendarSql);
+                    $updateCalendarStmt->bindParam(':calendarId', $request['calendar_id']);
+                    $updateCalendarStmt->execute();
+
+                    // Mark the request as deleted
+                    $updateRequestSql = "UPDATE requests SET request_status = 'deleted' WHERE request_id = :requestId";
+                    $updateRequestStmt = $conn->prepare($updateRequestSql);
+                    $updateRequestStmt->bindParam(':requestId', $requestId);
+                    $updateRequestStmt->execute();
+
+                    // Update the user's payed_requested and payed_free counts
+                    $updateUserSql = "UPDATE users SET unpayed_requested = unpayed_requested - 1, unpayed_free = unpayed_free + 1 WHERE work_id = :workId";
+                    $updateUserStmt = $conn->prepare($updateUserSql);
+                    $updateUserStmt->bindParam(':workId', $request['work_id']);
+                    $updateUserStmt->execute();
+
+                    echo "unpayed_dad_requested request successfully deleted.";
+
+                    break;
                 default:
                     echo "Unrecognized request status.";
                     break;

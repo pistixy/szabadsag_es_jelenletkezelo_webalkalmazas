@@ -37,6 +37,10 @@ $unpayed_home_free=20; //20
 $unpayed_home_requested=0;
 $unpayed_home_planned=0;
 $unpayed_home_taken=0;
+$unpayed_free=20; //20
+$unpayed_requested=0;
+$unpayed_planned=0;
+$unpayed_taken=0;
 
 
 // Check if the passwords match
@@ -64,8 +68,8 @@ if (count($result) > 0) {
         payed_award_free, payed_award_requested, payed_award_planned, payed_award_taken, 
         unpayed_sickness_taken, unpayed_uncertified_taken, unpayed_dad_free, unpayed_dad_requested, 
         unpayed_dad_planned, unpayed_dad_taken, unpayed_home_free, unpayed_home_requested, 
-        unpayed_home_planned, unpayed_home_taken
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        unpayed_home_planned, unpayed_home_taken, unpayed_free, unpayed_requested, unpayed_planned, unpayed_taken
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     $stmt->execute([
         $name, $email, $hashed_password, $cim, $adoazonosito, $szervezetszam,
@@ -75,7 +79,8 @@ if (count($result) > 0) {
         $payed_edu_planned, $payed_edu_taken, $payed_award_free, $payed_award_requested,
         $payed_award_planned, $payed_award_taken, $unpayed_sickness_taken, $unpayed_uncertified_taken,
         $unpayed_dad_free, $unpayed_dad_requested, $unpayed_dad_planned, $unpayed_dad_taken,
-        $unpayed_home_free, $unpayed_home_requested, $unpayed_home_planned, $unpayed_home_taken
+        $unpayed_home_free, $unpayed_home_requested, $unpayed_home_planned, $unpayed_home_taken,
+        $unpayed_free, $unpayed_requested, $unpayed_planned, $unpayed_taken
     ]);
 
     if ($stmt->rowCount() > 0) {
