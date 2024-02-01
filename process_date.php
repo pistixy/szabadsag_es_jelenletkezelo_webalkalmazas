@@ -12,7 +12,7 @@ if (isset($_POST['submit'])) {
 
     switch ($status){
         case 'work_day':
-            $searchstatus=['work_day', 'payed_requested', 'payed_past_requested', 'payed_edu_requested', 'payed_award_requested', 'unpayed_dad_requested','unpayed_home_requested'];
+            $searchstatus=['work_day', 'payed_requested', 'payed_past_requested', 'payed_edu_requested', 'payed_award_requested', 'unpayed_dad_requested','unpayed_home_requested','unpayed_requested'];
             break;
         case 'dad_day':
             $searchstatus=['unpayed_dad_planned', 'unpayed_dad_taken'];
