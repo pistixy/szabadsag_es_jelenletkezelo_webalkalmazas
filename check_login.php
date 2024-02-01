@@ -17,26 +17,24 @@ if (isset($_SESSION['logged']) && $_SESSION['logged'] === true) {
 
         if ($result) {
             $_SESSION['position']=$result['position'];
-            $position = trim($result['position']);
-            if ($position != 'admin') {
-                $_SESSION['isAdmin'] = false;
-            } else {
-                $_SESSION['isAdmin'] = true;
+
+            if ($result['position'] == 'user'){
+                $_SESSION['is_user'] =true;
+            }else{
+                $_SESSION['is_user'] = false;
             }
         } else {
             echo "No result found for email: $email";
-            $_SESSION['isAdmin'] = false;
         }
     } catch (PDOException $e) {
         echo "Database error: " . $e->getMessage();
-        $_SESSION['isAdmin'] = false;
     }
 }
-
-//if($_SESSION['isAdmin'] == true) {
-  //  echo "ADMIN VAGYOK";
-//}
-//if($_SESSION['isAdmin'] == false) {
-  //  echo "NEM VAGYOK ADMIN";
-//}
+/*echo $_SESSION['position'];
+if($_SESSION['is_user'] == true) {
+    echo $_SESSION['position'];
+}
+if($_SESSION['is_user'] == false) {
+    echo $_SESSION['position'];
+}*/
 

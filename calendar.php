@@ -11,7 +11,7 @@ if (!isset($_SESSION['logged'])) {
 }
 
 // Check if work_id is passed in URL and user is admin, else use session work_id
-if (isset($_GET['work_id']) && $_SESSION['isAdmin']) {
+if (isset($_GET['work_id']) && $_SESSION['is_user']==false) {
     $userWorkId = $_GET['work_id'];
     $isOwnCalendar = $userWorkId == $_SESSION['work_id'];
 } else {

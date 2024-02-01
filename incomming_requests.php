@@ -7,38 +7,46 @@ if (!isset($_SESSION['logged']) || !isset($_SESSION['work_id'])) {
     header("Location: login_form.php");
     exit;
 }
-
-$userWorkID = $_SESSION['work_id'];
-$positionSql = "SELECT position FROM users WHERE work_id = :userWorkID";
+$userWorkID=$_SESSION['work_id'];
+// Assume $userWorkID, $conn are already set
+$positionSql = "SELECT position, kar, szervezetszam FROM users WHERE work_id = :userWorkID";
 $positionStmt = $conn->prepare($positionSql);
 $positionStmt->bindParam(':userWorkID', $userWorkID, PDO::PARAM_INT);
 $positionStmt->execute();
-$userPosition = $positionStmt->fetch(PDO::FETCH_ASSOC);
+$userDetails = $positionStmt->fetch(PDO::FETCH_ASSOC);
 
-$pozicio = $userPosition['position'];
+$pozicio = $userDetails['position'];
+$kar = $userDetails['kar'];
+$szervezetszam = $userDetails['szervezetszam'];
 $statusFilter = isset($_POST['statusFilter']) ? $_POST['statusFilter'] : 'pending';
 
-$requestsSql = "SELECT r.*, u.name, u.work_id 
-                FROM requests r
-                LEFT JOIN users u ON r.work_id = u.work_id 
-                WHERE r.to_whom = :pozicio";
 
-if ($statusFilter !== 'all') {
-    $requestsSql .= " AND r.request_status = :statusFilter";
+// Constructing the SQL based on user role
+switch ($pozicio) {
+    case 'admin':
+        $requestsSql = "SELECT r.*, u.name, u.work_id FROM requests r LEFT JOIN users u ON r.work_id = u.work_id WHERE r.request_status = :statusFilter";
+        break;
+    case 'dekan':
+        $requestsSql = "SELECT r.*, u.name, u.work_id FROM requests r LEFT JOIN users u ON r.work_id = u.work_id WHERE u.kar = :kar AND r.request_status = :statusFilter";
+        break;
+    case 'tanszekvezeto':
+        $requestsSql = "SELECT r.*, u.name, u.work_id FROM requests r LEFT JOIN users u ON r.work_id = u.work_id WHERE u.kar = :kar AND u.szervezetszam = :szervezetszam AND r.request_status = :statusFilter";
+        break;
+    default: // For a regular user
+        echo "You do not have permission to view requests.";
+        exit;
 }
 
-$requestsSql .= " ORDER BY r.request_id DESC";
 $requestsStmt = $conn->prepare($requestsSql);
-$requestsStmt->bindParam(':pozicio', $pozicio, PDO::PARAM_STR);
-
-if ($statusFilter !== 'all') {
-    $requestsStmt->bindParam(':statusFilter', $statusFilter, PDO::PARAM_STR);
+if (in_array($pozicio, ['dekan', 'tanszekvezeto'])) {
+    $requestsStmt->bindParam(':kar', $kar, PDO::PARAM_STR);
+    if ($pozicio == 'tanszekvezeto') {
+        $requestsStmt->bindParam(':szervezetszam', $szervezetszam, PDO::PARAM_INT);
+    }
 }
-
+$requestsStmt->bindParam(':statusFilter', $statusFilter, PDO::PARAM_STR);
 $requestsStmt->execute();
 $requests = $requestsStmt->fetchAll(PDO::FETCH_ASSOC);
-
-
 ?>
 
 <!DOCTYPE html>

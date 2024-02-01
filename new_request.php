@@ -13,7 +13,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $message = $_POST['message'];
     $date = $_POST['date']; // Ensure this date is in 'YYYY-MM-DD' format
     $userWorkID = $_SESSION['work_id'];
-    $toWhom = "admin"; // Dynamically determined recipient
+    $toWhom = "";
+
+// Prepare SQL to fetch kar and szervezetszam based on work_id
+    $sql = "SELECT kar, szervezetszam FROM users WHERE work_id = :workId";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':workId', $userWorkID, PDO::PARAM_INT);
+    $stmt->execute();
+
+// Fetch the result
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($result) {
+        $kar = $result['kar'];
+        $szervezetszam = $result['szervezetszam'];
+
+        // Set to_whom based on kar and szervezetszam
+        $toWhom = "admin, " . $kar . ", " . $szervezetszam;
+    } else {
+        // Handle case where no user data is found
+        echo "No user data found for the given work_id.";
+    }
     $currentTimestamp = date('Y-m-d H:i:s');
     $currentView=$_POST['view'];
 

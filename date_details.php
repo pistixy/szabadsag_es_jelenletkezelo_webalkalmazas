@@ -12,6 +12,7 @@ include "connect.php";
 include "nav-bar.php";
 include "check_login.php";
 include "function_get_status_name.php";
+
 if (isset($_GET['view'])) {
     $currentView = $_GET['view'];
 }
@@ -63,7 +64,7 @@ if (isset($_GET['date'])) {
 <p>Státusz: <?php echo getStatusName($calendarResult['day_status'])?></p>
 <p>Megjegyzés: <?php echo $calendarResult['comment']; ?></p>
 
-<?php if (!$_SESSION['isAdmin']): ?>
+<?php if ($_SESSION['is_user']==true): ?>
     <h3>Az én kéréseim:</h3>
     <?php if (!empty($requests)): ?>
         <ul>
@@ -74,7 +75,7 @@ if (isset($_GET['date'])) {
     <?php else: ?>
         <p>Nincsenek kérelmek erre a napra.</p>
     <?php endif; ?>
-<?php elseif($_SESSION['isAdmin']): ?>
+<?php elseif($_SESSION['is_user']==false): ?>
     <h3>Kérések erre a napra:</h3>
     <?php
 // Fetch the calendar_id for the given date
@@ -87,6 +88,7 @@ if (isset($_GET['date'])) {
 // Fetch requests for all calendar_ids
     if (!empty($calendarIds)) {
         $placeholders = implode(',', array_fill(0, count($calendarIds), '?'));
+
         $adminSql = "SELECT r.*, u.name FROM requests r
                      LEFT JOIN users u ON r.work_id = u.work_id
                      WHERE r.calendar_id IN ($placeholders) AND r.request_status='pending'";
@@ -94,52 +96,56 @@ if (isset($_GET['date'])) {
         $adminStmt->execute($calendarIds);
         $adminRequests = $adminStmt->fetchAll(PDO::FETCH_ASSOC);
 
-        if (!empty($adminRequests)): ?>
+
+        ?>
+
+        <?php if (!empty($adminRequests)): ?>
             <table>
                 <tr>
                     <th>Kérelem</th>
                     <th>Műveletek</th>
                 </tr>
-                <?php foreach ($adminRequests as $adminRequest): ?>
-                    <tr>
-                        <td>
-                            <?php
-                            $requestDetailsUrl = "request.php?request_id=" . urlencode($adminRequest['request_id']);
-                            $profileUrl = "profile.php?work_id=" . urlencode($adminRequest['work_id']);
-                            ?>
-                            <a href="<?php echo $requestDetailsUrl; ?>">
-                                <?php echo "ID: " . htmlspecialchars($adminRequest['request_id']); ?>
-                            </a>
-                            <?php echo ", "; ?>
-                            <a href="<?php echo $profileUrl; ?>">
-                                <?php echo "work_id: " . htmlspecialchars($adminRequest['work_id']); ?>
-                            </a>
-                            <?php echo ", "; ?>
-                            <a href="<?php echo $profileUrl; ?>">
-                                <?php echo htmlspecialchars($adminRequest['name']); ?>
-                            </a>
-                            <?php echo ": " . htmlspecialchars($adminRequest['message']); ?>
-                        </td>
-                        <td>
-                            <!-- Accept Button -->
-                            <form action="accept_request.php" method="post">
-                                <input type="hidden" name="request_id" value="<?php echo $adminRequest['request_id']; ?>">
-                                <input type="submit" value="Elfogad">
-                            </form>
+                <?php foreach ($adminRequests as $adminRequest):
+                        ?>
+                        <tr>
+                            <td>
+                                <?php
+                                $requestDetailsUrl = "request.php?request_id=" . urlencode($adminRequest['request_id']);
+                                $profileUrl = "profile.php?work_id=" . urlencode($adminRequest['work_id']);
+                                ?>
+                                <a href="<?php echo $requestDetailsUrl; ?>">
+                                    <?php echo "ID: " . htmlspecialchars($adminRequest['request_id']); ?>
+                                </a>
+                                <?php echo ", "; ?>
+                                <a href="<?php echo $profileUrl; ?>">
+                                    <?php echo "work_id: " . htmlspecialchars($adminRequest['work_id']); ?>
+                                </a>
+                                <?php echo ", "; ?>
+                                <a href="<?php echo $profileUrl; ?>">
+                                    <?php echo htmlspecialchars($adminRequest['name']); ?>
+                                </a>
+                                <?php echo ": " . htmlspecialchars($adminRequest['message']); ?>
+                            </td>
+                            <td>
+                                <!-- Accept Button -->
+                                <form action="accept_request.php" method="post">
+                                    <input type="hidden" name="request_id" value="<?php echo $adminRequest['request_id']; ?>">
+                                    <input type="submit" value="Elfogad">
+                                </form>
 
-                            <!-- Reject Button -->
-                            <form action="reject_request.php" method="post">
-                                <input type="hidden" name="request_id" value="<?php echo $adminRequest['request_id']; ?>">
-                                <input type="submit" value="Elutasít">
-                            </form>
+                                <!-- Reject Button -->
+                                <form action="reject_request.php" method="post">
+                                    <input type="hidden" name="request_id" value="<?php echo $adminRequest['request_id']; ?>">
+                                    <input type="submit" value="Elutasít">
+                                </form>
 
-                            <!-- Respond Button -->
-                            <form action="respond_request_form.php" method="get">
-                                <input type="hidden" name="request_id" value="<?php echo $adminRequest['request_id']; ?>">
-                                <input type="submit" value="Válaszol">
-                            </form>
-                        </td>
-                    </tr>
+                                <!-- Respond Button -->
+                                <form action="respond_request_form.php" method="get">
+                                    <input type="hidden" name="request_id" value="<?php echo $adminRequest['request_id']; ?>">
+                                    <input type="submit" value="Válaszol">
+                                </form>
+                            </td>
+                        </tr>
                 <?php endforeach; ?>
             </table>
         <?php else: ?>
@@ -151,7 +157,7 @@ if (isset($_GET['date'])) {
     ?>
 <?php endif; ?>
 <?php
-if ($_SESSION['isAdmin']){
+if ($_SESSION['is_user']==false){
     include "list_day_users.php";
 }
 

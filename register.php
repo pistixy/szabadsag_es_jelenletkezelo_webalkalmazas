@@ -10,6 +10,7 @@ $cim = $_POST["cim"];
 $adoazonosito = $_POST["adoazonosito"];
 $szervezetszam = $_POST["szervezetszam"];
 $alkalmazottikartyaszama = $_POST["alkalmazottikartyaszama"];
+$position='user';
 $letterCode = $_POST["letterCode"];
 $payed_free=20; //20
 $payed_requested=0;
@@ -61,7 +62,7 @@ if (count($result) > 0) {
     exit;
 } else {
     $stmt = $conn->prepare("INSERT INTO users (
-        name, email, password, cim, adoazonosito, szervezetszam, alkalmazottikartya, 
+        name, email, password, cim, adoazonosito, szervezetszam, alkalmazottikartya, position,
         kar, payed_free, payed_requested, payed_planned, payed_taken, 
         payed_past_free, payed_past_requested, payed_past_planned, payed_past_taken,
         payed_edu_free, payed_edu_requested, payed_edu_planned, payed_edu_taken, 
@@ -69,11 +70,11 @@ if (count($result) > 0) {
         unpayed_sickness_taken, unpayed_uncertified_taken, unpayed_dad_free, unpayed_dad_requested, 
         unpayed_dad_planned, unpayed_dad_taken, unpayed_home_free, unpayed_home_requested, 
         unpayed_home_planned, unpayed_home_taken, unpayed_free, unpayed_requested, unpayed_planned, unpayed_taken
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     $stmt->execute([
         $name, $email, $hashed_password, $cim, $adoazonosito, $szervezetszam,
-        $alkalmazottikartyaszama, $letterCode, $payed_free, $payed_requested,
+        $alkalmazottikartyaszama,$position, $letterCode, $payed_free, $payed_requested,
         $payed_planned, $payed_taken, $payed_past_free, $payed_past_requested,
         $payed_past_planned, $payed_award_taken, $payed_edu_free, $payed_edu_requested,
         $payed_edu_planned, $payed_edu_taken, $payed_award_free, $payed_award_requested,

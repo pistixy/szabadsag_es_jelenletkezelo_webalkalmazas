@@ -48,7 +48,7 @@ include "check_login.php";
     <tr>
         <td>
             <?php
-            if (isset($_SESSION['logged']) && $_SESSION['isAdmin']) {
+            if (isset($_SESSION['logged']) && $_SESSION['is_user']==false) {
                 echo ' <a href="letszamjelentes.php">Letszámjelentés</a>';
             }
 
@@ -56,14 +56,14 @@ include "check_login.php";
         </td>
         <td>
             <?php
-            if (isset($_SESSION['logged']) && $_SESSION['isAdmin']) {
+            if (isset($_SESSION['logged']) && $_SESSION['is_user']==false) {
                 echo ' <a href="jelenletiiv.php">Jelenléti Ív</a>';
             }
 
             ?>
         </td>
         <?php
-        if (isset($_SESSION['logged']) && $_SESSION['isAdmin']) {
+        if (isset($_SESSION['logged']) && $_SESSION['is_user']==false) {
             //echo "Logged in as Admin"; // Debugging
 
             $position = $_SESSION['position']; // Ensure this is set
@@ -102,7 +102,7 @@ include "check_login.php";
 
         <td>
             <?php
-            if (isset($_SESSION['logged']) && $_SESSION['isAdmin']) {
+            if (isset($_SESSION['logged']) && $_SESSION['is_user']==false) {
                 $workId = $_SESSION['work_id'];
                 $stmt = $conn->prepare("SELECT szervezetszam FROM users WHERE work_id = :work_id");
                 $stmt->bindParam(':work_id', $workId, PDO::PARAM_INT);
