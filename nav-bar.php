@@ -34,11 +34,12 @@ include "check_login.php";
     </div>
     <div class="navbar_items">
         <?php
-        if (isset($_SESSION['logged']) && isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']) {
-
-            echo '<a href="list_users.php">Dolgozók</a>';
+        if (isset($_SESSION['logged']) && isset($_SESSION['is_user']) && !$_SESSION['is_user']) {
+            echo '<form action="search_results.php" method="get">';
+            echo '    <input type="text" name="search_query" placeholder="work_id or name or email">';
+            echo '    <input type="submit" value="Keresés" style="display: none;">';
+            echo '</form>';
         }
-
         ?>
     </div>
     <div class="navbar_items">

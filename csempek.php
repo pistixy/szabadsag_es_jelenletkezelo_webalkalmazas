@@ -63,41 +63,89 @@ include "check_login.php";
             ?>
         </td>
         <?php
-        if (isset($_SESSION['logged']) && $_SESSION['is_user']==false) {
-            //echo "Logged in as Admin"; // Debugging
+        if (isset($_SESSION['logged']) && $_SESSION['is_user'] == false) {
 
-            $position = $_SESSION['position']; // Ensure this is set
-            //echo "Position: $position"; // Debugging
+            $workId = $_SESSION['work_id'];
+            $stmt = $conn->prepare("SELECT position,kar,szervezetszam FROM users WHERE work_id = :work_id");
+            $stmt->bindParam(':work_id', $workId, PDO::PARAM_INT);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $pendingRequestSql = "SELECT COUNT(*) AS pendingcount FROM requests WHERE request_status = 'pending' AND to_whom = :position";
-            $pendingRequestStmt = $conn->prepare($pendingRequestSql);
-            $pendingRequestStmt->bindParam(':position', $position);
+            $position = $result['position']; // User's position
+            $kar = $result['kar']; // User's kar
+            $szervezetszam = $result['szervezetszam']; // User's szervezetszam
+            echo $position;
+            switch ($position) {
+                case "admin":
+                    $pendingRequestSql = "SELECT COUNT(*) AS pendingcount FROM requests 
+                          WHERE request_status = 'pending' 
+                          AND (to_whom LIKE :admin)";
+                    $pendingRequestStmt = $conn->prepare($pendingRequestSql);
+                    $adminPattern = '%admin%';
+                    $pendingRequestStmt->bindParam(':admin', $adminPattern);
+                    if ($pendingRequestStmt->execute()) {
+                        $pendingRequestResult = $pendingRequestStmt->fetch(PDO::FETCH_ASSOC);
+                        $hasPendingRequests = $pendingRequestResult && $pendingRequestResult['pendingcount'] > 0;
+                    } else {
+                        $hasPendingRequests = false;
+                    }
+                    $notificationClass = $hasPendingRequests ? "notification" : "";
+                    echo "<td>";
+                    echo "<a href='incomming_requests.php' class='$notificationClass'>Bejövő kérelmek</a>";
+                    echo "</td>";
+                    break;
+                case "dekan":
+                    $karPattern = '%' . $kar . '%';
+                    $pendingRequestSql = "SELECT COUNT(*) AS pendingcount FROM requests 
+                        WHERE request_status = 'pending' 
+                        AND (to_whom LIKE :kar)";
+                    $pendingRequestStmt = $conn->prepare($pendingRequestSql);
+                    $pendingRequestStmt->bindParam(':kar', $karPattern);
 
-            if ($pendingRequestStmt->execute()) {
-                $pendingRequestResult = $pendingRequestStmt->fetch(PDO::FETCH_ASSOC);
-                //echo "<pre>"; print_r($pendingRequestResult); echo "</pre>"; // Debugging
+                    if ($pendingRequestStmt->execute()) {
+                        $pendingRequestResult = $pendingRequestStmt->fetch(PDO::FETCH_ASSOC);
+                        if ($pendingRequestResult) {
+                            $hasPendingRequests = $pendingRequestResult['pendingcount'] > 0;
+                        } else {
+                            $hasPendingRequests = false;
+                        }
+                    } else {
+                        // Handle error here
+                        $errorInfo = $pendingRequestStmt->errorInfo();
+                        echo "SQL Error: " . $errorInfo[2];
+                        $hasPendingRequests = false;
+                    }
 
-                if ($pendingRequestResult && isset($pendingRequestResult['pendingcount'])) {
-                    $hasPendingRequests = $pendingRequestResult['pendingcount'] > 0;
-                    //echo "Has Pending Requests: $hasPendingRequests"; // Debugging
-                } else {
-                    //echo "No Pending Requests or missing 'pendingCount'"; // Debugging
-                    $hasPendingRequests = false;
-                }
-            } else {
-                //echo "SQL Error"; // Debugging
-                $hasPendingRequests = false;
+                    $notificationClass = $hasPendingRequests ? "notification" : "";
+                    echo "<td><a href='incomming_requests.php' class='$notificationClass'>Bejövő kérelmek</a></td>";
+                    break;
+                case "tanszekvezeto":
+                    $karPattern = '%' . $kar . '%';
+                    $szervezetszamPattern = '%' . $szervezetszam . '%';
+
+                    $pendingRequestSql = "SELECT COUNT(*) AS pendingcount FROM requests 
+                          WHERE request_status = 'pending' 
+                          AND to_whom LIKE :kar 
+                          AND to_whom LIKE :szervezetszam";
+                    $pendingRequestStmt = $conn->prepare($pendingRequestSql);
+                    $pendingRequestStmt->bindParam(':kar', $karPattern);
+                    $pendingRequestStmt->bindParam(':szervezetszam', $szervezetszamPattern);
+
+                    if ($pendingRequestStmt->execute()) {
+                        $pendingRequestResult = $pendingRequestStmt->fetch(PDO::FETCH_ASSOC);
+                        $hasPendingRequests = $pendingRequestResult && $pendingRequestResult['pendingcount'] > 0;
+                    } else {
+                        $hasPendingRequests = false;
+                    }
+
+                    $notificationClass = $hasPendingRequests ? "notification" : "";
+                    echo "<td><a href='incomming_requests.php' class='$notificationClass'>Bejövő kérelmek</a></td>";
+                    break;
+
             }
-
-            $notificationClass = $hasPendingRequests ? "notification" : "";
-            echo "<td>";
-            echo "<a href='incomming_requests.php' class='$notificationClass'>Bejövő kérelmek</a>";
-            echo "</td>";
-        } else {
-            //echo "Not logged in as Admin"; // Debugging
         }
-
         ?>
+
 
 
         <td>

@@ -19,7 +19,8 @@ $pozicio = $userDetails['position'];
 $kar = $userDetails['kar'];
 $szervezetszam = $userDetails['szervezetszam'];
 $statusFilter = isset($_POST['statusFilter']) ? $_POST['statusFilter'] : 'pending';
-
+$karPattern = '%' . $kar . '%';
+$szervezetszamPattern = '%' . $szervezetszam . '%';
 
 // Constructing the SQL based on user role
 switch ($pozicio) {
@@ -27,10 +28,10 @@ switch ($pozicio) {
         $requestsSql = "SELECT r.*, u.name, u.work_id FROM requests r LEFT JOIN users u ON r.work_id = u.work_id WHERE r.request_status = :statusFilter";
         break;
     case 'dekan':
-        $requestsSql = "SELECT r.*, u.name, u.work_id FROM requests r LEFT JOIN users u ON r.work_id = u.work_id WHERE u.kar = :kar AND r.request_status = :statusFilter";
+        $requestsSql = "SELECT r.*, u.name, u.work_id FROM requests r LEFT JOIN users u ON r.work_id = u.work_id WHERE r.to_whom LIKE :karPattern AND r.request_status = :statusFilter";
         break;
     case 'tanszekvezeto':
-        $requestsSql = "SELECT r.*, u.name, u.work_id FROM requests r LEFT JOIN users u ON r.work_id = u.work_id WHERE u.kar = :kar AND u.szervezetszam = :szervezetszam AND r.request_status = :statusFilter";
+        $requestsSql = "SELECT r.*, u.name, u.work_id FROM requests r LEFT JOIN users u ON r.work_id = u.work_id WHERE r.to_whom LIKE :karPattern AND r.to_whom LIKE :szervezetszamPattern AND r.request_status = :statusFilter";
         break;
     default: // For a regular user
         echo "You do not have permission to view requests.";
@@ -39,9 +40,9 @@ switch ($pozicio) {
 
 $requestsStmt = $conn->prepare($requestsSql);
 if (in_array($pozicio, ['dekan', 'tanszekvezeto'])) {
-    $requestsStmt->bindParam(':kar', $kar, PDO::PARAM_STR);
+    $requestsStmt->bindParam(':karPattern', $karPattern, PDO::PARAM_STR);
     if ($pozicio == 'tanszekvezeto') {
-        $requestsStmt->bindParam(':szervezetszam', $szervezetszam, PDO::PARAM_INT);
+        $requestsStmt->bindParam(':szervezetszamPattern', $szervezetszamPattern, PDO::PARAM_INT);
     }
 }
 $requestsStmt->bindParam(':statusFilter', $statusFilter, PDO::PARAM_STR);
