@@ -1,59 +1,117 @@
-.body{
-    background-color: #428bca;
+/* General body styling */
+body {
+    margin: 0;
+    padding:0;
+    height: 100%;
     font-family: Montserrat, Tahoma;
 }
 .login-container{
     font-size: 100px;
 }
+
+.body-container {
+    display: flex; /* Use flexbox layout */
+    min-height: 100vh; /* Full viewport height */
+    background-color: #428bca;
+    margin: 0px;
+    padding: 0px;
+    font-family: Montserrat, Tahoma;
+}
+
+.main-content {
+    margin-left: 15%;
+    padding: 20px;
+    padding-bottom: 10%; /* Adjust this value to match the footer's height */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+    align-content: center;
+
+}
+
+.footer-div {
+    background-color: #242943;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    font-family: Montserrat, Tahoma;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    position: absolute;
+}
+
+
+.csempek-div {
+    flex: 1;
+}
+
+
 .navbar {
     background-color: #242943;
     color: white;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-    font-family: Montserrat, Tahoma;
+    flex-direction: column; /* Align navbar items vertically */
+    align-items: flex-start; /* Align items to the start of the flex container */
+    justify-content: flex-start;
+    padding: 20px; /* Add padding to the navbar */
+    height: 100vh; /* Full height */
+    position: fixed; /* Fixed position */
+    left: 0; /* Stick to the left side */
+    top: 0; /* Stick to the top */
+    width: 15%; /* Width of the sidebar */
+    overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
+/* Logo image styling */
 .navbar .logo img {
     height: 50px; /* Adjust as needed */
+    width: auto; /* Maintain aspect ratio */
+    margin-bottom: 20px; /* Space below the logo */
 }
 
-.navbar_menu {
-    display: flex;
-    gap: 20px; /* Space between menu items */
-    font-weight: bold;
+/* Styling for navbar items */
+.navbar_items {
+    width: 100%; /* Full width of the sidebar */
 }
 
-.navbar_menu a {
+.navbar_items a {
     color: white;
     text-decoration: none;
-    padding: 5px 10px;
+    padding: 10px 15px; /* More padding for a better touch area */
+    display: block; /* Make links block level for full width touch area */
     transition: background-color 0.3s ease;
+    width: 100%; /* Full width of the sidebar */
+    box-sizing: border-box; /* Include padding in width calculation */
 }
 
-.navbar_menu a:hover {
-    color: black;
-}
-.navbar_items a{
-    color: white;
+/* Hover effect for links */
+.navbar_items a:hover {
+    background-color: #5a5c9a; /* Lighten on hover, adjust color as needed */
 }
 
-/* Media query for responsive design */
-@media (max-width: 768px) {
-    .navbar_menu {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+/* Input field styling */
+.navbar input[type="text"] {
+    width: calc(100% - 20px); /* Full width minus padding */
+    padding: 5px;
+    margin-bottom: 10px; /* Space below the search box */
+    border-radius: 5px;
+    border: 1px solid #333333; /* Slight border for the input */
 }
 
-.gallery {
-    position: relative;
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-    overflow: hidden;
+.navbar input[type="text"] {
+    padding: 5px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: none;
 }
+.date-details-page{
+    margin:4%;
+}
+
 img {
     width: 100%;
     height: auto;
@@ -171,14 +229,15 @@ img:first-child {
 }
 
 .profile-container {
-    max-width: 600px;
+    max-width: 80%;
     margin: 0 auto;
+    margin-bottom: 5%;
     padding: 20px;
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    min-width: 300px;
+    min-width: 50%;
     min-height: 300px;
     font-family: Montserrat, Tahoma;
 }
@@ -290,22 +349,6 @@ img:first-child {
     margin-bottom: 20px;
     color: #333;
 }
-.profile-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    font-family: Montserrat, Tahoma;
-}
-
-.profile-heading {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
 
 form {
     text-align: left;
@@ -351,10 +394,24 @@ h1 {
     font-weight: bold;
     font-family: Montserrat, Tahoma;
 }
+.calendar-view-container {
+    display: flex;
+    justify-content: center; /* Centers children horizontally */
+    align-items: center; /* Align children vertically in the middle */
+}
+.calendar-view-name {
+    flex: 1;
+    text-align: center; /* Center the text inside the div */
+}
+.calendar-view-selector {
+    flex-grow: 0;
+    /* Additional styling as ne eded */
+}
+
 
 .calendar {
     margin: 20px auto;
-    width: 80%;
+    width: 90%;
     text-align: center;
     font-family: Montserrat, Tahoma;
 }
@@ -374,9 +431,10 @@ h1 {
 }
 
 .calendar-table {
-    width: 100%;
+    width: 90%;
     border-collapse: collapse;
     margin-top: 20px;
+    text-align: center;
 }
 
 .calendar-header,
@@ -476,18 +534,7 @@ h1 {
     text-decoration: underline;
 }
 
-.footer {
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: #242943;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    clear: both;
-    margin-top: 20px;
-    font-family: Montserrat, Tahoma;
-}
+
 
 
 .csempe {
@@ -561,7 +608,7 @@ h1 {
     border-radius: 5px; /* Rounded corners */
     font-weight: bold;
     text-decoration: none; /* Remove underlines from links */
-    animation: blinker 3s linear infinite; /* Blinking effect */
+    animation: blinker 2s linear infinite; /* Blinking effect */
     font-family: Montserrat, Tahoma;
 }
 
@@ -572,19 +619,21 @@ h1 {
     }
 }
 .year-view {
-    margin: 0 auto;
+
     text-align: center;
+    margin-left: 5%;
 }
 
 .month-container {
-    margin-bottom: 20px;
+    margin-bottom: 5px;
+    text-align: center;
 
 }
 
 .month-name {
     text-align: center;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 
 
 }
@@ -592,12 +641,13 @@ h1 {
 .month-row {
     display: flex;
     align-items: center;
-    margin-left: 10%;
+    margin-left: 0%;
+    text-align: center;
 
 }
 .day-box {
-    width: 40px; /* Fixed width */
-    height: 30px; /* Fixed height */
+    width: 3%; /* Fixed width */
+    height: 2.9%; /* Fixed height */
     display: inline-block; /* Align boxes side by side */
     border: 0px;
     text-align: center; /* Center the text (day number) */
@@ -620,7 +670,25 @@ h1 {
 .year-button:hover {
     background-color: #45a049;
 }
+.comming-to-work{
+    width: 80%;
+    margin-left: 5%;
 
+}
 
-
-
+.my-messages{
+    margin: 5%;
+}
+.my-requests{
+    margin: 5%;
+}
+.jelenletiiv{
+    margin: 5%;
+}
+.process-date{
+    margin: 5%;
+}
+.incomming-requests{
+    margin:5%;
+}
+.profile

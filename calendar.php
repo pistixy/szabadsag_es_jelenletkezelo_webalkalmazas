@@ -1,7 +1,6 @@
 <?php
 include "session_check.php";
 include "connect.php";
-include "nav-bar.php";
 include "function_get_status_name.php";
 
 
@@ -51,52 +50,57 @@ $firstDayOfWeek = date("N", mktime(0, 0, 0, $month, 1, $year));
 <head>
     <meta charset="UTF-8">
     <title><?php echo $isOwnCalendar ? "Naptárad" : "{$calendarOwnerName} Naptára"; ?></title>
-    <link rel="stylesheet" href="calendar_colours.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="calendar_colours.css"
 </head>
 <body>
+<div class="body-container">
+    <div class="navbar">
+        <?php
+        include "nav-bar.php";
+        ?>
+    </div>
+    <div class="main-content">
+        <div class="calendar-view-container">
+            <div class="calendar-view-name">
+                <h1><?php echo $isOwnCalendar ? "Naptárad" : $calendarOwnerName . " Naptára"; ?></h1>
+            </div>
+            <div class="calendar-view-selector">
+                <form action="" method="get">
+                    <input type="hidden" name="year" value="<?php echo $year; ?>">
+                    <input type="hidden" name="work_id" value="<?php echo $userWorkId; ?>">
+                    <select name="view" onchange="this.form.submit()">
+                        <option value="yearly" <?php echo (!isset($_GET['view']) || $_GET['view'] == 'yearly') ? 'selected' : ''; ?>>Éves Nézet</option>
+                        <option value="monthly" <?php echo (isset($_GET['view']) && $_GET['view'] == 'monthly') ? 'selected' : ''; ?>>Havi Nézet</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+        <div class="calendar-container">
 
-<table style="width: 100%;">
-    <tr>
-        <td style="width: 33.33%; text-align: center;">
-            <form action="" method="get">
-                <input type="hidden" name="year" value="<?php echo $year; ?>">
-                <input type="hidden" name="work_id" value="<?php echo $userWorkId; ?>">
-                <select name="view" onchange="this.form.submit()">
-                    <option value="yearly" <?php echo (!isset($_GET['view']) || $_GET['view'] == 'yearly') ? 'selected' : ''; ?>>Éves Nézet</option>
-                    <option value="monthly" <?php echo (isset($_GET['view']) && $_GET['view'] == 'monthly') ? 'selected' : ''; ?>>Havi Nézet</option>
-                </select>
-            </form>
-        </td>
-        <td style="width: 33.33%; text-align: center;">
-            <h1><?php echo $isOwnCalendar ? "Naptárad" : $calendarOwnerName . " Naptára"; ?></h1>
-        </td>
-        <td style="width: 33.33%; text-align: center;">
-            <?php
-            include "legend.php";
-            ?>
-        </td>
+        <?php
+        // Default to yearly view if no view is set or if yearly view is selected
+        $selectedView = $_GET['view'] ?? 'yearly';
 
-    </tr>
+        if ($selectedView == 'yearly') {
+            $currentView= 'yearly';
+            include "year_view.php";
+        } elseif ($selectedView == 'monthly') {
+            $currentView= 'monthly';
+            include "month_view.php";
+        }
+        ?>
+        </div>
+        <?php
+        include "csuszka.php";
+        ?>
 
-</table>
-
-<?php
-// Default to yearly view if no view is set or if yearly view is selected
-$selectedView = $_GET['view'] ?? 'yearly';
-
-if ($selectedView == 'yearly') {
-    $currentView= 'yearly';
-    include "year_view.php";
-} elseif ($selectedView == 'monthly') {
-    $currentView= 'monthly';
-    include "month_view.php";
-}
-
-?>
-<?php
-include "csuszka.php";
-include "footer.php";
-?>
-
+         <div class="footer-div">
+             <?php
+             include "footer.php";
+             ?>
+         </div>
+    </div>
+</div>
 </body>
 </html>

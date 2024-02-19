@@ -55,12 +55,14 @@ $conn = null;
 
         .section {
             text-align: center;
-            color: #fff;
+            color: #333; /* Darker text color for better contrast */
             font-weight: bold;
-            padding: 5px;
+            padding: 0 5px; /* Adjusted padding for text */
             display: flex;
             align-items: center;
+            justify-content: center; /* Centered text horizontally */
             position: relative;
+            border-radius: 1px; /* Rounded corners for each section */
         }
 
         .section:hover .tooltiptext {
@@ -69,40 +71,40 @@ $conn = null;
 
         .payed_free_csuszka {
             flex: <?php echo $payed_free; ?>;
-            background-color: green;
+            background: linear-gradient(to right, #4caf50, #81c784);
         }
         .payed_requested_csuszka {
             flex: <?php echo $payed_requested; ?>;
-            background-color: lightsalmon;
+            background: linear-gradient(to right, #ffccbc, #ffab91);
         }
 
         .payed_planned_csuszka {
             flex: <?php echo $payed_planned; ?>;
-            background-color: lightgreen;
+            background: linear-gradient(to right, #aed581, #dcedc8);
         }
 
         .payed_taken_csuszka {
             flex: <?php echo $payed_taken; ?>;
-            background-color: red;
+            background: linear-gradient(to right, #e57373, #ef9a9a);
         }
 
         .unpayed_free_csuszka {
             flex: <?php echo $unpayed_free; ?>;
-            background-color: green;
+            background: linear-gradient(to right, #4caf50, #81c784);
         }
         .unpayed_requested_csuszka {
             flex: <?php echo $unpayed_requested; ?>;
-            background-color: lightsalmon;
+            background: linear-gradient(to right, #ffccbc, #ffab91);
         }
 
         .unpayed_planned_csuszka {
             flex: <?php echo $unpayed_planned; ?>;
-            background-color: lightgreen;
+            background: linear-gradient(to right, #aed581, #dcedc8);
         }
 
         .unpayed_taken_csuszka {
             flex: <?php echo $unpayed_taken; ?>;
-            background-color: red;
+            background: linear-gradient(to right, #e57373, #ef9a9a);
         }
 
 
@@ -113,18 +115,25 @@ $conn = null;
             top: 100%;
             left: 50%;
             transform: translateX(-50%);
-            background-color: #000;
+            background-color: #555; /* Slightly lighter tooltip background for subtlety */
             color: #fff;
             padding: 5px;
+            z-index: 1000;
             border-radius: 4px;
             text-align: center;
+            white-space: nowrap;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Tooltip shadow for prominence */
         }
 
         .fieldset {
-            width: 60%;
+            width: 70%; /* Adjusted for better form alignment */
             margin: auto;
-            margin-bottom: 100px;
-            background: #dddddd;
+            margin-top: 50px;
+            margin-bottom: 50px; /* Reduced bottom margin */
+            background: #f7f7f7; /* Lighter background for the surrounding box */
+            padding: 20px; /* Padding for inner spacing */
+            border-radius: 8px; /* Rounded corners for the fieldset */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Consistent shadow with the slider */
         }
     </style>
 </head>

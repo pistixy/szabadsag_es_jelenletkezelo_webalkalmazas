@@ -74,7 +74,6 @@ include "check_login.php";
             $position = $result['position']; // User's position
             $kar = $result['kar']; // User's kar
             $szervezetszam = $result['szervezetszam']; // User's szervezetszam
-            echo $position;
             switch ($position) {
                 case "admin":
                     $pendingRequestSql = "SELECT COUNT(*) AS pendingcount FROM requests 

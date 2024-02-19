@@ -23,6 +23,7 @@ $previousYear = $year - 1;
 $nextYear = $year + 1;
 
 ?>
+
 <div class="year-navigation">
     <a href="calendar.php?year=<?php echo $previousYear; ?>&view=yearly" class="year-button">Előző év</a>
     <a href="calendar.php?year=<?php echo $nextYear; ?>&view=yearly" class="year-button">Következő év</a>

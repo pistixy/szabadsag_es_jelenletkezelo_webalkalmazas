@@ -126,11 +126,5 @@ if (isset($_SESSION['work_id'])) {
 
 
     </form>
-
-
 </div>
-<?php
-include "footer.php";
-?>
-</body>
-</html>
+
