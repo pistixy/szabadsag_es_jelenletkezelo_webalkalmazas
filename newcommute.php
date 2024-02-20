@@ -21,7 +21,7 @@ if (isset($_POST['upload_receipt'])) {
     $km = null;
 
     try {
-        $stmt = $conn->prepare("SELECT * FROM calendar WHERE date = :date AND work_id = :work_id AND day_status = 1");
+        $stmt = $conn->prepare("SELECT * FROM calendar WHERE date = :date AND work_id = :work_id AND day_status = 'work_day'");
         $stmt->bindParam(':date', $date);
         $stmt->bindParam(':work_id', $work_id);
         $stmt->execute();

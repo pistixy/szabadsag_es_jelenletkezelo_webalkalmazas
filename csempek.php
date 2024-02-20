@@ -168,4 +168,14 @@ include "check_login.php";
             ?>
         </td>
     </tr>
+    <tr>
+        <td>
+            <?php
+            if (isset($_SESSION['logged'])){
+                echo ' <a href="my_commutes.php">Munkábajárásaim</a>';
+            }
+
+            ?>
+        </td>
+    </tr>
 </table>
