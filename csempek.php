@@ -177,5 +177,13 @@ include "check_login.php";
 
             ?>
         </td>
+        <td>
+            <?php
+            if (isset($_SESSION['logged'])){
+                echo ' <a href="my_days.php">Szabadnapjaim</a>';
+            }
+
+            ?>
+        </td>
     </tr>
 </table>

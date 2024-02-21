@@ -62,31 +62,46 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
 </head>
 <body>
-<?php include "nav-bar.php"; ?>
-<h1>Search Results for "<?php echo htmlspecialchars($searchQuery); ?>"</h1>
+<div class="body-container">
+    <div class="navbar">
+        <?php include "nav-bar.php"; ?>
+    </div>
+    <div class="main-content">
+        <div class="search-results">
+            <h1>Search Results for "<?php echo htmlspecialchars($searchQuery); ?>"</h1>
 
-<?php if (is_array($results) && count($results) > 0): ?>
-    <table>
-        <tr>
-            <th>Work ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Kar</th>
-            <th>Szervezetszám</th>
-        </tr>
-        <?php foreach ($results as $row): ?>
-            <tr>
-                <td><?php echo htmlspecialchars($row['work_id']); ?></td>
-                <td><?php echo htmlspecialchars($row['name']); ?></td>
-                <td><?php echo htmlspecialchars($row['email']); ?></td>
-                <td><?php echo htmlspecialchars($row['kar']); ?></td>
-                <td><?php echo htmlspecialchars($row['szervezetszam']); ?></td>
-            </tr>
-        <?php endforeach; ?>
-    </table>
-<?php else: ?>
-    <p>No results found for "<?php echo htmlspecialchars($searchQuery); ?>".</p>
-<?php endif; ?>
+            <?php if (is_array($results) && count($results) > 0): ?>
+                <table>
+                    <tr>
+                        <th>Work ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Kar</th>
+                        <th>Szervezetszám</th>
+                    </tr>
+                    <?php foreach ($results as $row): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($row['work_id']); ?></td>
+                            <td><?php echo htmlspecialchars($row['name']); ?></td>
+                            <td><?php echo htmlspecialchars($row['email']); ?></td>
+                            <td><?php echo htmlspecialchars($row['kar']); ?></td>
+                            <td><?php echo htmlspecialchars($row['szervezetszam']); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
+            <?php else: ?>
+                <p>No results found for "<?php echo htmlspecialchars($searchQuery); ?>".</p>
+            <?php endif; ?>
+        </div>
+        <div class="footer-div">
+            <?php
+            include "footer.php"
+            ?>
+        </div>
+    </div>
+</div>
+
+
 
 </body>
 </html>

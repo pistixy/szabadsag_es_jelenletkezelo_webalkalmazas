@@ -3,6 +3,25 @@ require_once 'TCPDF-main/tcpdf.php';
 include "session_check.php";
 include "connect.php";
 
+function translateMonthToHungarian($monthName) {
+    $months = [
+        'January' => 'Január',
+        'February' => 'Február',
+        'March' => 'Március',
+        'April' => 'Április',
+        'May' => 'Május',
+        'June' => 'Június',
+        'July' => 'Július',
+        'August' => 'Augusztus',
+        'September' => 'Szeptember',
+        'October' => 'Október',
+        'November' => 'November',
+        'December' => 'December'
+    ];
+
+    return $months[$monthName] ?? 'Unknown';
+}
+
 // Check if the user is logged in
 if (!isset($_SESSION['logged']) || !isset($_SESSION['work_id'])) {
     header("Location: login_form.php");
@@ -36,19 +55,6 @@ if (!empty($users)) {
 
 $month = date("F");
 
-// Fetch the commutes from the database
-$sql = "SELECT * FROM commute WHERE work_id = :userWorkID ORDER BY date DESC";
-$stmt = $conn->prepare($sql);
-$stmt->bindParam(':userWorkID', $userWorkID, PDO::PARAM_INT);
-$stmt->execute();
-$commutes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Check if there are commutes to export
-if (empty($commutes)) {
-    echo "No commutes to export.";
-    exit;
-}
-
 // Create new PDF document
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
@@ -64,14 +70,35 @@ $pdf->AddPage();
 
 // Set font
 $pdf->SetFont('dejavusans', '', 10);
+$commuteSql = "SELECT * FROM commute WHERE work_id = :workId";
+$commuteStmt = $conn->prepare($commuteSql);
+$commuteStmt->bindParam(':workId', $userWorkID, PDO::PARAM_INT);
+$commuteStmt->execute();
+$commuteEntries = $commuteStmt->fetchAll(PDO::FETCH_ASSOC);
 
+// Create an array to hold dates with commutes
+$commuteDates = [];
+$sum=0;
+foreach ($commuteEntries as $entry) {
+    // Assume the date is stored in a column named 'date' and the mode of commute in 'how'
+    $date = new DateTime($entry['date']);
+    $day = $date->format('j'); // Day of the month
+    $commuteDates[$day] = [
+        'day' => $day,
+        'how' => $entry['how'] // Storing the mode of commute
+    ];
+    $sum+=$entry['price'];
+}
+$sum086=$sum*0.86;
+$HungarianMonth=translateMonthToHungarian($month);
+$year=date("Y");
 // Define the HTML content
 $html = <<<EOD
 <h1 style="text-align: center; font-size: 10px;">SZÉCHENYI ISTVÁN EGYETEM</h1>
 <div style="font-size: 9px;">
 <p><strong>Dolgozó szervezeti egysége:</strong> ...$kar / $szervezetszam...</p>
 <p style="text-align: center"><strong>IGÉNYBEJELENTÉS ÉS IGAZOLÁS A MUNKÁBAJÁRÁS KÖLTSÉGTÉRÍTÉSÉHEZ</strong></p>
-<p style="text-align: center;">...$month... HÓRA</p>
+<p style="text-align: center;">$HungarianMonth</p>
 <table style="width:100%; border-collapse: collapse; padding: 1px; margin: 1px;" border="1" >
 <tr>
 <td style="width:10%;"><strong>Név</strong></td>
@@ -87,32 +114,14 @@ $html = <<<EOD
 </div>
 <div style="margin: 0px; padding: 0px; font-size: 9px;">
     <p style="margin: 0px; padding: 0px;"><strong>Közösségi közlekedéssel utazók:</strong></p>
-    <p style="margin: 0px; padding: 0px;">Bizonylattal elszámolt bérlet, ill. jegyek teljes ára: ................................</p>
-    <p style="margin: 0px; padding: 0px;">Térített összeg (86 %): ................................</p>
+    <p style="margin: 0px; padding: 0px;">Bizonylattal elszámolt bérlet, ill. jegyek teljes ára: $sum</p>
+    <p style="margin: 0px; padding: 0px;">Térített összeg (86 %): $sum086</p>
     <p style="margin: 0px; padding: 0px;"><strong>Bérlettel nem rendelkezők:</strong></p>
   <p>A bizonylatokat kérjük dátum szerinti sorba rendezve mellékelni!</p>
     <p>Munkában töltött napok száma (amikor a dolgozó költségtérítésre jogosult):</p>
-    <p>201... ................................hónap</p>
+    <p>$year.    $HungarianMonth.</p>
 </div>
 EOD;
-
-$commuteSql = "SELECT * FROM commute WHERE work_id = :workId";
-$commuteStmt = $conn->prepare($commuteSql);
-$commuteStmt->bindParam(':workId', $userWorkID, PDO::PARAM_INT);
-$commuteStmt->execute();
-$commuteEntries = $commuteStmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Create an array to hold dates with commutes
-$commuteDates = [];
-foreach ($commuteEntries as $entry) {
-    // Assume the date is stored in a column named 'date' and the mode of commute in 'how'
-    $date = new DateTime($entry['date']);
-    $day = $date->format('j'); // Day of the month
-    $commuteDates[$day] = [
-        'day' => $day,
-        'how' => $entry['how'] // Storing the mode of commute
-    ];
-}
 
 $html .= '<table border="1" cellpadding="4">';
 
@@ -158,7 +167,7 @@ for ($i = 16; $i <= 31; $i++) {
 }
 $html .= '</tr>';
 
-// Generate fourth row with empty cells or 'X'/'EE'/'E'/'K' for commute days
+// Generate fourth row with empty cells or 'EE'/'E'/'K' for commute days
 $html .= '<tr>';
 for ($i = 1; $i <= 16; $i++) {
     $index = $i + 15; // Add 15 to index to match dates 16-31

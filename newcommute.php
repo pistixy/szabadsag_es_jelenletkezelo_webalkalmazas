@@ -36,6 +36,23 @@ if (isset($_POST['upload_receipt'])) {
         echo "Database error: " . $e->getMessage();
     }
 
+    // Check if the date already exists in the commute table for the same work_id
+    try {
+        $stmt = $conn->prepare("SELECT * FROM commute WHERE date = :date AND work_id = :work_id");
+        $stmt->bindParam(':date', $date);
+        $stmt->bindParam(':work_id', $work_id);
+        $stmt->execute();
+        $existingCommutes = $stmt->fetchAll();
+
+        if (!empty($existingCommutes)) {
+            echo "Ez a dátum már szerepel a rögzített munkábajárási adatok között!";
+            exit;
+        }
+    } catch (PDOException $e) {
+        echo "Database error: " . $e->getMessage();
+        exit;
+    }
+
 
 
     if ($how === "PublicTransport") {
@@ -53,7 +70,7 @@ if (isset($_POST['upload_receipt'])) {
     }
 
     if ($date > $currentDate || $date < $mindate) {
-        echo "Csak olyan korábbi dátumot adhat meg, ami 2020-01-01 utáni!";
+        echo "Csak ".$mindate. " és ".$currentDate. " között adhat meg dátumokat!";
         exit;
     }
 
