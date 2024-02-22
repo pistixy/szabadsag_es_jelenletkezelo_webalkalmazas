@@ -53,7 +53,6 @@ if ($userPosition == 'tanszekvezeto') {
 $stmt->execute();
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -81,9 +80,12 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </tr>
                     <?php foreach ($results as $row): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($row['work_id']); ?></td>
-                            <td><?php echo htmlspecialchars($row['name']); ?></td>
-                            <td><?php echo htmlspecialchars($row['email']); ?></td>
+                            <!-- Make work_id clickable -->
+                            <td><a href="profile.php?work_id=<?php echo $row['work_id']; ?>"><?php echo htmlspecialchars($row['work_id']); ?></a></td>
+                            <!-- Make name clickable -->
+                            <td><a href="profile.php?work_id=<?php echo $row['work_id']; ?>"><?php echo htmlspecialchars($row['name']); ?></a></td>
+                            <!-- Make email clickable -->
+                            <td><a href="profile.php?work_id=<?php echo $row['work_id']; ?>"><?php echo htmlspecialchars($row['email']); ?></a></td>
                             <td><?php echo htmlspecialchars($row['kar']); ?></td>
                             <td><?php echo htmlspecialchars($row['szervezetszam']); ?></td>
                         </tr>

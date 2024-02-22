@@ -98,7 +98,8 @@ if ($result) {
                     echo '<h1 class="profile-heading">' . htmlspecialchars($result['name']) . ' profilja</h1>';
                 }
                 ?>
-                <p class="profile-data"><strong>Naptár: </strong><a href="calendar.php?work_id= <?php echo $result['work_id']?>"><?php echo $result['name']?> naptára</a> </p>
+                <p class="profile-data"><strong>Naptár: </strong><a href="calendar.php?work_id= <?php echo $result['work_id']?>"><?php echo $result['name']?> naptára</a> </p
+                <p class="profile-data"><strong>Szabadnapok: </strong><a href="holidays.php?work_id=<?php echo $result['work_id']?>"><?php echo $result['name']?> szabadnapjai</a> </p>
                 <p class="profile-data"><strong>Email:</strong> <?php echo $result['email']; ?></p>
                 <p class="profile-data"><strong>Teljes név:</strong> <?php echo $result['name']; ?></p>
                 <p class="profile-data"><strong>work_id:</strong> <?php echo $result['work_id']; ?></p>
@@ -115,6 +116,7 @@ if ($result) {
                 }
                 ?>
             </div>
+
             <?php
             // Only show the upload form if viewing own profile
             if ($work_id == $_SESSION['work_id']) {

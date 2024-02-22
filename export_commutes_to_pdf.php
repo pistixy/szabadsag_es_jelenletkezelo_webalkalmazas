@@ -2,33 +2,27 @@
 require_once 'TCPDF-main/tcpdf.php';
 include "session_check.php";
 include "connect.php";
+include "function_translate_month_to_Hungarian.php";
 
-function translateMonthToHungarian($monthName) {
-    $months = [
-        'January' => 'Január',
-        'February' => 'Február',
-        'March' => 'Március',
-        'April' => 'Április',
-        'May' => 'Május',
-        'June' => 'Június',
-        'July' => 'Július',
-        'August' => 'Augusztus',
-        'September' => 'Szeptember',
-        'October' => 'Október',
-        'November' => 'November',
-        'December' => 'December'
-    ];
-
-    return $months[$monthName] ?? 'Unknown';
-}
 
 // Check if the user is logged in
 if (!isset($_SESSION['logged']) || !isset($_SESSION['work_id'])) {
     header("Location: login_form.php");
     exit;
 }
+if(isset($_POST['year'], $_POST['month'], $_POST['work_id'])) {
+    $year = $_POST['year'];
+    $month = $_POST['month'];
+    $userWorkID = $_POST['work_id'];
 
-$userWorkID = $_SESSION['work_id'];
+    //echo "Year: $year, Month: $month, Work ID: $userWorkID";
+} else {
+    // Handle the case when the required parameters are not set
+    echo "Error: Required parameters are not set.";
+}
+
+
+
 
 // Fetch the users from the database
 $sql ="SELECT * from users where work_id= :userWorkId";
@@ -53,15 +47,15 @@ if (!empty($users)) {
     echo "No user found with the specified work ID.";
 }
 
-$month = date("F");
+
 
 // Create new PDF document
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-
+$title=$userWorkID."_".str_replace(" ", "-", $name)."_".$year."_".$month."_commutes_";
 // Set document information
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Your Name');
-$pdf->SetTitle('My Commutes');
+$pdf->SetTitle($title);
 $pdf->SetSubject('Commutes Export');
 $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
@@ -70,11 +64,17 @@ $pdf->AddPage();
 
 // Set font
 $pdf->SetFont('dejavusans', '', 10);
-$commuteSql = "SELECT * FROM commute WHERE work_id = :workId";
+$commuteSql = "SELECT * FROM commute WHERE work_id = :workId 
+                        AND EXTRACT(MONTH FROM date) = :month
+                        AND EXTRACT(YEAR FROM date) = :year
+                        ORDER BY date DESC";
 $commuteStmt = $conn->prepare($commuteSql);
 $commuteStmt->bindParam(':workId', $userWorkID, PDO::PARAM_INT);
+$commuteStmt->bindParam(':month', $month, PDO::PARAM_INT);
+$commuteStmt->bindParam(':year', $year, PDO::PARAM_INT);
 $commuteStmt->execute();
 $commuteEntries = $commuteStmt->fetchAll(PDO::FETCH_ASSOC);
+
 
 // Create an array to hold dates with commutes
 $commuteDates = [];
@@ -222,7 +222,7 @@ $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 
 // Close and output PDF document
 // This method has several options, check the source code documentation for more information.
-$pdf->Output('my_commutes.pdf', 'D');
+$pdf->Output($title.".pdf", 'D');
 
 //============================================================+
 // END OF FILE

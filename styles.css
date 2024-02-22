@@ -624,19 +624,29 @@ h1 {
     margin-left: 5%;
 }
 
-.month-container {
-    margin-bottom: 5px;
-    text-align: center;
 
+.month-container {
+    margin-bottom: 20px; /* Add some space between month containers */
+}
+
+.month-name-container {
+    display: flex;
+    align-items: center; /* Center items vertically */
+    justify-content: space-between; /* Spread items horizontally */
+    margin-bottom: 5px;
 }
 
 .month-name {
     text-align: center;
     font-weight: bold;
-    margin-bottom: 5px;
-
-
+    /*flex: 1; /* Take up available space */
 }
+
+.month-buttons {
+    margin-left: 10px; /* Add some space between month name and button */
+    width: 150px; /* Adjust the width as needed */
+}
+
 
 .month-row {
     display: flex;
@@ -697,6 +707,6 @@ h1 {
 .search-results{
     margin: 5%;
 }
-.my-days{
+.holidays{
     margin: 5%;
 }

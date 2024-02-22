@@ -180,7 +180,8 @@ include "check_login.php";
         <td>
             <?php
             if (isset($_SESSION['logged'])){
-                echo ' <a href="my_days.php">Szabadnapjaim</a>';
+                echo '<a href="holidays.php?work_id=' . $_SESSION['work_id'] . '">Szabadnapjaim</a>';
+
             }
 
             ?>

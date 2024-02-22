@@ -35,8 +35,24 @@ $nextYear = $year + 1;
     for ($month = 1; $month<= 12; $month++) {
         $monthName = date("F", mktime(0, 0, 0, $month, 1, $year));
 
+
         echo "<div class='month-container'>";
-        echo "<div class='month-name'>" . $monthName . "</div>";
+        echo "<div class='month-name-container'>";
+            echo "<div class='month-name'>";
+            echo translateMonthToHungarian($monthName);
+            echo '</div>';
+
+            echo '<div class="month-button">';
+            echo '<form action="export_calendar_month_to_pdf.php" method="post">';
+            echo '<input type="hidden" name="year" value="' . $year . '">';
+            echo '<input type="hidden" name="month" value="' . $month . '">';
+            echo '<input type="hidden" name="work_id" value="' . $userWorkId . '">';
+            echo '<button type="submit" name="export_calendar_month_pdf" value="1">';
+            echo translateMonthToHungarian($monthName) . 'i beosztás exportálása';
+            echo '</button>';
+            echo '</form>';
+            echo "</div>";
+            echo "</div>";
         echo "<div class='month-row'>";
 
         // Initialize an array to keep track of the days in the month

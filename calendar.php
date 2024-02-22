@@ -2,7 +2,7 @@
 include "session_check.php";
 include "connect.php";
 include "function_get_status_name.php";
-
+include "function_translate_month_to_Hungarian.php";
 
 if (!isset($_SESSION['logged'])) {
     header("Location: login_form.php");
@@ -74,6 +74,7 @@ $firstDayOfWeek = date("N", mktime(0, 0, 0, $month, 1, $year));
                         <option value="monthly" <?php echo (isset($_GET['view']) && $_GET['view'] == 'monthly') ? 'selected' : ''; ?>>Havi Nézet</option>
                     </select>
                 </form>
+
             </div>
         </div>
         <div class="calendar-container">

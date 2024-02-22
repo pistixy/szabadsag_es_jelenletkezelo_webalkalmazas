@@ -1,5 +1,6 @@
 <div class="calendar">
-    <h2><?php echo $monthName . " " . $year; ?></h2> <!-- Display the current month and year -->
+
+    <h2><?php echo translateMonthToHungarian($monthName) . " " . $year; ?></h2> <!-- Display the current month and year -->
     <a href="calendar.php?year=<?php echo $prevYear; ?>&month=<?php echo $prevMonth; ?>&work_id=<?php echo $userWorkId; ?>&view=<?php echo $selectedView; ?>" class="year-button">Előző hónap</a>
     <a href="calendar.php?year=<?php echo $nextYear; ?>&month=<?php echo $nextMonth; ?>&work_id=<?php echo $userWorkId; ?>&view=<?php echo $selectedView; ?>" class="year-button">Következő hónap</a>
 
@@ -45,6 +46,15 @@
                 }
             }
             ?>
+
         </tr>
     </table>
+    <div>
+        <form action="export_calendar_month_to_pdf.php" method="post">
+            <input type="hidden" name="year" value="<?php echo $year; ?>">
+            <input type="hidden" name="month" value="<?php echo $month; ?>">
+            <input type="hidden" name="work_id" value="<?php echo $userWorkId; ?>">
+            <button type="submit" name="export_calendar_month_pdf" value="1"><?php echo translateMonthToHungarian($monthName);?>i beosztás </button>
+        </form>
+    </div>
 </div>
