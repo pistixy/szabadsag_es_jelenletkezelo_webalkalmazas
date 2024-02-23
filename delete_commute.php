@@ -11,7 +11,7 @@ if (!isset($_SESSION['logged']) || !isset($_SESSION['work_id'])) {
 // Check if commute_id is provided
 if (!isset($_POST['commute_id'])) {
     // Redirect or handle error accordingly
-    header("Location: my_commutes.php");
+    header("Location: commutes.php");
     exit;
 }
 
@@ -29,7 +29,7 @@ try {
     $stmt->execute();
 
     // Redirect back to the page showing commutes after deletion
-    header("Location: my_commutes.php");
+    header("Location: commutes.php");
     exit;
 } catch (PDOException $e) {
     // Handle database error

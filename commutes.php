@@ -1,6 +1,7 @@
 <?php
 include "session_check.php";
 include "connect.php";
+include "function_translate_month_to_Hungarian.php";
 
 // Check if the user is logged in
 if (!isset($_SESSION['logged']) || !isset($_SESSION['work_id'])) {
@@ -8,26 +9,28 @@ if (!isset($_SESSION['logged']) || !isset($_SESSION['work_id'])) {
     exit;
 }
 
-$userWorkID = $_SESSION['work_id'];
-
-// Get the selected month from the dropdown
-if (isset($_GET['month'])) {
+// Get the work ID either from the URL parameter or from the session
+if (isset($_GET['work_id'])) {
+    $userWorkID = $_GET['work_id'];
+} else {
+    $userWorkID = $_SESSION['work_id'];
+}
+// Get the selected month and year from the dropdown
+if (isset($_GET['month']) && isset($_GET['year'])) {
     $selectedMonth = $_GET['month'];
     $selectedYear = $_GET['year'];
 } else {
-    // Default to current month if not set
+    // Default to current month and year if not set
     $selectedMonth = date('m');
-    $selectedYear= date('Y');
+    $selectedYear = date('Y');
 }
 
-// Prepare a SQL statement to retrieve all messages received by the logged-in user along with the date from the calendar
-// Prepare a SQL statement to retrieve all messages received by the logged-in user along with the date from the calendar
+// Prepare a SQL statement to retrieve all commute records for the selected user, month, and year
 $sql = "SELECT * FROM commute
         WHERE work_id = :userWorkID 
         AND EXTRACT(MONTH FROM date) = :selectedMonth
         AND EXTRACT(YEAR FROM date) = :selectedYear
         ORDER BY date DESC";
-
 
 $stmt = $conn->prepare($sql);
 $stmt->bindParam(':userWorkID', $userWorkID, PDO::PARAM_INT);
@@ -36,7 +39,14 @@ $stmt->bindParam(':selectedYear', $selectedYear, PDO::PARAM_INT);
 $stmt->execute();
 $commutes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// Prepare a SQL statement to retrieve user information
+$sql = "SELECT work_id, name FROM users WHERE work_id = :userWorkID";
+$stmt = $conn->prepare($sql);
+$stmt->bindParam(':userWorkID', $userWorkID, PDO::PARAM_INT);
+$stmt->execute();
+$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -54,7 +64,14 @@ $commutes = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
     <div class="main-content">
         <div class="my-commutes">
-            <h1>Munkábajárásaim
+            <h1><?php if($_SESSION['work_id']==$userWorkID){
+                    echo "Munkábajárásaim";
+                }
+                else{
+                    echo '<a href="profile.php?work_id=' . $userWorkID . '">' . $users[0]['name'] . '</a> ' . $selectedYear . ' ' . translateMonthToHungarian($selectedMonth) . 'i munkábajárásai';
+
+                }
+                ?>
                 <div class="year-month-selector">
                     <form action="" method="GET">
                         <select id="month-select" name="year">
@@ -85,6 +102,7 @@ $commutes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <option value="11" <?php if ($selectedMonth == 11) echo "selected"; ?>>November</option>
                             <option value="12" <?php if ($selectedMonth == 12) echo "selected"; ?>>December</option>
                         </select>
+                        <input type="hidden" name="work_id" value="<?php echo $userWorkID; ?>">
                         <input type="submit" value="Kiválaszt">
                     </form>
                 </div>

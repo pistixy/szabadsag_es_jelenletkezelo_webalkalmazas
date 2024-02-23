@@ -98,7 +98,7 @@ $requests = $requestsStmt->fetchAll(PDO::FETCH_ASSOC);
 
             <?php if (!empty($requests)): ?>
                 <form id="requestsForm" method="post">
-                    <table>
+                    <table border="1">
                         <tr>
                             <th><input type="checkbox" id="selectAll" onclick="toggleCheckboxes(this)"></th>
                             <th>Kérelem ID</th>

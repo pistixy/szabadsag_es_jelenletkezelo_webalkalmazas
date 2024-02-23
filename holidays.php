@@ -50,7 +50,8 @@
                         echo "<h2>Szabadnapjaim állása</h2>";
                     }
                     else{
-                        echo "<h2>".$user['name']." szabadnapjainak állása</h2>";
+                        echo "<h2><a href='profile.php?work_id=" . $work_id . "'>" . $user['name'] . "</a> szabadnapjainak állása</h2>";
+
                     }
                     ?>
                     <ul>

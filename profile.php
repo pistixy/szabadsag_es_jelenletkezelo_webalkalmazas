@@ -100,6 +100,7 @@ if ($result) {
                 ?>
                 <p class="profile-data"><strong>Naptár: </strong><a href="calendar.php?work_id= <?php echo $result['work_id']?>"><?php echo $result['name']?> naptára</a> </p
                 <p class="profile-data"><strong>Szabadnapok: </strong><a href="holidays.php?work_id=<?php echo $result['work_id']?>"><?php echo $result['name']?> szabadnapjai</a> </p>
+                <p class="profile-data"><strong>Munkábajárások: </strong><a href="commutes.php?work_id=<?php echo $result['work_id']?>"><?php echo $result['name']?> munkábajárásai</a> </p>
                 <p class="profile-data"><strong>Email:</strong> <?php echo $result['email']; ?></p>
                 <p class="profile-data"><strong>Teljes név:</strong> <?php echo $result['name']; ?></p>
                 <p class="profile-data"><strong>work_id:</strong> <?php echo $result['work_id']; ?></p>

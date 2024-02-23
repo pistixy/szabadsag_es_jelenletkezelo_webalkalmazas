@@ -63,7 +63,9 @@ $firstDayOfWeek = date("N", mktime(0, 0, 0, $month, 1, $year));
     <div class="main-content">
         <div class="calendar-view-container">
             <div class="calendar-view-name">
-                <h1><?php echo $isOwnCalendar ? "Naptárad" : $calendarOwnerName . " Naptára"; ?></h1>
+                <h1>
+                    <?php echo $isOwnCalendar ? "Naptárad" : '<a href="profile.php?work_id=' . $userWorkId . '">' . $calendarOwnerName . '</a> Naptára'; ?>
+                </h1>
             </div>
             <div class="calendar-view-selector">
                 <form action="" method="get">
