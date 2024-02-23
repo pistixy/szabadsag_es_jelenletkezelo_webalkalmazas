@@ -25,7 +25,7 @@ include "session_check.php";
                 <input type="date" id="selectedDate" name="selectedDate" required>
                 <br>
                 <label for="szervezetszam">Adjon meg szervezetszámot</label>
-                <input type="number" id="szervezetszam" name="szervezetszam">
+                <input type="text" id="szervezetszam" name="szervezetszam">
                 <fieldset>
                     <legend>Válassza ki a státuszt!</legend>
 
