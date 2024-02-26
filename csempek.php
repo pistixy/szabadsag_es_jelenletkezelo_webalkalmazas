@@ -188,10 +188,10 @@ include "check_login.php";
         </td>
         <td>
             <?php
-            if (isset($_SESSION['logged']) && $_SESSION['is_user']==false) {
-                echo ' <a href="report_missing_form.php">Igazolatlan hiányzás jelentése</a>';
+            if (isset($_SESSION['logged']) && $_SESSION['is_user'] == false) {
+                // Get yesterday's date
+                echo '<a href="report_missing_form.php">Igazolatlan hiányzás jelentése</a>';
             }
-
             ?>
         </td>
     </tr>

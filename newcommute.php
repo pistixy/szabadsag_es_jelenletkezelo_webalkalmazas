@@ -12,8 +12,8 @@ $mindate = date("Y-m-d", strtotime("2020-01-01"));
 
 if (isset($_POST['upload_receipt'])) {
     $date = $_POST['date'];
-    $honnan = $_POST['honnan'];
-    $hova = $_POST['hova'];
+    /*$honnan = $_POST['honnan'];
+    $hova = $_POST['hova'];*/
     $how = $_POST['how'];
 
     $work_id = $_SESSION['work_id'];
@@ -61,23 +61,23 @@ if (isset($_POST['upload_receipt'])) {
             echo "Valós ár értéket adjon meg!";
             exit;
         }
-    } elseif ($how === "Oda_Vissza") {
+    } /*elseif ($how === "Oda_Vissza") {
         $km = $_POST['km'];
         if ($km < $minkm || $km > $maxkm) {
             echo "Valós kilóméter értéket adjon meg!";
             exit;
         }
-    }
+    }*/
 
     if ($date > $currentDate || $date < $mindate) {
         echo "Csak ".$mindate. " és ".$currentDate. " között adhat meg dátumokat!";
         exit;
     }
 
-    if (!in_array(ucfirst(strtolower($honnan)), $varosok) || !in_array(ucfirst(strtolower($hova)), $varosok)) {
+    /*if (!in_array(ucfirst(strtolower($honnan)), $varosok) || !in_array(ucfirst(strtolower($hova)), $varosok)) {
         echo "Érvénytelen városnév! A városnak a következők közül kell lennie: " . implode(", ", $varosok);
         exit;
-    }
+    }*/
 
     $fileName = null;
 
@@ -106,21 +106,21 @@ if (isset($_POST['upload_receipt'])) {
     }
 
     try {
-        $stmt = $conn->prepare("INSERT INTO commute (work_id, honnan, hova, how, date, filename, price, km) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO commute (work_id, how, date, filename, price, km) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bindParam(1, $work_id);
-        $stmt->bindParam(2, $honnan);
-        $stmt->bindParam(3, $hova);
-        $stmt->bindParam(4, $how);
-        $stmt->bindParam(5, $date);
-        $stmt->bindParam(6, $fileName);
-        $stmt->bindParam(7, $price);
-        $stmt->bindParam(8, $km);
+        $stmt->bindParam(2, $how);
+        $stmt->bindParam(3, $date);
+        $stmt->bindParam(4, $fileName);
+        $stmt->bindParam(5, $price);
+        $stmt->bindParam(6, $km);
 
         $stmt->execute();
-        echo "Data recorded successfully!";
+        echo '<script>alert("Data recorded successfully!");</script>';
+        echo '<script>window.history.back();</script>'; // Go back to the previous page
     } catch (PDOException $e) {
         echo "Error recording data: " . $e->getMessage();
     }
+
 } else {
     header("Location: comingtowork.php");
     exit;

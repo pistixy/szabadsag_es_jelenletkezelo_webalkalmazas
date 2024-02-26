@@ -4,6 +4,51 @@
     <meta charset="UTF-8">
     <title>Munkábajárási</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* CSS for the selected button */
+        .selected {
+            background-color: #333; /* Darker color for the selected button */
+            color: #fff; /* White text color */
+        }
+    </style>
+    <script>
+        // Function to handle option selection
+        function selectOption(option) {
+            // Remove the 'selected' class from all buttons
+            var buttons = document.querySelectorAll('.selector-option');
+            buttons.forEach(function(button) {
+                button.classList.remove('selected');
+            });
+            // Add the 'selected' class to the clicked button
+            document.getElementById(option).classList.add('selected');
+
+            // Update the URL with the selected option
+            window.location.href = window.location.pathname + "?option=" + option;
+        }
+
+        // Function to set the selected state based on the URL parameter
+        // Function to set the selected state based on the URL parameter
+        function setSelectedOption() {
+            var params = new URLSearchParams(window.location.search);
+            var option = params.get('option');
+            if (option) {
+                var selectedButton = document.getElementById(option);
+                if (selectedButton) {
+                    selectedButton.classList.add('selected');
+                }
+            } else {
+                // If no option is selected, default to 'egyszeri'
+                var defaultButton = document.getElementById('egyszeri');
+                if (defaultButton) {
+                    defaultButton.classList.add('selected');
+                }
+            }
+        }
+
+
+        // Call the function when the page loads
+        window.onload = setSelectedOption;
+    </script>
 </head>
 <body>
 <div class="body-container">
@@ -14,98 +59,35 @@
         ?>
     </div>
     <div class="main-content">
-        <form action="newcommute.php" method="post" enctype="multipart/form-data">
-            <fieldset class="comming-to-work">
-                <legend>Munkába járás térítési űrlap</legend>
-                <div>
-                    <label for="date">Válasszon dátumot:</label>
-                    <input type="date" id="date" name="date" required>
-                </div>
-                <div>
-                    <label for="honnan">Kiindulási pont:</label>
-                    <input type="text" id="honnan" name="honnan" required>
-                </div>
-                <div>
-                    <label for="hova">Cél:</label>
-                    <input type="text" id="hova" name="hova" value="Győr">
-                </div>
+        <div class="my-commutes">
+            <div class="selector-container">
+                <!-- Add onclick event to each selector option -->
+                <div class="selector-option" id="egyszeri" onclick="selectOption('egyszeri')">Egyszeri munkábajárás</div>
+                <div class="selector-option" id="berlet" onclick="selectOption('berlet')">Bérlet hozzáadása</div>
+            </div>
 
-                <div>
-                    <label for="how">Válassza ki hogyan jött munkába aznap:</label>
-                </div>
-                <div>
-                    <input type="radio" name="how" value="Car" checked>Autóval (fix összeg)
-                </div>
-                <div>
-                    <input type="radio" name="how" value="PublicTransport">Közösségi közlekedéssel (86%-os menetjegyár térítés)
-                </div>
-                <div>
-                    <input type="radio" name="how" value="Oda_Vissza">Oda-vissza egy nap alatt (távolság alapú elbírálás)
-                </div>
-                <div id="PublicTransport">
-                    <div>
-                        <label>Adja meg e számlán szerelplő értéket! (ft)</label>
-                        <input type="text" id="price" name="price" >
-                    </div>
-
-                    <div >
-                        <label>Töltse fel jegyeit PDF formátumban:</label>
-                        <input type="file" accept="image/gif, image/jpg, image/png, image/jpeg, application/pdf" name="receipt">
-
-                    </div>
-                </div>
-                <div id="Oda_Vissza">
-                    <label>Adja meg a levezetett kilóméterek számát! A teljes út kilóméterszámát írja be!</label>
-                    <input type="number" id="km" name="km" >
-                </div>
-                <input type="submit" name="upload_receipt" value="Feltöltés">
-            </fieldset>
-        </form>
-
-        <div class="footer-div">
+            <?php
+            // Check which option is selected
+            if (isset($_GET['option'])) {
+                $selectedOption = $_GET['option'];
+                if ($selectedOption === "egyszeri") {
+                    include "egyszeri.php";
+                } elseif ($selectedOption === "berlet") {
+                    include "berlethozzaadasa.php";
+                }
+            }
+            else{
+                $selectedOption ="egyszeri";
+                include "egyszeri.php";
+            }
+            ?>
+        </div>
+        <div class=footer-div>
             <?php
             include "footer.php";
             ?>
         </div>
-
     </div>
 </div>
-
-
-
-    <script>
-        const radioButtons = document.querySelectorAll('input[name="how"]');
-        const publicTransportSection = document.getElementById("PublicTransport");
-        const oda_visszaSection = document.getElementById("Oda_Vissza");
-
-        radioButtons.forEach(function (radioButton) {
-            radioButton.addEventListener("change", function () {
-                updatepublicTransportSection();
-                updateoda_visszaSection();
-            });
-        });
-
-        updatepublicTransportSection();
-        updateoda_visszaSection();
-
-        function updatepublicTransportSection() {
-            if (radioButtons[1].checked) {
-                publicTransportSection.style.display = "block";
-            } else {
-                publicTransportSection.style.display = "none";
-            }
-        }
-
-        function updateoda_visszaSection() {
-            if (radioButtons[2].checked) {
-                oda_visszaSection.style.display = "block";
-            } else {
-                oda_visszaSection.style.display = "none";
-            }
-        }
-    </script>
-
-
 </body>
 </html>
-

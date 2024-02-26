@@ -113,12 +113,13 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <th>Commute ID</th>
                         <th>Work ID</th>
                         <th>Dátum</th>
-                        <th>Hogyam?</th>
+                        <th>Hogyan?</th>
                         <th>Honnan?</th>
                         <th>Hová?</th>
                         <th>Fájlnév</th>
                         <th>Ár</th>
                         <th>Távolság (km)</th>
+                        <th>Bérlet?</th>
                         <th>Műveletek</th>
                     </tr>
                     <?php foreach ($commutes as $commute): ?>
@@ -132,6 +133,14 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <td><?php echo htmlspecialchars($commute['filename']); ?></td>
                             <td><?php echo htmlspecialchars($commute['price']); ?></td>
                             <td><?php echo htmlspecialchars($commute['km']); ?></td>
+                            <td><?php if($commute['how']=="Pass"){
+                                echo "Igen";
+                                }
+                                else{
+                                    echo "Nem";
+                                }
+                                ?></td>
+
                             <td>
                                 <!-- Button for deletion -->
                                 <form action="delete_commute.php" method="post">

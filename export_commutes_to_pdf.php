@@ -46,7 +46,21 @@ if (!empty($users)) {
     // No users found, handle this case as needed
     echo "No user found with the specified work ID.";
 }
+//Fetch the number of days
+$sql = "SELECT calendar_id 
+        FROM calendar 
+        WHERE work_id = :userWorkId 
+        AND day_status = 'work_day' 
+        AND EXTRACT(MONTH FROM date) = :month
+        AND EXTRACT(YEAR FROM date) = :year";
 
+$stmt = $conn->prepare($sql);
+$stmt->bindParam(':userWorkId', $userWorkID, PDO::PARAM_INT); // Corrected the case to match the placeholder
+$stmt->bindParam(':month', $month, PDO::PARAM_INT);
+$stmt->bindParam(':year', $year, PDO::PARAM_INT);
+$stmt->execute();
+$days = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$numberOfDays = count($days);
 
 
 // Create new PDF document
@@ -78,7 +92,8 @@ $commuteEntries = $commuteStmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Create an array to hold dates with commutes
 $commuteDates = [];
-$sum=0;
+$sum = 0;
+$sumpass = 0;
 foreach ($commuteEntries as $entry) {
     // Assume the date is stored in a column named 'date' and the mode of commute in 'how'
     $date = new DateTime($entry['date']);
@@ -87,9 +102,20 @@ foreach ($commuteEntries as $entry) {
         'day' => $day,
         'how' => $entry['how'] // Storing the mode of commute
     ];
-    $sum+=$entry['price'];
+    if ($entry['how'] == "Pass") {
+        $sumpass += $entry['price'];
+    } elseif ($entry['how'] == "Car") {
+        $sum += 1500;
+    } elseif ($entry['how'] == "Oda_Vissza") {
+        $sum += 3000;
+    } elseif ($entry['how'] == "PublicTransport") {
+        $sum += $entry['price'];
+    }
 }
+
 $sum086=$sum*0.86;
+$sumpass086=$sumpass*0.86;
+$totalsum= $sumpass086+$sum086;
 $HungarianMonth=translateMonthToHungarian($month);
 $year=date("Y");
 // Define the HTML content
@@ -98,7 +124,7 @@ $html = <<<EOD
 <div style="font-size: 9px;">
 <p><strong>Dolgozó szervezeti egysége:</strong> ...$kar / $szervezetszam...</p>
 <p style="text-align: center"><strong>IGÉNYBEJELENTÉS ÉS IGAZOLÁS A MUNKÁBAJÁRÁS KÖLTSÉGTÉRÍTÉSÉHEZ</strong></p>
-<p style="text-align: center;">$HungarianMonth</p>
+<p style="text-align: center;" >$year /    $HungarianMonth</p>
 <table style="width:100%; border-collapse: collapse; padding: 1px; margin: 1px;" border="1" >
 <tr>
 <td style="width:10%;"><strong>Név</strong></td>
@@ -113,13 +139,19 @@ $html = <<<EOD
 </table>
 </div>
 <div style="margin: 0px; padding: 0px; font-size: 9px;">
-    <p style="margin: 0px; padding: 0px;"><strong>Közösségi közlekedéssel utazók:</strong></p>
-    <p style="margin: 0px; padding: 0px;">Bizonylattal elszámolt bérlet, ill. jegyek teljes ára: $sum</p>
-    <p style="margin: 0px; padding: 0px;">Térített összeg (86 %): $sum086</p>
+    <p style="margin: 0px; padding: 0px;"><strong>Közösségi közlekedéssel (bérlettel) utazók:</strong></p>
+    <ul>
+    <li>Bizonylattal elszámolt bérletek teljes ára: $sumpass</li>
+    <li>Térített összeg (86 %): $sumpass086</li>
+    </ul>
     <p style="margin: 0px; padding: 0px;"><strong>Bérlettel nem rendelkezők:</strong></p>
-  <p>A bizonylatokat kérjük dátum szerinti sorba rendezve mellékelni!</p>
-    <p>Munkában töltött napok száma (amikor a dolgozó költségtérítésre jogosult):</p>
-    <p>$year.    $HungarianMonth.</p>
+    <ul>
+    <li>Bizonylattal elszámolt jegyek és autózás teljes ára: $sum</li>
+    <li>Térített összeg (86 %): $sum086</li>
+    </ul>
+    <p><strong>Teljes térített összeg: $totalsum</strong></p>
+    <p>A bizonylatokat kérjük dátum szerinti sorba rendezve mellékelni!</p>
+    <p>Munkában töltött napok száma (amikor a dolgozó költségtérítésre jogosult): $numberOfDays</p>
 </div>
 EOD;
 
@@ -202,7 +234,7 @@ $html .= <<<EOD
     </ul>
     <p>Alulírott utalványozásra jogosult vezető igazolom, hogy nevezett munkavállaló a fentiekben részletezettek szerint jogosult a munkába járás költségtérítésére.</p>
     <p>Győr, 201.. ................................................</p>
-    <p>............................................................ igénylő közalkalmazott ............................................................ munkahelyi vezető</p>
+    <p>.................................................. igénylő közalkalmazott .................................................. munkahelyi vezető</p>
     <p style="text-align: center;"><strong>LEADÁSI HATÁRIDŐ A BÉR- ÉS MUNKÁÜGYI OSZTÁLYHOZ:
      TARGYHÓT KÖVETŐ HÓNAP 15. NAPJA!</strong></p>
     <p  style="font-style: italic; font-size: 8px;">Munkába járáshoz kapcsolódó utazási költségértés első igénybejelentése előtt (egy alkalommal) ki kell tölteni a MUNKÁÜGY-13-2017.sz. nyomtatványt, egyúttal szíveskedjenek megismerni a 7/2016. számú rektori-kancellári körlevél ide vonatkozó rendelkezéseit.</p>

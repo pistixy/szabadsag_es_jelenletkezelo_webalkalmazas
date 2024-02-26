@@ -11,14 +11,14 @@ if (!isset($_SESSION['logged']) || !isset($_SESSION['work_id'])) {
 // Initialize variables
 $users = [];
 $message = '';
-
+$yesterday = date('Y-m-d', strtotime('-1 day'));
 // Handle form submission
 if (isset($_POST['submit'])) {
     // Get the selected date from the form
     $selectedDate = $_POST['selectedDate'];
-} else{
-    // Make the date into default date
-    $selectedDate=date("Y-m-d");
+} else {
+        // Make the date into default date
+        $selectedDate = $yesterday;
 }
 // Query the calendar table to retrieve work_id records for the selected date with day_status = "working_day"
 $stmt = $conn->prepare("SELECT work_id, calendar_id, day_status FROM calendar WHERE date = :selectedDate AND day_status = 'work_day'");
@@ -35,7 +35,7 @@ if (!empty($calendarData)) {
     $stmt->execute($workIDs);
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } else {
-    $message = "No users worked on the selected date.";
+    $message = "No users worked on the selected date(".$selectedDate.").";
 }
 ?>
 
@@ -56,7 +56,7 @@ if (!empty($calendarData)) {
             <h1>Válasszon dátumot!</h1>
             <form action="" method="post">
                 <label for="selectedDate">Dátum:</label>
-                <input type="date" id="selectedDate" name="selectedDate" required>
+                <input type="date" id="selectedDate" name="selectedDate" value="<?php echo htmlspecialchars($selectedDate); ?>" required>
                 <input type="submit" value="Submit" name="submit">
             </form>
         </div>
