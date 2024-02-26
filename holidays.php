@@ -45,26 +45,56 @@
             ?>
 
             <div class="holidays">
-                <?php if ($user):
-                    if ($userWorkID==$work_id){
+                <?php
+                if ($user):
+                    if ($userWorkID == $work_id) {
                         echo "<h2>Szabadnapjaim állása</h2>";
-                    }
-                    else{
+                    } else {
                         echo "<h2><a href='profile.php?work_id=" . $work_id . "'>" . $user['name'] . "</a> szabadnapjainak állása</h2>";
-
                     }
                     ?>
-                    <ul>
+                    <table border="1">
+                        <thead>
+                        <tr>
+                            <th>Típus</th>
+                            <th>Mennyiség</th>
+                            <th>Műveletek</th>
+                        </tr>
+                        </thead>
+                        <tbody>
                         <?php foreach ($user as $key => $value): ?>
                             <?php if ($key !== 'work_id' && $key !== 'name' && $key !== 'email' && $key !== 'password' && $key !== 'cim' && $key !== 'adoazonosito' && $key !== 'szervezetszam' && $key !== 'alkalmazottikartya' && $key !== 'position' && $key !== 'profile_picture' && $key !== 'kar'): ?>
-                                <li><?php echo getStatusName($key) . ": " . $value; ?></li>
+                                <tr>
+                                    <td><?php echo getStatusName($key); ?></td>
+                                    <td><?php echo $value; ?></td>
+                                    <td style="display: flex">
+                                        <?php if (in_array($key, ['payed_free', 'payed_edu_free', 'payed_award_free', 'unpayed_dad_free', 'unpayed_home_free', 'unpayed_free']) && ($_SESSION['position'] === 'dekan' || $_SESSION['position'] === 'admin')): ?>
+                                            <form action="increase_day.php" method="post">
+                                                <input type="hidden" name="work_id" value="<?php echo $work_id; ?>">
+                                                <input type="hidden" name="status" value="<?php echo $key; ?>">
+                                                <button type="submit">+1</button>
+                                            </form>
+                                        <?php endif; ?>
+
+                                        <?php if (in_array($key, ['payed_free', 'payed_edu_free', 'payed_award_free', 'unpayed_dad_free', 'unpayed_home_free', 'unpayed_free']) && ($_SESSION['position'] === 'dekan' || $_SESSION['position'] === 'admin')): ?>
+                                            <form action="decrease_day.php" method="post">
+                                                <input type="hidden" name="work_id" value="<?php echo $work_id; ?>">
+                                                <input type="hidden" name="status" value="<?php echo $key; ?>">
+                                                <button type="submit">-1</button>
+                                            </form>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
                             <?php endif; ?>
                         <?php endforeach; ?>
-                    </ul>
+                        </tbody>
+                    </table>
                 <?php else: ?>
                     <p>User not found</p>
                 <?php endif; ?>
             </div>
+
+
 
             <div class="footer-div">
                 <?php
