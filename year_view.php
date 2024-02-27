@@ -70,15 +70,23 @@ $nextYear = $year + 1;
             $monthDays[$dayOfMonth] = $row['day_status'];
         }
 
+        // Get the current day
+        $currentDay = date('j');
+        $currentMonth = date('n'); // Get the current month (without leading zeros)
+
         // Display each day in the month
         foreach ($monthDays as $day => $cssClass) {
             // Check if the $cssClass is empty and set it to "empty"
             if (empty($cssClass)) {
                 $cssClass = "empty";
             }
-            $datetocheck=sprintf("%04d-%02d-%02d", $year, $month, $day);
-            $dateLink ="date_details.php?date=".$datetocheck."&view=$currentView";
-            echo "<a href='$dateLink' class='day-box $cssClass'>$day</a>";
+
+            // Add "today" class if it's the current day and current month
+            $todayClass = ($day == $currentDay && $month == $currentMonth) ? "today" : "";
+
+            $datetocheck = sprintf("%04d-%02d-%02d", $year, $month, $day);
+            $dateLink = "date_details.php?date=" . $datetocheck . "&view=$currentView";
+            echo "<a href='$dateLink' class='day-box $cssClass $todayClass'>$day</a>";
         }
 
         echo "</div>"; // Close month-row
