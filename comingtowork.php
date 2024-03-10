@@ -10,6 +10,7 @@
             background-color: #333; /* Darker color for the selected button */
             color: #fff; /* White text color */
         }
+
     </style>
     <script>
         // Function to handle option selection
