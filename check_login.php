@@ -9,6 +9,7 @@ if (isset($_SESSION['logged']) && $_SESSION['logged'] === true) {
 
     include "connect.php";
 
+
     try {
         $stmt = $conn->prepare("SELECT position FROM users WHERE email = :email");
         $stmt->bindParam(':email', $email);
