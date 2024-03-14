@@ -17,17 +17,15 @@ if (isset($_SESSION['email'])) {
         $row = $result[0];
         $userWorkId = $row['work_id']; // Adjust the column name to match your database
 
-        // Fill calendar data...
+        // Fill calendar data for the past 1 year and the next 2 years
         $currentDate = new DateTime();
-        $lastDayOfYear = new DateTime($currentDate->format('Y-12-31'));
-        $interval = $currentDate->diff($lastDayOfYear);
-        $remainingDays = $interval->format('%a');
-        $limit = $remainingDays + 7;
+        $pastLimit = 365; // Fill data for the past 1 year
+        $futureLimit = 365 * 2; // Fill data for the next 2 years
 
-        for ($i = 0; $i < $limit; $i++) {
-            $date = date("Y-m-d", strtotime($currentDate->format("Y-m-d") . " + " . $i . " days"));
+        // Fill past calendar data
+        for ($i = 1; $i <= $pastLimit; $i++) {
+            $date = date("Y-m-d", strtotime($currentDate->format("Y-m-d") . " - " . $i . " days"));
             $day_status = date('N', strtotime($date)) <= 5 ? "work_day" : "weekend";
-
 
             $stmt = $conn->prepare("INSERT INTO calendar (work_id, date, day_status ) VALUES (:work_id, :date, :day_status )");
             $stmt->bindParam(':work_id', $userWorkId);
@@ -41,11 +39,30 @@ if (isset($_SESSION['email'])) {
                 echo "Error: " . $stmt->errorInfo()[2] . "<br>"; // PDO error info
             }
         }
-        echo "Calendar data for the next $limit days has been filled.";
+
+        // Fill future calendar data
+        for ($i = 0; $i < $futureLimit; $i++) {
+            $date = date("Y-m-d", strtotime($currentDate->format("Y-m-d") . " + " . $i . " days"));
+            $day_status = date('N', strtotime($date)) <= 5 ? "work_day" : "weekend";
+
+            $stmt = $conn->prepare("INSERT INTO calendar (work_id, date, day_status ) VALUES (:work_id, :date, :day_status )");
+            $stmt->bindParam(':work_id', $userWorkId);
+            $stmt->bindParam(':date', $date);
+            $stmt->bindParam(':day_status', $day_status);
+
+            if ($stmt->execute()) {
+                // Successful insert
+            } else {
+                echo "Error inserting data for date: " . $date . "<br>";
+                echo "Error: " . $stmt->errorInfo()[2] . "<br>"; // PDO error info
+            }
+        }
+
+        echo "Calendar data for the past 1 year and the next 2 years has been filled.";
     } else {
         echo "User not found in the database.";
     }
 } else {
     echo "User session not found.";
 }
-
+?>

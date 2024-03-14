@@ -15,6 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $userWorkID = $_SESSION['work_id'];
     $toWhom = "";
 
+
+
 // Prepare SQL to fetch kar and szervezetszam based on work_id
     $sql = "SELECT kar, szervezetszam FROM users WHERE work_id = :workId";
     $stmt = $conn->prepare($sql);
@@ -44,7 +46,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $year = intval($year);
     $month = intval($month);
     $day = intval($day);
+    $currentDate = date('Y-m-d');
 
+    // Explode the current date into an array [year, month, day]
+    list($currentYear, $currentMonth, $currentDay) = explode('-', $currentDate);
+
+    // Convert them to integers if necessary
+    $currentYear = intval($currentYear);
+    $currentMonth = intval($currentMonth);
+
+    // Explode the requested date into an array [year, month, day]
+    list($requestedYear, $requestedMonth, $requestedDay) = explode('-', $date);
+
+    // Convert them to integers if necessary
+    $requestedYear = intval($requestedYear);
+    $requestedMonth = intval($requestedMonth);
+
+    // Check if the requested date is in the previous month
+    if ($requestedYear < $currentYear || ($requestedYear == $currentYear && $requestedMonth < $currentMonth)) {
+    echo "You cannot make requests for dates in the previous month.";
+    exit;
+    }
 
 
     // Begin transaction

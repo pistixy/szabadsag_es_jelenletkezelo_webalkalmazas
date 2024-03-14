@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$port = '5433';
+$port = '5432';
 $dbname = 'holidaycalendar';
 $user = 'postgres';
 $password = '123';

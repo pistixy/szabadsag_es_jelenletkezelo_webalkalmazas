@@ -662,7 +662,11 @@ h1 {
     border: 0px;
     text-align: center; /* Center the text (day number) */
     line-height: 20px; /* Align text vertically */
-    /* Additional styling as needed */
+    /* Additional styling as needed */ 
+}
+.day-box:hover {
+    cursor: pointer;
+    /* Additional styling as needed */ 
 }
 .year-navigation {
     text-align: center;
@@ -740,5 +744,4 @@ h1 {
 }
 .today {
     border: 2px solid red;
-
 }

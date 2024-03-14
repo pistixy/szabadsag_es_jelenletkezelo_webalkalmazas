@@ -86,7 +86,7 @@ $nextYear = $year + 1;
 
             $datetocheck = sprintf("%04d-%02d-%02d", $year, $month, $day);
             $dateLink = "date_details.php?date=" . $datetocheck . "&view=$currentView";
-            echo "<a href='$dateLink' class='day-box $cssClass $todayClass'>$day</a>";
+            echo "<a href='$dateLink' class='day-box $cssClass $todayClass'>$day</a>"; //old correct line
         }
 
         echo "</div>"; // Close month-row

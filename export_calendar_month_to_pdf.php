@@ -23,6 +23,7 @@ if (isset($_POST['year']) && isset($_POST['month']) && isset($_POST['work_id']))
     $mindate = $year . '-' . $month . '-01';
     // Get the last day of the month
     $maxdate = $year . '-' . $month . '-' . date('t', strtotime($year . '-' . $month . '-01'));
+    $lengthOfMonth = date('t', strtotime($mindate));
 } else {
     echo "Year and month parameters are required.";
     exit; // Terminate the script if parameters are not set
@@ -100,6 +101,21 @@ $stmt->bindParam(':mindate', $mindate, PDO::PARAM_STR);
 $stmt->bindParam(':maxdate', $maxdate, PDO::PARAM_STR);
 $stmt->execute();
 $calendar = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Check if the number of records fetched is not equal to the length of the month
+if (count($calendar) !== $lengthOfMonth) {
+    $missingDays = $lengthOfMonth - count($calendar);
+    $missingRecords = [];
+
+    // Generate missing records with day_status set to "weekend"
+    for ($i = 0; $i < $missingDays; $i++) {
+        $date = date('Y-m-d', strtotime($mindate . " + $i days"));
+        $missingRecords[] = ['date' => $date, 'day_status' => 'weekend'];
+    }
+
+    // Merge missing records with the fetched calendar records
+    $calendar = array_merge($missingRecords, $calendar);
+}
 /*foreach($calendar as $cal){
     foreach ($cal as $c){
         echo $c." ";
