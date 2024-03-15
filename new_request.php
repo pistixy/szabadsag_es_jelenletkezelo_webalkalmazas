@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $date = $_POST['date']; // Ensure this date is in 'YYYY-MM-DD' format
     $userWorkID = $_SESSION['work_id'];
     $toWhom = "";
+    $day_status = $_POST['day_status'];
 
 
 
@@ -64,8 +65,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Check if the requested date is in the previous month
     if ($requestedYear < $currentYear || ($requestedYear == $currentYear && $requestedMonth < $currentMonth)) {
-    echo "You cannot make requests for dates in the previous month.";
+    echo "Nem kérvényezhetsz szabadságot az korábbi hónapról.";
     exit;
+    }
+    if ($day_status =="holiday" || $day_status =="weekend") {
+        echo "Nem kérhetsz szabadságot hétvégére, vagy ünnepnapra.";
+        exit;
     }
 
 

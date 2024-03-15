@@ -119,6 +119,8 @@ if (isset($_SESSION['work_id'])) {
             <?php echo $date;
             ?>
             <input type="hidden" name="date" value="<?php echo $date; ?>">
+            <input type="hidden" name="day_status" value="<?php echo $calendarResult['day_status']; ?>">
+           
             <input type="submit" name="submit" value="Submit">
     </fieldset>
     <input type="hidden" name="view" value="<?php echo htmlspecialchars($currentView); ?>">
