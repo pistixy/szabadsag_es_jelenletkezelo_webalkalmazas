@@ -1,3 +1,4 @@
+<!-- Ez a rész a tagolhatóság és késöbbi fejlesztések miatt van Külön -->
 <p>Nap: <?php echo date('l', strtotime($calendarResult['date'])); ?></p>
 <p>Státusz: <?php echo getStatusName($calendarResult['day_status'])?></p>
 <p>Megjegyzés: <?php echo $calendarResult['comment']; ?></p>

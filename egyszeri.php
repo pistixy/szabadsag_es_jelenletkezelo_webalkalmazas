@@ -40,19 +40,14 @@
 
                     </div>
                 </div>
-                <div id="Oda_Vissza">
+                <!--<div id="Oda_Vissza">
                     <label>Adja meg a levezetett kilóméterek számát! A teljes út kilóméterszámát írja be!</label>
                     <input type="number" id="km" name="km" >
-                </div>
+                </div>-->   
                 <input type="submit" name="upload_receipt" value="Feltöltés">
             </fieldset>
         </form>
-
     </div>
-
-
-
-
     <script>
         const radioButtons = document.querySelectorAll('input[name="how"]');
         const publicTransportSection = document.getElementById("PublicTransport");

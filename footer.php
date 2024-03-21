@@ -1,4 +1,4 @@
-<footer class="footer">
+<footer class="footer"> <!-- Lábléc --->
     <p>Takó István</p>
     <p>AVCKU9</p>
     <p>istvan.tako2@gmail.com</p>

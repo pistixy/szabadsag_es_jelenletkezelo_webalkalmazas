@@ -1,32 +1,34 @@
 <?php
+// Munkamenet ellenőrző fájl beillesztése
 include "session_check.php";
+// Adatbázis kapcsolatfájl beillesztése
 include "connect.php";
 
-// Check if the user is logged in
+// Ellenőrizzük, hogy a felhasználó be van-e jelentkezve
 if (!isset($_SESSION['logged']) || !isset($_SESSION['work_id'])) {
     header("Location: login_form.php");
     exit;
 }
 
-// Initialize variables
+// Változók inicializálása
 $users = [];
 $message = '';
 $yesterday = date('Y-m-d', strtotime('-1 day'));
-// Handle form submission
+// Űrlap beküldésének kezelése
 if (isset($_POST['submit'])) {
-    // Get the selected date from the form
+    // Szerezd be a kiválasztott dátumot az űrlapról
     $selectedDate = $_POST['selectedDate'];
 } else {
-        // Make the date into default date
+        // Állítsa be az alapértelmezett dátumot
         $selectedDate = $yesterday;
 }
-// Query the calendar table to retrieve work_id records for the selected date with day_status = "working_day"
+// Lekérdezés a naptár táblából a kiválasztott dátumhoz tartozó work_id rekordok lekéréséhez a day_status = "work_day" esetén
 $stmt = $conn->prepare("SELECT work_id, calendar_id, day_status FROM calendar WHERE date = :selectedDate AND day_status = 'work_day'");
 $stmt->bindParam(':selectedDate', $selectedDate);
 $stmt->execute();
 $calendarData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Fetch users corresponding to the retrieved work_id records
+// A lekért work_id rekordokhoz tartozó felhasználók lekérése
 if (!empty($calendarData)) {
     $placeholders = rtrim(str_repeat('?,', count($calendarData)), ',');
     $workIDs = array_column($calendarData, 'work_id');
@@ -35,7 +37,7 @@ if (!empty($calendarData)) {
     $stmt->execute($workIDs);
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } else {
-    $message = "No users worked on the selected date(".$selectedDate.").";
+    $message = "Nincsenek dolgozók a kiválasztott dátumon(".$selectedDate.").";
 }
 ?>
 
@@ -57,7 +59,7 @@ if (!empty($calendarData)) {
             <form action="" method="post">
                 <label for="selectedDate">Dátum:</label>
                 <input type="date" id="selectedDate" name="selectedDate" value="<?php echo htmlspecialchars($selectedDate); ?>" required>
-                <input type="submit" value="Submit" name="submit">
+                <input type="submit" value="Küldés" name="submit">
             </form>
         </div>
         <div class="report-missing-form">
@@ -67,9 +69,9 @@ if (!empty($calendarData)) {
                     <thead>
                     <tr>
                         <th>Work ID</th>
-                        <th>Name</th>
+                        <th>Név</th>
                         <th>Kar</th>
-                        <th>Szervezetszam</th>
+                        <th>Szervezetszám</th>
                         <th>Email</th>
                         <th>Státusz</th>
                         <th>Műveletek</th>

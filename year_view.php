@@ -52,6 +52,7 @@ $nextYear = $year + 1;
             echo '</button>';
             echo '</form>';
             echo "</div>";
+            
             echo "</div>";
         echo "<div class='month-row'>";
 

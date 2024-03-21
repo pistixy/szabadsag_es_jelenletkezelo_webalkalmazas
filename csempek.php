@@ -1,5 +1,7 @@
 <?php
+// csempek oldal
 include "check_login.php";
+
 ?>
 <table class="csempe">
     <tr>
@@ -12,8 +14,6 @@ include "check_login.php";
         <td>
             <a href="comingtowork.php">Munkába járás</a>
         </td>
-
-
         <td>
             <a href="https://www.uni.sze.hu"> Széchenyi Egyetem oldala</a>
         </td>
@@ -25,9 +25,6 @@ include "check_login.php";
         <td>
             <a href="logout.php">Kijelentkezés</a>
         </td>
-
-
-
         <td>
             <?php
             if (isset($_SESSION['logged'])) {
@@ -71,10 +68,11 @@ include "check_login.php";
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $position = $result['position']; // User's position
-            $kar = $result['kar']; // User's kar
-            $szervezetszam = $result['szervezetszam']; // User's szervezetszam
-            switch ($position) {
+            $position = $result['position']; // User beosztása
+            $kar = $result['kar']; // User kara
+            $szervezetszam = $result['szervezetszam']; // User szervezetszama
+            // a felhasználó jogosultságaihoz mérten jelenjenek meg a értesítések
+            switch ($position) { 
                 case "admin":
                     $pendingRequestSql = "SELECT COUNT(*) AS pendingcount FROM requests 
                           WHERE request_status = 'pending' 
@@ -109,7 +107,7 @@ include "check_login.php";
                             $hasPendingRequests = false;
                         }
                     } else {
-                        // Handle error here
+                        // hibakezelés
                         $errorInfo = $pendingRequestStmt->errorInfo();
                         echo "SQL Error: " . $errorInfo[2];
                         $hasPendingRequests = false;
@@ -144,9 +142,6 @@ include "check_login.php";
             }
         }
         ?>
-
-
-
         <td>
             <?php
             if (isset($_SESSION['logged']) && $_SESSION['is_user']==false) {
@@ -189,7 +184,6 @@ include "check_login.php";
         <td>
             <?php
             if (isset($_SESSION['logged']) && $_SESSION['is_user'] == false) {
-                // Get yesterday's date
                 echo '<a href="report_missing_form.php">Igazolatlan hiányzás jelentése</a>';
             }
             ?>

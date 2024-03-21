@@ -7,27 +7,33 @@
 </head>
 <body>
 <?php
+// Session ellenőrzése
 include "session_check.php";
 
+// Ha nincs bejelentkezve, átirányítás a bejelentkezési oldalra
 if (!isset($_SESSION['logged'])) {
     header("Location: login_form.php");
     exit;
 }
 
+// Adatbázis kapcsolat létrehozása
 include "connect.php";
 
+// Bejelentkezett felhasználó e-mail címének lekérdezése a munkamenetből
 $email = $_SESSION['email'];
 
+// Felhasználó adatainak lekérdezése az adatbázisból az e-mail cím alapján
 $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
 $stmt->bindParam(':email', $email);
 $stmt->execute();
 $result = $stmt->fetchAll();
 
+// Ha találat van az adatbázisban az e-mail cím alapján
 if (count($result) > 0) {
     $row = $result[0];
-    // Now you can use $row to access user details
+    // A $row változóban tárolt adatok használata a felhasználó részleteinek eléréséhez
 } else {
-    echo "No user found with the specified email.";
+    echo "Nincs felhasználó a megadott e-mail címmel.";
 }
 ?>
 
@@ -49,11 +55,11 @@ if (count($result) > 0) {
         <label for="alkalmazottikartyaszama">Alkalmazotti kártyaszám:</label>
         <input type="text" id="alkalmazottikartyaszama" name="alkalmazottikartyaszama" value="<?php echo $row['alkalmazottikartya']; ?>" required>
 
-
         <input type="submit" value="Mentés">
     </form>
 </div>
 <?php
+// Lábléc beillesztése
 include "footer.php";
 ?>
 </body>

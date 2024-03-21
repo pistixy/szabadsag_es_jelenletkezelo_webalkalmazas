@@ -1,13 +1,13 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
-    include "session_check.php";
+    include "session_check.php"; // Ellenőrizze, hogy a munkamenet aktív-e
 }
-include "connect.php";
+include "connect.php"; // Adatbáziskapcsolat fájl beillesztése
 
 if (isset($_SESSION['email'])) {
     $email = $_SESSION['email'];
 
-    // Use the correct column name from your PostgreSQL database
+    // A helyes oszlopnevet használja az Ön PostgreSQL adatbázisából
     $stmt = $conn->prepare("SELECT work_id FROM users WHERE email = :email");
     $stmt->bindParam(':email', $email);
     $stmt->execute();
@@ -15,14 +15,14 @@ if (isset($_SESSION['email'])) {
 
     if (count($result) == 1) {
         $row = $result[0];
-        $userWorkId = $row['work_id']; // Adjust the column name to match your database
+        $userWorkId = $row['work_id']; // Állítsa be az oszlopnevet, hogy megfeleljen az adatbázisának
 
-        // Fill calendar data for the past 1 year and the next 2 years
+        // Naptáradatok kitöltése az elmúlt 1 évben és a következő 10 évben
         $currentDate = new DateTime();
-        $pastLimit = 365; // Fill data for the past 1 year
-        $futureLimit = 365 * 2; // Fill data for the next 2 years
+        $pastLimit = 365; // Adatok kitöltése az elmúlt 1 évben
+        $futureLimit = 365 * 10; // Adatok kitöltése a következő 10 évben
 
-        // Fill past calendar data
+        // Múltbeli naptár adatok kitöltése
         for ($i = 1; $i <= $pastLimit; $i++) {
             $date = date("Y-m-d", strtotime($currentDate->format("Y-m-d") . " - " . $i . " days"));
             $day_status = date('N', strtotime($date)) <= 5 ? "work_day" : "weekend";
@@ -33,14 +33,14 @@ if (isset($_SESSION['email'])) {
             $stmt->bindParam(':day_status', $day_status);
 
             if ($stmt->execute()) {
-                // Successful insert
+                // Sikeres beillesztés
             } else {
-                echo "Error inserting data for date: " . $date . "<br>";
-                echo "Error: " . $stmt->errorInfo()[2] . "<br>"; // PDO error info
+                echo "Hiba az adatok beillesztésénél a dátumhoz: " . $date . "<br>";
+                echo "Hiba: " . $stmt->errorInfo()[2] . "<br>"; // PDO hibainformáció
             }
         }
 
-        // Fill future calendar data
+        // Jövőbeli naptár adatok kitöltése
         for ($i = 0; $i < $futureLimit; $i++) {
             $date = date("Y-m-d", strtotime($currentDate->format("Y-m-d") . " + " . $i . " days"));
             $day_status = date('N', strtotime($date)) <= 5 ? "work_day" : "weekend";
@@ -51,18 +51,18 @@ if (isset($_SESSION['email'])) {
             $stmt->bindParam(':day_status', $day_status);
 
             if ($stmt->execute()) {
-                // Successful insert
+                // Sikeres beillesztés
             } else {
-                echo "Error inserting data for date: " . $date . "<br>";
-                echo "Error: " . $stmt->errorInfo()[2] . "<br>"; // PDO error info
+                echo "Hiba az adatok beillesztésénél a dátumhoz: " . $date . "<br>";
+                echo "Hiba: " . $stmt->errorInfo()[2] . "<br>"; // PDO hibainformáció
             }
         }
 
-        echo "Calendar data for the past 1 year and the next 2 years has been filled.";
+        echo "Naptár visszamenőleg és a jövőre nézve feltöltve.";
     } else {
-        echo "User not found in the database.";
+        echo "A felhasználó nem található az adatbázisban.";
     }
 } else {
-    echo "User session not found.";
+    echo "Nincs beállított felhasználói munkamenet.";
 }
 ?>

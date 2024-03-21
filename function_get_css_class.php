@@ -9,7 +9,7 @@ function getCssClass($dayStatus) {
             return "holiday";
         /////////////HERE TODO
         default:
-            return ""; // Default case if status is not recognized
+            return ""; // default, amikor ismeretlen státuszt talál vagy nincs megadva
     }
 }
 //Nincs használatban

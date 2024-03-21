@@ -8,13 +8,13 @@
 <body>
 <?php
 include "connect.php";
-include "session_check.php";
+include "session_check.php"; 
 
 ?>
 <div class="body-container">
     <div class="navbar">
         <?php
-        include "nav-bar.php";
+        include "nav-bar.php"; //navigációs ablak megjelenitese
         ?>
     </div>
     <div class="main-content">
@@ -87,7 +87,7 @@ include "session_check.php";
         </div>
         <div class="footer-div">
             <?php
-            include "footer.php";
+            include "footer.php"; // lablec behuzasa
             ?>
         </div>
     </div>

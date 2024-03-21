@@ -1,13 +1,16 @@
 <?php
+// Munkamenet ellenőrző fájl beillesztése
 include "session_check.php";
+// Adatbázis kapcsolatfájl beillesztése
 include "connect.php";
 
+// A keresési lekérdezés lekérdezése az URL-ből, alapértelmezetten üres stringgel
 $searchQuery = $_GET['search_query'] ?? '';
 
-// Sanitize the search query
+// A keresési kifejezés tisztítása
 $searchTerm = "%" . $searchQuery . "%";
 
-// Fetch the user's data based on the work_id from the session
+// Felhasználó adatainak lekérése a munkamenetben tárolt work_id alapján
 $workId = $_SESSION['work_id'] ?? '';
 $positionSql = "SELECT position, kar, szervezetszam FROM users WHERE work_id = :workId";
 $positionStmt = $conn->prepare($positionSql);
@@ -20,12 +23,12 @@ if ($userData) {
     $kar = $userData['kar'];
     $szervezetszam = $userData['szervezetszam'];
 } else {
-    // Handle case when no user data is found
-    echo "No user data found.";
+    // Kezeljük az esetet, ha nem található felhasználói adat
+    echo "Nincs felhasználói adat.";
     exit;
 }
 
-// Adjust SQL query based on the user's position
+// Az SQL lekérdezés módosítása a felhasználó pozíciójának megfelelően
 switch ($userPosition) {
     case 'admin':
         $sql = "SELECT * FROM users WHERE work_id::varchar LIKE :searchTerm OR name LIKE :searchTerm OR email LIKE :searchTerm";
@@ -37,11 +40,11 @@ switch ($userPosition) {
         $sql = "SELECT * FROM users WHERE (work_id::varchar LIKE :searchTerm OR name LIKE :searchTerm OR email LIKE :searchTerm) AND kar = :kar AND szervezetszam = :szervezetszam";
         break;
     default:
-        echo "You do not have permission to perform this search.";
+        echo "Nincs jogosultsága ehhez a kereséshez.";
         exit;
 }
 
-// Prepare and execute the statement
+// Az utasítás előkészítése és végrehajtása
 $stmt = $conn->prepare($sql);
 $stmt->bindParam(':searchTerm', $searchTerm, PDO::PARAM_STR);
 if (in_array($userPosition, ['dekan', 'tanszekvezeto'])) {
@@ -57,8 +60,8 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Search Results</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <title>Keresési eredmények</title>
+    <link rel="stylesheet" href="styles.css"> <!-- CSS fájlhoz való hivatkozás -->
 </head>
 <body>
 <div class="body-container">
@@ -67,24 +70,24 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
     <div class="main-content">
         <div class="search-results">
-            <h1>Search Results for "<?php echo htmlspecialchars($searchQuery); ?>"</h1>
+            <h1>Keresési eredmények: "<?php echo htmlspecialchars($searchQuery); ?>"</h1>
 
             <?php if (is_array($results) && count($results) > 0): ?>
                 <table>
                     <tr>
-                        <th>Work ID</th>
-                        <th>Name</th>
+                        <th>Munka ID</th>
+                        <th>Név</th>
                         <th>Email</th>
                         <th>Kar</th>
                         <th>Szervezetszám</th>
                     </tr>
                     <?php foreach ($results as $row): ?>
                         <tr>
-                            <!-- Make work_id clickable -->
+                            <!-- Munka ID kattinthatóvá tétele -->
                             <td><a href="profile.php?work_id=<?php echo $row['work_id']; ?>"><?php echo htmlspecialchars($row['work_id']); ?></a></td>
-                            <!-- Make name clickable -->
+                            <!-- Név kattinthatóvá tétele -->
                             <td><a href="profile.php?work_id=<?php echo $row['work_id']; ?>"><?php echo htmlspecialchars($row['name']); ?></a></td>
-                            <!-- Make email clickable -->
+                            <!-- Email kattinthatóvá tétele -->
                             <td><a href="profile.php?work_id=<?php echo $row['work_id']; ?>"><?php echo htmlspecialchars($row['email']); ?></a></td>
                             <td><?php echo htmlspecialchars($row['kar']); ?></td>
                             <td><?php echo htmlspecialchars($row['szervezetszam']); ?></td>
@@ -92,7 +95,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php endforeach; ?>
                 </table>
             <?php else: ?>
-                <p>No results found for "<?php echo htmlspecialchars($searchQuery); ?>".</p>
+                <p>Nincs találat erre a keresésre: "<?php echo htmlspecialchars($searchQuery); ?>".</p>
             <?php endif; ?>
         </div>
         <div class="footer-div">
@@ -102,8 +105,6 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 </div>
-
-
 
 </body>
 </html>

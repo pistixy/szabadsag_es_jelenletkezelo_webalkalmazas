@@ -90,7 +90,7 @@
 </div>
 
 <?php
-include "footer.php";
+include "footer.php"; //lábléc elhelyezése
 ?>
 </body>
 </html>

@@ -2,7 +2,7 @@
 include "connect.php";
 include "session_check.php";
 
-// Determine whose details to show: either from URL (if admin and provided) or from session
+// ellenörizzik le, hogy kinek a adatai mutassuk, ha van továbbitott work_id akkor az ahhoz tartozo felhasználót, különben sajátot
 if (isset($_GET['work_id']) && $_SESSION['isAdmin']) {
     $workIdToCheck = $_GET['work_id'];
 } else {
@@ -55,14 +55,14 @@ $conn = null;
 
         .section {
             text-align: center;
-            color: #333; /* Darker text color for better contrast */
+            color: #333; 
             font-weight: bold;
-            padding: 0 5px; /* Adjusted padding for text */
+            padding: 0 5px;
             display: flex;
             align-items: center;
-            justify-content: center; /* Centered text horizontally */
+            justify-content: center; 
             position: relative;
-            border-radius: 1px; /* Rounded corners for each section */
+            border-radius: 1px; 
         }
 
         .section:hover .tooltiptext {

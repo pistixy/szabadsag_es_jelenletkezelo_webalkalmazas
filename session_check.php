@@ -1,18 +1,23 @@
 <?php
+// Munkamenet elindítása, ha még nem lett elindítva
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$timeLimit = 60 * 60; // 60 minutes in seconds
+$timeLimit = 60 * 60; // 60 perc másodpercekben
 
+// Ha van utolsó tevékenység és az időtúllépés megtörtént
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $timeLimit)) {
-session_unset();
-session_destroy();
+    // Munkamenet törlése és lezárása
+    session_unset();
+    session_destroy();
 
-header("Location: session_expired.php");
-exit;
+    // Átirányítás a session_expired.php oldalra
+    header("Location: session_expired.php");
+    exit;
 }
 
+// Utolsó tevékenység időbélyeg frissítése
 $_SESSION['last_activity'] = time();
 
 ?>

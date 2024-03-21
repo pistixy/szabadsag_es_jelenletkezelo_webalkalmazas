@@ -1,5 +1,5 @@
 <?php
-
+//Függvény a szépen olvasható kiírásokhoz
 function getStatusName($statusCode) {
     $statusNames = [
         "weekend" => "Hétvége",
@@ -35,7 +35,7 @@ function getStatusName($statusCode) {
         "unpayed_requested" =>"Fizetés nélküli kérelmezett igazolt távollét",
         "unpayed_planned" => "Fizetés nélküli betervezett igazolt távollét",
         "unpayed_taken" => "Fizetés nélküli felhasznált igazolt távollét",
-        // ... other statuses
+        // ... más statuszok
         "dad_day" => "Apanap",
         "home" => "Home office",
         "award" => "Fizetett jutalom szabadság",
@@ -45,5 +45,5 @@ function getStatusName($statusCode) {
         //"work_day" => "Munknap"
 
     ];
-    return $statusNames[$statusCode] ?? "Ismeretlen";
+    return $statusNames[$statusCode] ?? "Ismeretlen"; //ha üres paraméterrel hívjuk, dobjon ismeretlent
 }

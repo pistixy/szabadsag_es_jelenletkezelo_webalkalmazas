@@ -1,141 +1,136 @@
-    <?php
-    include "session_check.php";
-    include "connect.php";
-    include "function_get_status_name.php";
-    include "function_translate_month_to_Hungarian.php";
+<?php
+include "session_check.php";
+include "connect.php";
+include "function_get_status_name.php";
+include "function_translate_month_to_Hungarian.php";
 
-    if (!isset($_SESSION['logged'])) {
-        header("Location: login_form.php");
-        exit;
-    }
-
-    // Check if work_id is passed in URL and user is admin, else use session work_id
-    if (isset($_GET['work_id']) && $_SESSION['is_user']==false) {
-        $userWorkId = $_GET['work_id'];
-        $isOwnCalendar = $userWorkId == $_SESSION['work_id'];
-    } else {
-        $userWorkId = $_SESSION['work_id'];
-        $isOwnCalendar = true;
-    }
-
-    // Fetch user's name for the calendar header
-    $stmt = $conn->prepare("SELECT name FROM users WHERE work_id = :work_id");
-    $stmt->bindParam(':work_id', $userWorkId);
-    $stmt->execute();
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    $calendarOwnerName = $user ? $user['name'] : "Unknown User";
-
-    if (isset($_GET['year']) && isset($_GET['month'])) {
-        $year = intval($_GET['year']);
-        $month = intval($_GET['month']);
-    } else {
-        $year = date("Y");
-        $month = date("n");
-    }
-
-    $prevMonth = ($month == 1) ? 12 : $month - 1;
-    $prevYear = ($month == 1) ? $year - 1 : $year;
-    $nextMonth = ($month == 12) ? 1 : $month + 1;
-    $nextYear = ($month == 12) ? $year + 1 : $year;
-
-    $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-
-    $monthName = date("F", mktime(0, 0, 0, $month, 1, $year));
-
-    $firstDayOfWeek = date("N", mktime(0, 0, 0, $month, 1, $year));
-    ?>
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title><?php echo $isOwnCalendar ? "Naptárad" : "{$calendarOwnerName} Naptára"; ?></title>
-        <link rel="stylesheet" href="styles.css">
-        <link rel="stylesheet" href="calendar_colours.css">
-        <style>
-/* Popup container - can be anything you want */
-.popup {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+// Ha a felhasználó nincs bejelentkezve, átirányítjuk a bejelentkezési oldalra
+if (!isset($_SESSION['logged'])) {
+    header("Location: login_form.php");
+    exit;
 }
 
-/* The actual popup */
-.popup .popuptext {
-  visibility: hidden;
-  background-color: #555;
-  position: absolute;
-}
-/* Toggle this class - hide and show the popup */
-.popup .show {
-  visibility: visible;
-  -webkit-animation: fadeIn 1s;
-  animation: fadeIn 1s;
+// Ellenőrizzük, hogy a work_id át lett-e adva az URL-ben, és a felhasználó admin-e, különben használjuk a munkaazonosítót a munkamenetből
+if (isset($_GET['work_id']) && $_SESSION['is_user'] == false) {
+    $userWorkId = $_GET['work_id'];
+    $isOwnCalendar = $userWorkId == $_SESSION['work_id'];
+} else {
+    $userWorkId = $_SESSION['work_id'];
+    $isOwnCalendar = true;
 }
 
-</style>
+// Lekérdezzük a felhasználó nevét a naptár fejlécéhez
+$stmt = $conn->prepare("SELECT name FROM users WHERE work_id = :work_id");
+$stmt->bindParam(':work_id', $userWorkId);
+$stmt->execute();
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+$calendarOwnerName = $user ? $user['name'] : "Ismeretlen Felhasználó";
 
+// Ha az URL-ben meg van adva az év és a hónap
+if (isset($_GET['year']) && isset($_GET['month'])) {
+    $year = intval($_GET['year']);
+    $month = intval($_GET['month']);
+} else {
+    $year = date("Y");
+    $month = date("n");
+}
 
-    </head>
-    <body>
-    <div class="body-container">
-        <div class="navbar">
-            <?php
-            include "nav-bar.php";
-            ?>
+$prevMonth = ($month == 1) ? 12 : $month - 1;
+$prevYear = ($month == 1) ? $year - 1 : $year;
+$nextMonth = ($month == 12) ? 1 : $month + 1;
+$nextYear = ($month == 12) ? $year + 1 : $year;
+
+$daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+
+$monthName = date("F", mktime(0, 0, 0, $month, 1, $year));
+
+$firstDayOfWeek = date("N", mktime(0, 0, 0, $month, 1, $year));
+?>
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title><?php echo $isOwnCalendar ? "Naptárad" : "{$calendarOwnerName} Naptára"; ?></title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="calendar_colours.css">
+    <style>
+        /* Stílusok a popup-hoz */
+        .popup {
+          position: relative;
+          display: inline-block;
+          cursor: pointer;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+
+        /* A popup tartalma */
+        .popup .popuptext {
+          visibility: hidden;
+          background-color: #555;
+          position: absolute;
+        }
+        /* Ez a class váltja ki a megjelenést */
+        .popup .show {
+          visibility: visible;
+          -webkit-animation: fadeIn 1s;
+          animation: fadeIn 1s;
+        }
+    </style>
+</head>
+<body>
+<div class="body-container">
+    <div class="navbar">
+        <?php
+        include "nav-bar.php";
+        ?>
+    </div>
+    <div class="main-content">
+        <div class="calendar-view-container">
+            <div class="calendar-view-name">
+                <h1>
+                    <?php echo $isOwnCalendar ? "Naptárad" : '<a href="profile.php?work_id=' . $userWorkId . '">' . $calendarOwnerName . '</a> Naptára'; ?>
+                </h1>
+            </div>
+            <div class="calendar-view-selector">
+                <form action="" method="get">
+                    <input type="hidden" name="year" value="<?php echo $year; ?>">
+                    <input type="hidden" name="work_id" value="<?php echo $userWorkId; ?>">
+                    <select name="view" onchange="this.form.submit()">
+                        <option value="yearly" <?php echo (!isset($_GET['view']) || $_GET['view'] == 'yearly') ? 'selected' : ''; ?>>Éves Nézet</option>
+                        <option value="monthly" <?php echo (isset($_GET['view']) && $_GET['view'] == 'monthly') ? 'selected' : ''; ?>>Havi Nézet</option>
+                    </select>
+                </form>
+            </div>
         </div>
-        <div class="main-content">
-            <div class="calendar-view-container">
-                <div class="calendar-view-name">
-                    <h1>
-                        <?php echo $isOwnCalendar ? "Naptárad" : '<a href="profile.php?work_id=' . $userWorkId . '">' . $calendarOwnerName . '</a> Naptára'; ?>
-                    </h1>
-                </div>
-                <div class="calendar-view-selector">
-                    <form action="" method="get">
-                        <input type="hidden" name="year" value="<?php echo $year; ?>">
-                        <input type="hidden" name="work_id" value="<?php echo $userWorkId; ?>">
-                        <select name="view" onchange="this.form.submit()">
-                            <option value="yearly" <?php echo (!isset($_GET['view']) || $_GET['view'] == 'yearly') ? 'selected' : ''; ?>>Éves Nézet</option>
-                            <option value="monthly" <?php echo (isset($_GET['view']) && $_GET['view'] == 'monthly') ? 'selected' : ''; ?>>Havi Nézet</option>
-                        </select>
-                    </form>
+        <div class="calendar-container">
+        <?php
+        // Alapértelmezett éves nézet, ha nincs megadva nézet, vagy ha az éves nézet van kiválasztva
+        $selectedView = $_GET['view'] ?? 'yearly';
 
-                </div>
-            </div>
-            <div class="calendar-container">
-
+        if ($selectedView == 'yearly') {
+            $currentView = 'yearly';
+            include "year_view.php";
+        } elseif ($selectedView == 'monthly') {
+            $currentView = 'monthly';
+            include "month_view.php";
+        }
+        ?>
+        </div>
+        <?php
+        include "csuszka.php";
+        ?>
+        <div class="footer-div">
             <?php
-            // Default to yearly view if no view is set or if yearly view is selected
-            $selectedView = $_GET['view'] ?? 'yearly';
-
-            if ($selectedView == 'yearly') {
-                $currentView= 'yearly';
-                include "year_view.php";
-            } elseif ($selectedView == 'monthly') {
-                $currentView= 'monthly';
-                include "month_view.php";
-            }
+            include "footer.php";
             ?>
-            
-            </div>
-            <?php
-            include "csuszka.php";
-            ?>
-
-            <div class="footer-div">
-                <?php
-                include "footer.php";
-                ?>
-            </div>
         </div>
     </div>
+</div>
 
     <script>
-// When the user clicks on div, open the popup
+// popup megnyitása
 function myFunction() {
   var popup = document.getElementById("myPopup");
   popup.classList.toggle("show");

@@ -19,25 +19,29 @@ $pozicio = $userDetails['position'];
 $kar = $userDetails['kar'];
 $szervezetszam = $userDetails['szervezetszam'];
 $statusFilter = isset($_POST['statusFilter']) ? $_POST['statusFilter'] : 'pending';
+
+$statusFilter = isset($_POST['statusFilter']) ? $_POST['statusFilter'] : 'pending';
 $karPattern = '%' . $kar . '%';
 $szervezetszamPattern = '%' . $szervezetszam . '%';
 
-// Constructing the SQL based on user role
 switch ($pozicio) {
     case 'admin':
-        $requestsSql = "SELECT r.*, u.name, u.work_id FROM requests r LEFT JOIN users u ON r.work_id = u.work_id WHERE r.request_status = :statusFilter";
+        $requestsSql = "SELECT r.*, u.name, u.work_id FROM requests r LEFT JOIN users u ON r.work_id = u.work_id";
         break;
     case 'dekan':
-        $requestsSql = "SELECT r.*, u.name, u.work_id FROM requests r LEFT JOIN users u ON r.work_id = u.work_id WHERE r.to_whom LIKE :karPattern AND r.request_status = :statusFilter";
+        $requestsSql = "SELECT r.*, u.name, u.work_id FROM requests r LEFT JOIN users u ON r.work_id = u.work_id WHERE r.to_whom LIKE :karPattern";
         break;
     case 'tanszekvezeto':
-        $requestsSql = "SELECT r.*, u.name, u.work_id FROM requests r LEFT JOIN users u ON r.work_id = u.work_id WHERE r.to_whom LIKE :karPattern AND r.to_whom LIKE :szervezetszamPattern AND r.request_status = :statusFilter";
+        $requestsSql = "SELECT r.*, u.name, u.work_id FROM requests r LEFT JOIN users u ON r.work_id = u.work_id WHERE r.to_whom LIKE :karPattern AND r.to_whom LIKE :szervezetszamPattern";
         break;
-    default: // For a regular user
+    default:
         echo "You do not have permission to view requests.";
         exit;
 }
 
+if ($statusFilter != 'all') {
+    $requestsSql .= " AND r.request_status = :statusFilter";
+}
 $requestsStmt = $conn->prepare($requestsSql);
 if (in_array($pozicio, ['dekan', 'tanszekvezeto'])) {
     $requestsStmt->bindParam(':karPattern', $karPattern, PDO::PARAM_STR);
@@ -45,7 +49,9 @@ if (in_array($pozicio, ['dekan', 'tanszekvezeto'])) {
         $requestsStmt->bindParam(':szervezetszamPattern', $szervezetszamPattern, PDO::PARAM_INT);
     }
 }
-$requestsStmt->bindParam(':statusFilter', $statusFilter, PDO::PARAM_STR);
+if ($statusFilter != 'all') {
+    $requestsStmt->bindParam(':statusFilter', $statusFilter, PDO::PARAM_STR);
+}
 $requestsStmt->execute();
 $requests = $requestsStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>

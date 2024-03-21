@@ -1,4 +1,5 @@
 <?php
+//Függvény a hónapnevek könnyebb olvashatóságához
 function translateMonthToHungarian($monthName) {
 $months = [
 'January' => 'Január',
@@ -27,6 +28,6 @@ $months = [
 '12' => 'December'
 ];
 
-return $months[$monthName] ?? 'Unknown';
+return $months[$monthName] ?? 'Ismeretlen';
 }
 ?>

@@ -3,7 +3,8 @@ require_once 'TCPDF-main/tcpdf.php';
 include "session_check.php";
 include "connect.php";
 include "function_translate_month_to_Hungarian.php";
-
+$Egy_ut_terites=1500;
+$Oda_Vissza_terites=3000;
 
 // Check if the user is logged in
 if (!isset($_SESSION['logged']) || !isset($_SESSION['work_id'])) {
@@ -105,9 +106,9 @@ foreach ($commuteEntries as $entry) {
     if ($entry['how'] == "Pass") {
         $sumpass += $entry['price'];
     } elseif ($entry['how'] == "Car") {
-        $sum += 1500;
+        $sum += $Egy_ut_terites;
     } elseif ($entry['how'] == "Oda_Vissza") {
-        $sum += 3000;
+        $sum += $Oda_Vissza_terites;
     } elseif ($entry['how'] == "PublicTransport") {
         $sum += $entry['price'];
     }

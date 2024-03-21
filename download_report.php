@@ -1,12 +1,14 @@
 <?php
 include "connect.php";
 
+// Ellenőrizzük, hogy az űrlap elküldve lett-e
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Kiválasztott dátum és státusz lekérése az űrlapról
     $selectedDate = $_POST['selectedDate'];
     $status = $_POST['status'];
     $szervezetszam = $_POST['szervezetszam'];
 
-    // Prepare and execute the query
+    // SQL lekérdezés előkészítése és végrehajtása
     $sql = "SELECT c.work_id, u.name, u.email, u.szervezetszam
             FROM calendar AS c
             LEFT JOIN users AS u ON c.work_id = u.work_id
@@ -18,25 +20,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Filename for the CSV
+    // CSV fájlnév
     $filename = "report_" . $selectedDate . ".csv";
 
-    // Set headers to trigger download
+    // Fejlécek beállítása a letöltés kiváltásához
     header('Content-Type: text/csv');
     header('Content-Disposition: attachment; filename="'.$filename.'"');
 
-    // Open output stream
+    // Kimeneti adatfolyam megnyitása
     $output = fopen('php://output', 'w');
 
-    // Add column headers
-    fputcsv($output, array('Work ID', 'Name', 'Email', 'Organization Number'));
+    // Oszlopfejlécek hozzáadása
+    fputcsv($output, array('Munkaazonosító', 'Név', 'E-mail', 'Szervezetszám'));
 
-    // Add data rows
+    // Adatsorok hozzáadása
     foreach ($result as $row) {
         fputcsv($output, $row);
     }
 
-    // Close output stream
+    // Kimeneti adatfolyam bezárása
     fclose($output);
     exit();
 }

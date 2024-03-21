@@ -1,23 +1,23 @@
 <?php
-$host = 'localhost';
-$port = '5432';
-$dbname = 'holidaycalendar';
-$user = 'postgres';
-$password = '123';
+$host = 'localhost'; //adatbázis host ip cime
+$port = '5432'; //adatbázis potja
+$dbname = 'holidaycalendar';// adatbázis neve
+$user = 'postgres';//adatbázis felhasználója
+$password = '123';//adatbázis jelszava
 
 // PDO DSN (Data Source Name) format for PostgreSQL
 $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;user=$user;password=$password";
 
 try {
-    // Create a PDO instance as db connection
+    // Create a PDO instance as db connection 
     $conn = new PDO($dsn);
 
     // Set error mode to exception to handle errors
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-   // echo "Connected to PostgreSQL successfully!";
+   // echo "Sikeres csatlakozás!"; //Debug üzenet
 } catch (PDOException $e) {
-    // Catch any connection error and display it
-    echo "Connection failed: " . $e->getMessage();
+    // Csatlakozási hibák elkapása és kiírása
+    echo "Sikertlen csatlakozás: " . $e->getMessage();
 }
 ?>

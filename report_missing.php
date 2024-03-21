@@ -1,28 +1,30 @@
 <?php
+// Munkamenet ellenőrző fájl beillesztése
 include "session_check.php";
+// Adatbázis kapcsolatfájl beillesztése
 include "connect.php";
 
-// Check if the user is logged in
+// Ellenőrizzük, hogy a felhasználó be van-e jelentkezve
 if (!isset($_SESSION['logged']) || !isset($_SESSION['work_id'])) {
     header("Location: login_form.php");
     exit;
 }
 
-// Check if the form is submitted and the required data is provided
+// Ellenőrizzük, hogy az űrlap elküldve lett-e és a szükséges adatok meg vannak-e adva
 if (isset($_POST['calendar_id'])) {
-    // Retrieve calendar_id from the form submission
+    // Naptár azonosítójának lekérése az űrlap elküldéséből
     $calendar_id = $_POST['calendar_id'];
 
-    // Update the day_status in the calendar table to "unpayed_uncertified_taken" for the given calendar_id
+    // Frissítjük a day_status értékét az adott naptár azonosítóhoz tartozó sorban "unpayed_uncertified_taken"-re
     $stmt = $conn->prepare("UPDATE calendar SET day_status = 'unpayed_uncertified_taken' WHERE calendar_id = :calendar_id");
     $stmt->bindParam(':calendar_id', $calendar_id);
     $stmt->execute();
 
-    // Redirect back to the previous page
+    // Visszairányítás az előző oldalra
     header("Location: {$_SERVER['HTTP_REFERER']}");
     exit;
 } else {
-    // If calendar_id is not provided, redirect to an error page or previous page
+    // Ha a calendar_id nincs megadva, akkor visszairányítás egy hibaoldalra vagy az előző oldalra
     header("Location: {$_SERVER['HTTP_REFERER']}");
     exit;
 }

@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     {
         include "connect.php";
         // Fetch the calendar_id for the given date and work_id
-        $sql = "SELECT calendar_id FROM calendar WHERE date = :date AND work_id = :userWorkID";
+        $sql = "SELECT calendar_id, day_status FROM calendar WHERE date = :date AND work_id = :userWorkID";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':date', $date);
         $stmt->bindParam(':userWorkID', $userWorkID, PDO::PARAM_INT);
@@ -128,11 +128,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->bindParam(':userWorkID', $userWorkID, PDO::PARAM_INT);
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            $dateYear = date('Y', strtotime($date)); // Extract the year from $date
+            $jan6 = "$dateYear-01-06"; // January 6th of $date's year
 
             if (!empty($result)) {
-                $userData = $result[0]; // Assuming you want the first user's data
+                $userData = $result[0]; 
 
-                if ($userData['payed_past_free'] > 0) {
+                if ($userData['payed_past_free'] > 0 && $date <= $jan6) {
                     $requestedStatus = 'payed_past_requested';
                 } elseif ($userData['payed_free'] > 0) {
                     $requestedStatus = 'payed_requested';
@@ -193,8 +196,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "An error occurred: " . $e->getMessage();
             }
             break;
-        case 'work_day':
-            // Code to handle work_day TODO
+            case 'work_day':
+                try {
+                    $calendarResult = fetchCalendar($date, $userWorkID);
+                            
+                    if ($calendarResult) {
+                        $dayStatus = $calendarResult['day_status'];
+                        $calendarID_for_requests = $calendarResult['calendar_id'];
+           
+                        switch ($dayStatus) {
+                            case 'work_day':
+                                echo "Már jelenleg is dolgozna ezen a napon!";
+                                break;
+                            case 'holiday':
+                            case 'weekend':
+                                echo "Nem kérhetsz munkanapot hétvégére vagy ünnepnapra.";
+                                exit;
+                                break;
+                    }
+                } else {
+                    echo "Nincs naptári bejegyzés a megadott dátumhoz.";
+                    exit;
+                }
+            } catch (Exception $e) {
+                echo "Hiba történt: " . $e->getMessage();
+                exit;
+            }
             break;
         case 'online_work':
             $requestedStatus='unpayed_home_requested';

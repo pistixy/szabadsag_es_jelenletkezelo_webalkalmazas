@@ -1,3 +1,4 @@
+<!-- segítö ábra a szabadságok megkülönböztetéséhez.-->
 <fieldset style="margin: 0px; padding: 0px;">
     <div class="month-row">
         <div class="day-box payed_requested"></div>

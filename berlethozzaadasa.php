@@ -1,4 +1,3 @@
-
 <div class="main-content">
     <form action="newpass.php" method="post" enctype="multipart/form-data">
         <fieldset class="comming-to-work">
