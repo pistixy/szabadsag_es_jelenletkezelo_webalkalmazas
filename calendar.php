@@ -128,7 +128,6 @@ $firstDayOfWeek = date("N", mktime(0, 0, 0, $month, 1, $year));
         </div>
     </div>
 </div>
-
     <script>
 // popup megnyitása
 function myFunction() {

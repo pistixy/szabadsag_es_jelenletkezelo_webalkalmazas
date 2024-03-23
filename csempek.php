@@ -6,7 +6,11 @@ include "check_login.php";
 <table class="csempe">
     <tr>
         <td>
-            <a href="profile.php">Profil megtekintése</a>
+            <a>Fennmaradó napok száma: <?php include "days_remaining.php";?></a>
+        </td>
+        
+        <td>
+            <a>Szabadnapok száma: <?php include "days_total.php";?></a>
         </td>
         <td>
             <a href="calendar.php">Naptáram</a>
@@ -14,51 +18,10 @@ include "check_login.php";
         <td>
             <a href="comingtowork.php">Munkába járás</a>
         </td>
-        <td>
-            <a href="https://www.uni.sze.hu"> Széchenyi Egyetem oldala</a>
-        </td>
+        
     </tr>
-    <tr>
-        <td>
-            <a href="hr_segedlet.php">HR segédlet</a>
-        </td>
-        <td>
-            <a href="logout.php">Kijelentkezés</a>
-        </td>
-        <td>
-            <?php
-            if (isset($_SESSION['logged'])) {
-                echo ' <a href="my_messages.php">Üzeneteim</a>';
-            }
-
-            ?>
-        </td>
-        <td>
-            <?php
-            if (isset($_SESSION['logged'])){
-                echo ' <a href="my_requests.php">Kérelmeim</a>';
-            }
-
-            ?>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <?php
-            if (isset($_SESSION['logged']) && $_SESSION['is_user']==false) {
-                echo ' <a href="letszamjelentes.php">Letszámjelentés</a>';
-            }
-
-            ?>
-        </td>
-        <td>
-            <?php
-            if (isset($_SESSION['logged']) && $_SESSION['is_user']==false) {
-                echo ' <a href="jelenletiiv.php">Jelenléti Ív</a>';
-            }
-
-            ?>
-        </td>
+       <tr>
+        
         <?php
         if (isset($_SESSION['logged']) && $_SESSION['is_user'] == false) {
 
@@ -163,30 +126,5 @@ include "check_login.php";
             ?>
         </td>
     </tr>
-    <tr>
-        <td>
-            <?php
-            if (isset($_SESSION['logged'])){
-                echo ' <a href="commutes.php?work_id='.$_SESSION['work_id'].'">Munkábajárásaim</a>';
-            }
-
-            ?>
-        </td>
-        <td>
-            <?php
-            if (isset($_SESSION['logged'])){
-                echo '<a href="holidays.php?work_id=' . $_SESSION['work_id'] . '">Szabadnapjaim</a>';
-
-            }
-
-            ?>
-        </td>
-        <td>
-            <?php
-            if (isset($_SESSION['logged']) && $_SESSION['is_user'] == false) {
-                echo '<a href="report_missing_form.php">Igazolatlan hiányzás jelentése</a>';
-            }
-            ?>
-        </td>
-    </tr>
+    
 </table>

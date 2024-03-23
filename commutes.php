@@ -15,6 +15,9 @@ if (isset($_GET['work_id'])) {
 } else {
     $userWorkID = $_SESSION['work_id'];
 }
+
+//echo $userWorkID;
+//exit; //debughoz
 // Get the selected month and year from the dropdown
 if (isset($_GET['month']) && isset($_GET['year'])) {
     $selectedMonth = $_GET['month'];
