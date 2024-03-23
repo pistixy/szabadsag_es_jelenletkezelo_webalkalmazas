@@ -20,7 +20,7 @@ if (isset($_SESSION['email'])) {
         // Naptáradatok kitöltése az elmúlt 1 évben és a következő 10 évben
         $currentDate = new DateTime();
         $pastLimit = 365; // Adatok kitöltése az elmúlt 1 évben
-        $futureLimit = 365 * 10; // Adatok kitöltése a következő 10 évben
+        $futureLimit = 365 * 20; // Adatok kitöltése a következő 20 évre
 
         // Múltbeli naptár adatok kitöltése
         for ($i = 1; $i <= $pastLimit; $i++) {

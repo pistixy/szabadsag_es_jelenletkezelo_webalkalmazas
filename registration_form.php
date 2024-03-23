@@ -88,9 +88,5 @@
     </div>
 
 </div>
-
-<?php
-include "footer.php"; //lábléc elhelyezése
-?>
 </body>
 </html>

@@ -1,35 +1,34 @@
 <?php
 include "session_check.php";
 include "connect.php";
-include "function_translate_month_to_Hungarian.php";
-
+include "function_translate_month_to_Hungarian.php"; // Beillesztjük a magyar hónap nevek fordítását végző függvényt
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Search Results</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <title>Keresési eredmények</title>
+    <link rel="stylesheet" href="styles.css"> <!-- A CSS fájlhoz való link -->
 </head>
 <body>
 <div class="body-container">
     <div class="navbar">
-        <?php include "nav-bar.php"; ?>
+        <?php include "nav-bar.php"; ?> <!-- Beillesztjük a navigációs sávot -->
     </div>
     <div class="main-content">
         <div class="search-results">
             <?php
                 try {
-                    // Check if szervezetszam is set in the POST request
+                    // Ellenőrizzük, hogy be van-e állítva a szervezetszám a POST kérésben
                     if (isset($_POST['szervezetszam'])) {
                         $feltetel = $_POST['szervezetszam'];
 
-                        // Prepare the SQL query with the szervezetszam filter
+                        // Elkészítjük a SQL lekérdezést a szervezetszám filterrel
                         $stmt = $conn->prepare("SELECT *  FROM users WHERE szervezetszam = :feltetel or kar = :feltetel");
                         $stmt->bindParam(':feltetel', $feltetel, PDO::PARAM_INT);
                     } else {
-                        // If szervezetszam is not set, fetch all users
+                        // Ha nincs beállítva a szervezetszám, akkor minden felhasználót lekérünk
                         $feltetel = "Nincs szervezetszáma!";
                         $stmt = $conn->prepare("SELECT *     FROM users");
                     }
@@ -41,21 +40,24 @@ include "function_translate_month_to_Hungarian.php";
                         echo "<table border='1'>";
                         echo "<tr>";
                         echo "<th>Work ID</th>";
-                        echo "<th>Name</th>";
+                        echo "<th>Név</th>";
                         echo "<th>Email</th>";
-                        echo "<th>Cim</th>";
+                        echo "<th>Cím</th>";
                         echo "<th>Kar</th>";
-                        echo "<th>Szervezetszam</th>";
-                        echo "<th>Alkalmazottikartya</th>";
-                        echo "<th>Position</th>";
-                        echo "<th>Action</th>";
+                        echo "<th>Szervezetszám</th>";
+                        echo "<th>Alkalmazotti kártya</th>";
+                        echo "<th>Pozíció</th>";
+                        echo "<th>Műveletek</th>";
                         echo "</tr>";
 
-                        $month = date('n'); // 'n' returns the month without leading zeros (1 to 12)
-                        $year = date('Y'); // 'Y' returns the full four-digit year (e.g., 2024)  
+                        $month = date('n'); // 'n' a hónap sorszáma levezetésére szolgál (1 és 12 között)
+                        $year = date('Y'); // 'Y' a négyjegyű év lekérésére szolgál (pl. 2024)  
                         
-
+                        //munkaazonosítókat tartalmazó tömb létrehozása
+                        $workerIds = array();
                         foreach ($workers as $worker) {
+                            // Megjelenített dolgozó munkaazonosítójának hozzáadása a tömbhöz
+                            $workerIds[] = $worker['work_id'];
                             echo "<tr>";
                             echo "<td><a href='profile.php?work_id=" . urlencode($worker['work_id']) . "'>" . htmlspecialchars($worker['work_id']) . "</a></td>";
                             echo "<td><a href='profile.php?work_id=" . urlencode($worker['work_id']) . "'>" . htmlspecialchars($worker['name']) . "</a></td>";
@@ -71,25 +73,38 @@ include "function_translate_month_to_Hungarian.php";
                                 echo '<input type="hidden" name="month" value="' . $month . '">';
                                 echo '<input type="hidden" name="work_id" value="' . $worker['work_id']  . '">';
                                 echo '<button type="submit" name="export_calendar_month_pdf" value="1">';
-                                echo translateMonthToHungarian($month) . 'i beosztás exportálása';
+                                echo translateMonthToHungarian($month) . 'i beosztás exportálása'; // Magyar hónapnév használata
                                 echo '</button>';
                                 echo '</form>';
+
+                                
                             echo "</td>";
                             echo "</tr>";
                         }
 
                         echo "</table>";
+                        // Gomb hozzáadása a beosztások exportálásához
+                        echo '<form action="export_workers_to_pdf.php" method="post">';
+                        // A tömb tartalmának beállítása az input mező értékének
+                        echo '<input type="hidden" name="work_ids" value="' . implode(',', $workerIds) . '">';
+                        echo '<input type="hidden" name="month" value="' . $month . '">';
+                        echo '<input type="hidden" name="year" value="' . $year . '">';
+                        echo '<input type="hidden" name="feltetel" value="' . $feltetel . '">';
+                        echo '<button type="submit" name="export_workers_pdf" value="1">';
+                        echo 'Beosztások exportálása';
+                        echo '</button>';
+                        echo '</form>';
                     } else {
                         echo "Nem létezik ilyen szervezetszámű felhasználó: $feltetel";
                     }  
             } catch (PDOException $e) {
-                echo "Database error: " . $e->getMessage();
+                echo "Adatbázis hiba: " . $e->getMessage();
             }
         ?>
         </div>
         <div class="footer-div">
             <?php
-            include "footer.php"
+            include "footer.php"; // Beillesztjük a láblécet
             ?>
         </div>
     </div>

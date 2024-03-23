@@ -3,39 +3,42 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Ellenőrizzük, hogy a felhasználó be van-e jelentkezve
 if (isset($_SESSION['logged']) && $_SESSION['logged'] === true) {
     $email = $_SESSION['email'];
 
-
+    // Adatbázis kapcsolat létrehozása
     include "connect.php";
 
-
     try {
+        // Felhasználó pozíciójának lekérdezése az email alapján
         $stmt = $conn->prepare("SELECT position FROM users WHERE email = :email");
         $stmt->bindParam(':email', $email);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        // Ha eredményt találtunk
         if ($result) {
-            $_SESSION['position']=$result['position'];
+            $_SESSION['position'] = $result['position'];
 
-            if ($result['position'] == 'user'){
-                $_SESSION['is_user'] =true;
-            }else{
-                $_SESSION['is_user'] = false;
+            // Felhasználó pozíciójának alapján döntés
+            if ($result['position'] == 'user') {
+                $_SESSION['is_user'] = true; // Felhasználó
+            } else {
+                $_SESSION['is_user'] = false; // Nem felhasználó
             }
         } else {
-            echo "No result found for email: $email";
+            echo "Nincs eredmény az emailhez: $email";
         }
     } catch (PDOException $e) {
-        echo "Database error: " . $e->getMessage();
+        echo "Adatbázis hiba: " . $e->getMessage();
     }
 }
-/*echo $_SESSION['position'];
+/*echo $_SESSION['position']; //debughoz adatok
 if($_SESSION['is_user'] == true) {
     echo $_SESSION['position'];
 }
 if($_SESSION['is_user'] == false) {
     echo $_SESSION['position'];
 }*/
-
+?>
