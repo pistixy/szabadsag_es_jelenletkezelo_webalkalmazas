@@ -22,6 +22,9 @@ if (isset($_SESSION['logged']) && $_SESSION['logged'] === true) {
             $_SESSION['position'] = $result['position'];
 
             // Felhasználó pozíciójának alapján döntés
+            if ($result['position'] == 'admin') {
+                $_SESSION['isAdmin'] = true; // admin
+            } 
             if ($result['position'] == 'user') {
                 $_SESSION['is_user'] = true; // Felhasználó
             } else {

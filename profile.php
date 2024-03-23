@@ -98,7 +98,7 @@ if ($result) {
                     echo '<h1 class="profile-heading">' . htmlspecialchars($result['name']) . ' profilja</h1>';
                 }
                 ?>
-                <p class="profile-data"><strong>Naptár: </strong><a href="calendar.php?work_id= <?php echo $result['work_id']?>"><?php echo $result['name']?> naptára</a> </p
+                <p class="profile-data"><strong>Naptár: </strong><a href="calendar.php?work_id= <?php echo $result['work_id']?>"><?php echo $result['name']?> naptára</a> </p>
                 <p class="profile-data"><strong>Szabadnapok: </strong><a href="holidays.php?work_id=<?php echo $result['work_id']?>"><?php echo $result['name']?> szabadnapjai</a> </p>
                 <p class="profile-data"><strong>Munkábajárások: </strong><a href="commutes.php?work_id=<?php echo $result['work_id']?>"><?php echo $result['name']?> munkábajárásai</a> </p>
                 <p class="profile-data"><strong>Email:</strong> <?php echo $result['email']; ?></p>
@@ -108,13 +108,30 @@ if ($result) {
                 <p class="profile-data"><strong>Adóazonosító:</strong> <?php echo $result['adoazonosito']; ?></p>
                 <p class="profile-data"><strong>Szervezetszám:</strong> <?php echo $result['szervezetszam']; ?></p>
                 <p class="profile-data"><strong>Alkalmazotti kártyaszám:</strong> <?php echo $result['alkalmazottikartya']; ?></p>
-                <p class="profile-data"><strong>Beosztás:</strong> <?php echo $result['position']; ?></p>
+                <p class="profile-data"><strong>Jelenlegi beosztás:</strong> <?php echo $result['position']; ?></p>
+                <?php if ($_SESSION['isAdmin'] == true) : ?>
+                    <form action="update_position.php" method="post">
+                        <p class="profile-data"><strong>Erre módosítom:</strong>
+                            <select name="new_position">
+                                <option value="user">Alkalmazott</option>
+                                <option value="tanszekvezeto">Tanszekvezetö</option>
+                                <option value="dekan">Dékán</option>
+                                <option value="admin">Adminisztrátor</option>
+                            </select>
+                        </p>
+                        <input type="hidden" name="work_id" value="<?php echo $result['work_id']; ?>">
+                        <input  type="submit" name="update_position" value="Beosztás frissítése">
+                    </form>
+                <?php endif; ?>
+
+                
                 <p class="profile-data"><strong>Kar:</strong> <?php echo $result['kar']; ?></p>
                 <?php
                 // Only show the edit link if viewing own profile
                 if ($work_id == $_SESSION['work_id']) {
-                    echo '<a class="edit-profile-link" href="edit_profile.php">Profil szerkesztése</a>';
+                    echo '<a class="edit-profile-link" href="edit_profile.php">Profil szerkesztése</a> <br>';
                 }
+                
                 ?>
             </div>
 

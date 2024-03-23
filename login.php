@@ -28,9 +28,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['work_id'] = $row['work_id'];
 
                 // adminisztrátori jog ellenörzése
-                $_SESSION['isAdmin'] = (isset($row['position']) && $row['position'] == 1);
-
-                // Fömenüre irányítás
+                if((isset($row['position']) && $row['position'] == "admin")){
+                    $_SESSION['isAdmin']=true;
+                    //echo "admin true";//debug
+                }else{
+                    $_SESSION['isAdmin']=false;
+                    //echo "admin false";//debug
+                }
+                            // Fömenüre irányítás
                 header("Location: index.php");
                 exit;
             }
