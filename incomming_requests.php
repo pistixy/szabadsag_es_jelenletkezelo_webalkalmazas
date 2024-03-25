@@ -20,40 +20,44 @@ $kar = $userDetails['kar'];
 $szervezetszam = $userDetails['szervezetszam'];
 $statusFilter = isset($_POST['statusFilter']) ? $_POST['statusFilter'] : 'pending';
 
-$statusFilter = isset($_POST['statusFilter']) ? $_POST['statusFilter'] : 'pending';
 $karPattern = '%' . $kar . '%';
 $szervezetszamPattern = '%' . $szervezetszam . '%';
 
 switch ($pozicio) {
     case 'admin':
-        $requestsSql = "SELECT r.*, u.name, u.work_id FROM requests r LEFT JOIN users u ON r.work_id = u.work_id";
+        $requestsSql = "SELECT r.*, u.name, u.work_id FROM requests r LEFT JOIN users u ON r.work_id = u.work_id WHERE r.request_status = :statusfilter";
         break;
     case 'dekan':
-        $requestsSql = "SELECT r.*, u.name, u.work_id FROM requests r LEFT JOIN users u ON r.work_id = u.work_id WHERE r.to_whom LIKE :karPattern";
+        $requestsSql = "SELECT r.*, u.name, u.work_id FROM requests r LEFT JOIN users u ON r.work_id = u.work_id WHERE r.to_whom LIKE :karPattern AND r.request_status = :statusfilter";
         break;
     case 'tanszekvezeto':
-        $requestsSql = "SELECT r.*, u.name, u.work_id FROM requests r LEFT JOIN users u ON r.work_id = u.work_id WHERE r.to_whom LIKE :karPattern AND r.to_whom LIKE :szervezetszamPattern";
+        $requestsSql = "SELECT r.*, u.name, u.work_id FROM requests r LEFT JOIN users u ON r.work_id = u.work_id WHERE r.to_whom LIKE :karPattern AND r.to_whom LIKE :szervezetszamPattern AND r.request_status = :statusfilter";
         break;
     default:
-        echo "You do not have permission to view requests.";
+        echo "Nincs ehhez jogosultságod.";
         exit;
 }
+$requestsStmt = $conn->prepare($requestsSql);
 
 if ($statusFilter != 'all') {
-    $requestsSql .= " AND r.request_status = :statusFilter";
+    // Only add the WHERE clause if $statusFilter is not 'all'
+    $requestsSql .= " AND r.request_status = :statusfilter";
+    $requestsStmt = $conn->prepare($requestsSql);
+    $requestsStmt->bindParam(':statusfilter', $statusFilter, PDO::PARAM_STR);
 }
-$requestsStmt = $conn->prepare($requestsSql);
-if (in_array($pozicio, ['dekan', 'tanszekvezeto'])) {
+
+if ($pozicio == 'dekan' || $pozicio == 'tanszekvezeto') {
     $requestsStmt->bindParam(':karPattern', $karPattern, PDO::PARAM_STR);
-    if ($pozicio == 'tanszekvezeto') {
-        $requestsStmt->bindParam(':szervezetszamPattern', $szervezetszamPattern, PDO::PARAM_INT);
-    }
 }
-if ($statusFilter != 'all') {
-    $requestsStmt->bindParam(':statusFilter', $statusFilter, PDO::PARAM_STR);
+
+if ($pozicio == 'tanszekvezeto') {
+    $requestsStmt->bindParam(':szervezetszamPattern', $szervezetszamPattern, PDO::PARAM_STR);
 }
+
+// The actual execution of the statement
 $requestsStmt->execute();
-$requests = $requestsStmt->fetchAll(PDO::FETCH_ASSOC);
+$requests = $requestsStmt->fetchAll(PDO::FETCH_ASSOC);  
+
 ?>
 
 <!DOCTYPE html>
@@ -94,7 +98,7 @@ $requests = $requestsStmt->fetchAll(PDO::FETCH_ASSOC);
                 <label for="statusFilter">Szűrés állapot szerint:</label>
                 <select name="statusFilter" id="statusFilter" onchange="this.form.submit()">
                     <option value="pending" <?php echo (!isset($statusFilter) || $statusFilter == 'pending') ? 'selected' : ''; ?>>Függőben lévő</option>
-                    <option value="all" <?php echo (isset($statusFilter) && $statusFilter == 'all') ? 'selected' : ''; ?>>Összes</option>
+                    <!--<option value="all" <?php echo (isset($statusFilter) && $statusFilter == 'all') ? 'selected' : ''; ?>>Összes</option>-->
                     <option value="rejected" <?php echo (isset($statusFilter) && $statusFilter == 'rejected') ? 'selected' : ''; ?>>Elutasított</option>
                     <option value="accepted" <?php echo (isset($statusFilter) && $statusFilter == 'accepted') ? 'selected' : ''; ?>>Elfogadott</option>
                     <option value="messaged" <?php echo (isset($statusFilter) && $statusFilter == 'messaged') ? 'selected' : ''; ?>>Üzenet küldve</option>

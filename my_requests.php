@@ -48,13 +48,13 @@ if (isset($_SESSION['work_id'])) {
             <h1>Kérelmeim</h1>
 
             <?php if (!empty($requests)): ?>
-                <table>
+                <table border=1>
                     <tr>
                         <th>Kérelem ID</th>
                         <th>Naptár ID</th>
                         <th>Dátum</th> <!-- Added Date Column -->
                         <th>Szabadnap típusa</th>
-                        <th>Üzenet</th>
+                        <!--<th>Üzenet</th>-->
                         <th>Kinek</th>
                         <th>Kérvény állása</th>
                         <th>Időbélyegző</th>
@@ -75,12 +75,12 @@ if (isset($_SESSION['work_id'])) {
                                 <?php endif; ?>
                             </td>
                             <td><?php echo htmlspecialchars($request['requested_status']); ?></td>
-                            <td><?php echo htmlspecialchars($request['message']); ?></td>
+                            <!--<td><?php //echo htmlspecialchars($request['message']); ?></td>-->
                             <td><?php echo htmlspecialchars($request['to_whom']); ?></td>
                             <td><?php echo htmlspecialchars($request['request_status']); ?></td>
                             <td><?php echo htmlspecialchars($request['timestamp']); ?></td>
                             <td><?php echo htmlspecialchars($request['modified_date']); ?></td>
-                            <td>
+                            
                             <td>
                                 <!-- Modify Button -->
                                 <?php if ($request['request_status'] == "pending" || $request['request_status'] == "messaged"): ?>

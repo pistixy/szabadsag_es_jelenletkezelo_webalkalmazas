@@ -68,10 +68,10 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="main-content">
         <div class="my-commutes">
             <h1><?php if($_SESSION['work_id']==$userWorkID){
-                    echo "Munkábajárásaim";
+                    echo "Munkába járásaim";
                 }
                 else{
-                    echo '<a href="profile.php?work_id=' . $userWorkID . '">' . $users[0]['name'] . '</a> ' . $selectedYear . ' ' . translateMonthToHungarian($selectedMonth) . 'i munkábajárásai';
+                    echo '<a href="profile.php?work_id=' . $userWorkID . '">' . $users[0]['name'] . '</a> ' . $selectedYear . ' ' . translateMonthToHungarian($selectedMonth) . 'i munkába járásai';
 
                 }
                 ?>

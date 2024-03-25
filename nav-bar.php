@@ -29,13 +29,13 @@ include "check_login.php";
             <a href="calendar.php">Naptáram</a>
         </div>
         <div class="navbar_items">
-            <a href="comingtowork.php">Munkábajárási</a>
+            <a href="comingtowork.php">Munkába járás</a>
         </div>
         <div class="navbar_items">
             <a href="my_requests.php">Kérelmeim</a>
         </div>
         <div class="navbar_items">
-            <a href="commutes.php?work_id=<?php echo $_SESSION['work_id']?>">Munkábajárásaim</a>
+            <a href="commutes.php?work_id=<?php echo $_SESSION['work_id']?>">Munkába járásaim</a>
         </div>
     
         <div class="navbar_items">

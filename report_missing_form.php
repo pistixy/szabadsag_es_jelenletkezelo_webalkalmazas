@@ -14,10 +14,16 @@ if (!isset($_SESSION['logged']) || !isset($_SESSION['work_id'])) {
 $users = [];
 $message = '';
 $yesterday = date('Y-m-d', strtotime('-1 day'));
+$twoMonthsAgo = date('Y-m-d', strtotime('-2 month'));
+$future = date('Y-m-d', strtotime('+1 day'));
 // Űrlap beküldésének kezelése
 if (isset($_POST['submit'])) {
     // Szerezd be a kiválasztott dátumot az űrlapról
     $selectedDate = $_POST['selectedDate'];
+    if ($selectedDate < $twoMonthsAgo ||  $selectedDate >= $future){
+        $message = "A kiválasztott dátum nem lehet a jövöben, vagy nagyon rég.";
+        
+    }
 } else {
         // Állítsa be az alapértelmezett dátumot
         $selectedDate = $yesterday;
@@ -30,15 +36,44 @@ $calendarData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // A lekért work_id rekordokhoz tartozó felhasználók lekérése
 if (!empty($calendarData)) {
-    $placeholders = rtrim(str_repeat('?,', count($calendarData)), ',');
+    $positionSql = "SELECT position, kar, szervezetszam FROM users WHERE work_id = :userWorkID";
+    $positionStmt = $conn->prepare($positionSql);
+    $positionStmt->bindParam(':userWorkID', $_SESSION['work_id'], PDO::PARAM_INT);
+    $positionStmt->execute();
+    $userDetails = $positionStmt->fetch(PDO::FETCH_ASSOC);
+
+    $pozicio = $userDetails['position'] ?? 'user';  // Default to 'user'
+    $kar = $userDetails['kar'] ?? '';
+    $szervezetszam = $userDetails['szervezetszam'] ?? '';
+    $placeholders = array_fill(0, count($calendarData), '?');
     $workIDs = array_column($calendarData, 'work_id');
-    $sql = "SELECT * FROM users WHERE work_id IN ($placeholders)";
+
+    switch ($pozicio) {
+        case 'admin':
+            $sql = "SELECT * FROM users WHERE work_id IN (" . implode(',', $placeholders) . ")";
+            $params = $workIDs;
+            break;
+        case 'dekan':
+            $sql = "SELECT * FROM users WHERE work_id IN (" . implode(',', $placeholders) . ") AND kar = ?";
+            $params = array_merge($workIDs, [$kar]);
+            break;
+        case 'tanszekvezeto':
+            $sql = "SELECT * FROM users WHERE work_id IN (" . implode(',', $placeholders) . ") AND kar = ? AND szervezetszam = ?";
+            $params = array_merge($workIDs, [$kar, $szervezetszam]);
+            break;
+        default:
+            echo "Nincs ehhez jogosultságod.";
+            exit;
+    }
+
     $stmt = $conn->prepare($sql);
-    $stmt->execute($workIDs);
+    $stmt->execute($params);
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 } else {
-    $message = "Nincsenek dolgozók a kiválasztott dátumon(".$selectedDate.").";
+    $message = "Nincsenek dolgozók a kiválasztott dátumon(" . $selectedDate . ").";
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -63,7 +98,7 @@ if (!empty($calendarData)) {
             </form>
         </div>
         <div class="report-missing-form">
-            <?php if (!empty($users)): ?>
+            <?php if (!empty($users) && $message==""): ?>
                 <h2>Dolgozók a <?php echo $selectedDate; ?> napon</h2>
                 <table border="1">
                     <thead>

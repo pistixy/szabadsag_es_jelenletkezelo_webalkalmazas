@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Munkábajárási</title>
+    <title>Munkába járás felvétele</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         /* CSS a kiválasztott gombhoz */
@@ -60,7 +60,7 @@
         <div class="my-commutes">
             <div class="selector-container">
                 <!-- onclick esemény hozzáadása minden választó opcióhoz -->
-                <div class="selector-option" id="egyszeri" onclick="selectOption('egyszeri')">Egyszeri munkábajárás</div>
+                <div class="selector-option" id="egyszeri" onclick="selectOption('egyszeri')">Egyszeri munkába járás</div>
                 <div class="selector-option" id="berlet" onclick="selectOption('berlet')">Bérlet hozzáadása</div>
             </div>
 

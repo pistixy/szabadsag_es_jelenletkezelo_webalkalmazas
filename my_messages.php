@@ -45,7 +45,7 @@ $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <h1>My Messages</h1>
 
         <?php if (!empty($messages)): ?>
-            <table>
+            <table border=1>
                 <tr>
                     <th>Message ID</th>
                     <th>From Work ID</th>

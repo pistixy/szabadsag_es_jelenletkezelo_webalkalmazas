@@ -1,42 +1,38 @@
 <?php
-
-
-// Include the database connection file
+// Az adatbázis kapcsolatfájl beillesztése
 include "connect.php";
 
-// Check if the work_id is set in the session
+// Ellenőrizzük, hogy a munka azonosító (work_id) be van-e állítva a munkamenetben
 if (isset($_SESSION['work_id'])) {
-    // Get the work_id from the session
+    // A munka azonosító (work_id) lekérése a munkamenetből
     $workId = $_SESSION['work_id'];
 
     try {
-        // Prepare an SQL statement to select payed_free and payed_past_free from the database
-        $sql = "SELECT payed_free, payed_past_free,payed_edu_free,payed_award_free,unpayed_dad_free,unpayed_home_free,unpayed_free FROM users WHERE work_id = :work_id";
+        // Készítsünk egy SQL utasítást a fizetett és korábban fizetett szabadságok lekérdezésére az adatbázisból
+        $sql = "SELECT payed_free, payed_past_free, payed_edu_free, payed_award_free, unpayed_dad_free, unpayed_home_free, unpayed_free FROM users WHERE work_id = :work_id";
         $stmt = $conn->prepare($sql);
 
-        // Bind the work_id parameter
+        // A munka azonosító (work_id) paraméter összekapcsolása
         $stmt->bindParam(':work_id', $workId, PDO::PARAM_INT);
 
-        // Execute the query
+        // A lekérdezés végrehajtása
         $stmt->execute();
 
-        // Fetch the data
+        // Az adatok lekérése
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-       
+        // A teljes összeg kiszámítása
+        $total = $row['payed_free'] + $row['payed_past_free'] + $row['payed_edu_free'] + $row['payed_award_free'] + $row['unpayed_dad_free'] + $row['unpayed_home_free'] + $row['unpayed_free'];
 
-        // Calculate the total
-        $total = $row['payed_free'] + $row['payed_past_free']+$row['payed_edu_free']+$row['payed_award_free']+$row['unpayed_dad_free']+$row['unpayed_home_free']+$row['unpayed_free'];
-
-        // Echo out the total
+        // Az összeg kiíratása
         echo $total;
 
     } catch (PDOException $e) {
-        // Handle any errors
-        echo "Error: " . $e->getMessage();
+        // Kezeljük a hibákat
+        echo "Hiba: " . $e->getMessage();
     }
 } else {
-    // Work ID is not set in the session
-    echo "No work_id found in the session.";
+    // A munka azonosító (work_id) nincs beállítva a munkamenetben
+    echo "Nincs munka azonosító a munkamenetben.";
 }
 ?>

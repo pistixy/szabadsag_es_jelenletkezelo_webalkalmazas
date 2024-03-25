@@ -21,11 +21,16 @@ include "function_translate_month_to_Hungarian.php"; // Beillesztjük a magyar h
             <?php
                 try {
                     // Ellenőrizzük, hogy be van-e állítva a szervezetszám a POST kérésben
-                    if (isset($_POST['szervezetszam'])) {
-                        $feltetel = $_POST['szervezetszam'];
+                    if (isset($_POST['feltetel'])) {
+                        $feltetel = $_POST['feltetel'];
+                            $isAll=FALSE;
+                        if($feltetel == '' or $feltetel == '*'){
+                            $isAll=TRUE;
+                            $feltetel = '%' . '' . '%';
+                        }
 
                         // Elkészítjük a SQL lekérdezést a szervezetszám filterrel
-                        $stmt = $conn->prepare("SELECT *  FROM users WHERE szervezetszam = :feltetel or kar = :feltetel");
+                        $stmt = $conn->prepare("SELECT * FROM users WHERE szervezetszam LIKE :feltetel OR kar LIKE :feltetel");
                         $stmt->bindParam(':feltetel', $feltetel, PDO::PARAM_INT);
                     } else {
                         // Ha nincs beállítva a szervezetszám, akkor minden felhasználót lekérünk
@@ -36,7 +41,12 @@ include "function_translate_month_to_Hungarian.php"; // Beillesztjük a magyar h
                     $stmt->execute();
                     $workers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     if (count($workers) > 0) {
-                        echo "<h2>Minden felhasználó listázva a következő számú szervezetből: $feltetel</h2>";
+                        if ($isAll){
+                            echo "<h2>Minden felhasználó listázva: </h2>";
+                        }else{
+                            echo "<h2>Minden felhasználó listázva a következő számú szervezetből: $feltetel</h2>";
+                        }
+                        
                         echo "<table border='1'>";
                         echo "<tr>";
                         echo "<th>Work ID</th>";

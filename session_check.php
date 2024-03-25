@@ -3,7 +3,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-echo "jog: ....................................................................". $_SESSION['isAdmin'];
+// echo "A bejelentkezett felhasználó admin-e vagy sem? $_SESSION['isAdmin'] változó:". $_SESSION['isAdmin']; //debug
 $timeLimit = 60 * 60; // 60 perc másodpercekben
 
 // Ha van utolsó tevékenység és az időtúllépés megtörtént
