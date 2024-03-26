@@ -139,53 +139,16 @@ for ($i = 1; $i < 16; $i++) { // Adjusted loop to start from 1 and end at 16
         $dayStatus = $calendar[$i - 1]['day_status']; // Subtract 1 to match array indexing
         // Append the day status to the HTML table cell
         switch ($dayStatus) {
-            case "payed_free":
-            case "payed_requested":
-            case "payed_planned":
-            case "payed_taken":
+            case "paid_free":
+            case "paid_requested":
+            case "paid_planned":
+            case "paid_taken":
                 $output = "F";
                 break;
 
-            case "payed_past_free":
-            case "payed_past_requested":
-            case "payed_past_planned":
-            case "payed_past_taken":
-                $output = "E";
-                break;
 
-            case "payed_edu_free":
-            case "payed_edu_requested":
-            case "payed_edu_planned":
-            case "payed_edu_taken":
-                $output = "T";
-                break;
-
-            case "payed_award_free":
-            case "payed_award_requested":
-            case "payed_award_planned":
-            case "payed_award_taken":
-                $output = "J";
-                break;
-
-            case "unpayed_dad_free":
-            case "unpayed_dad_requested":
-            case "unpayed_dad_planned":
-            case "unpayed_dad_taken":
-                $output = "A";
-                break;
-
-            case "unpayed_home_free":
-            case "unpayed_home_requested":
-            case "unpayed_home_planned":
-            case "unpayed_home_taken":
+            case "home_office":
                 $output = "O";
-                break;
-
-            case "unpayed_free":
-            case "unpayed_requested":
-            case "unpayed_planned":
-            case "unpayed_taken":
-                $output = "I";
                 break;
 
             case "work_day":
@@ -200,13 +163,11 @@ for ($i = 1; $i < 16; $i++) { // Adjusted loop to start from 1 and end at 16
                 $output = "";
                 break;
 
-            case "unpayed_sickness_taken":
+            case "unpaid_sickness_taken":
                 $output = "B";
                 break;
 
-            case "unpayed_uncertified_taken":
-                $output = "H";
-                break;
+
 
             default:
                 $output = "";
@@ -234,54 +195,18 @@ for ($i = 16; $i <= 31; $i++) {
         $dayStatus = $calendar[$i - 1]['day_status']; // Subtract 1 to match array indexing
         // Append the day status to the HTML table cell
         switch ($dayStatus) {
-            case "payed_free":
-            case "payed_requested":
-            case "payed_planned":
-            case "payed_taken":
+            case "paid_free":
+            case "paid_requested":
+            case "paid_planned":
+            case "paid_taken":
                 $output = "F";
                 break;
 
-            case "payed_past_free":
-            case "payed_past_requested":
-            case "payed_past_planned":
-            case "payed_past_taken":
-                $output = "E";
-                break;
 
-            case "payed_edu_free":
-            case "payed_edu_requested":
-            case "payed_edu_planned":
-            case "payed_edu_taken":
-                $output = "T";
-                break;
-
-            case "payed_award_free":
-            case "payed_award_requested":
-            case "payed_award_planned":
-            case "payed_award_taken":
-                $output = "J";
-                break;
-
-            case "unpayed_dad_free":
-            case "unpayed_dad_requested":
-            case "unpayed_dad_planned":
-            case "unpayed_dad_taken":
-                $output = "A";
-                break;
-
-            case "unpayed_home_free":
-            case "unpayed_home_requested":
-            case "unpayed_home_planned":
-            case "unpayed_home_taken":
+            case "home_office":
                 $output = "O";
                 break;
 
-            case "unpayed_free":
-            case "unpayed_requested":
-            case "unpayed_planned":
-            case "unpayed_taken":
-                $output = "I";
-                break;
 
             case "work_day":
                 $output = "";
@@ -295,12 +220,8 @@ for ($i = 16; $i <= 31; $i++) {
                 $output = "";
                 break;
 
-            case "unpayed_sickness_taken":
+            case "unpaid_sickness_taken":
                 $output = "B";
-                break;
-
-            case "unpayed_uncertified_taken":
-                $output = "H";
                 break;
 
             default:
@@ -324,14 +245,8 @@ $html .= <<<EOD
     <p>Kérem, hogy a megfelelő naptári nap alatti kódkockákban jelölje az utazás jellegét a következők szerint:</p>
     <ul>
         <li><strong>F:</strong> Fizetett szabadság</li>
-        <li><strong>E:</strong> Fizetett előző évi szabadság</li>
-        <li><strong>T:</strong> Tanulmányi szabadság</li>
-        <li><strong>J:</strong> Jutalomszabadság</li>
-        <li><strong>B:</strong> Betegszabadság</li>
-        <li><strong>A:</strong> Apanap </li>
         <li><strong>O:</strong> Home office </li>
-        <li><strong>I:</strong> Nem fizetett fizetés nélküli igazolt távollét</li>
-        <li><strong>H:</strong> Nem fizetett igazolatlan távollét
+        <li><strong>B:</strong> Beteg szabadság </li>
    </li>
    </ul>
     <p>Alulírott utalványozásra jogosult vezető igazolom, hogy nevezett munkavállaló a fentiekben részletezettek szerint dolgozott a hónapban.</p>

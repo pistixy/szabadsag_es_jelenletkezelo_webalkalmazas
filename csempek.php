@@ -159,6 +159,13 @@ include "check_login.php";
     }
     ?>
 </td>
+           <?php
+           if (isset($_SESSION['logged']) && ($_SESSION['position'] == "dekan" or $_SESSION['position'] == "admin" )){
+               echo "<td>";
+                   echo "<a href='osszesito_logika.php'>Összesítők</a>";
+                echo "</td>";
+           }
+           ?>
 
     </tr>
     

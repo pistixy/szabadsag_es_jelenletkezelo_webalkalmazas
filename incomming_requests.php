@@ -1,6 +1,7 @@
 <?php
 session_start();
 include "connect.php";
+include "function_get_name.php";
 
 
 if (!isset($_SESSION['logged']) || !isset($_SESSION['work_id'])) {
@@ -101,7 +102,6 @@ $requests = $requestsStmt->fetchAll(PDO::FETCH_ASSOC);
                     <!--<option value="all" <?php echo (isset($statusFilter) && $statusFilter == 'all') ? 'selected' : ''; ?>>Összes</option>-->
                     <option value="rejected" <?php echo (isset($statusFilter) && $statusFilter == 'rejected') ? 'selected' : ''; ?>>Elutasított</option>
                     <option value="accepted" <?php echo (isset($statusFilter) && $statusFilter == 'accepted') ? 'selected' : ''; ?>>Elfogadott</option>
-                    <option value="messaged" <?php echo (isset($statusFilter) && $statusFilter == 'messaged') ? 'selected' : ''; ?>>Üzenet küldve</option>
                 </select>
             </form>
 
@@ -116,7 +116,6 @@ $requests = $requestsStmt->fetchAll(PDO::FETCH_ASSOC);
                             <th>Név</th> <!-- Added Name column -->
                             <th>Naptár ID</th>
                             <th>Szabadnap típusa</th>
-                            <th>Üzenet</th>
                             <th>Kinek</th>
                             <th>Kérvény státusza</th>
                             <th>Időbélyegő</th>
@@ -130,10 +129,9 @@ $requests = $requestsStmt->fetchAll(PDO::FETCH_ASSOC);
                                 <td><a href="profile.php?work_id=<?php echo htmlspecialchars($request['work_id']); ?>"><?php echo htmlspecialchars($request['work_id']); ?></a></td>
                                 <td><a href="profile.php?work_id=<?php echo htmlspecialchars($request['work_id']); ?>"><?php echo htmlspecialchars($request['name']); ?></a></td>
                                 <td><?php echo htmlspecialchars($request['calendar_id']); ?></td>
-                                <td><?php echo htmlspecialchars($request['requested_status']); ?></td>
-                                <td><?php echo htmlspecialchars($request['message']); ?></td>
+                                <td><?php echo htmlspecialchars(getName($request['requested_status'])); ?></td>
                                 <td><?php echo htmlspecialchars($request['to_whom']); ?></td>
-                                <td><?php echo htmlspecialchars($request['request_status']); ?></td>
+                                <td><?php echo htmlspecialchars(getName($request['request_status'])); ?></td>
                                 <td><?php echo htmlspecialchars($request['timestamp']); ?></td>
                                 <td><?php echo htmlspecialchars($request['modified_date']); ?></td>
                                 <td>

@@ -1,5 +1,6 @@
 <?php
 include "session_check.php";
+include "function_get_name.php";
 
 if (!isset($_SESSION['logged'])) {
     header("Location: login_form.php");
@@ -82,14 +83,7 @@ if ($result) {
 
             if ($result) {
             ?>
-            <div class="profile-picture">
-                <?php
-                if (!empty($result['profile_picture'])) {
-                    $profilePicturePath = 'profile_pictures/' . $result['profile_picture'];
-                    echo '<img src="' . $profilePicturePath . '" alt="Profile Picture">';
-                }
-                ?>
-            </div>
+            
             <div class="profile-details">
                 <?php
                 if ($work_id == $_SESSION['work_id']) {
@@ -108,7 +102,7 @@ if ($result) {
                 <p class="profile-data"><strong>Adóazonosító:</strong> <?php echo $result['adoazonosito']; ?></p>
                 <p class="profile-data"><strong>Szervezetszám:</strong> <?php echo $result['szervezetszam']; ?></p>
                 <p class="profile-data"><strong>Alkalmazotti kártyaszám:</strong> <?php echo $result['alkalmazottikartya']; ?></p>
-                <p class="profile-data"><strong>Jelenlegi beosztás:</strong> <?php echo $result['position']; ?></p>
+                <p class="profile-data"><strong>Jelenlegi beosztás:</strong> <?php echo getName($result['position']); ?></p>
                 <?php if ($_SESSION['isAdmin'] == true) : ?>
                     <form action="update_position.php" method="post">
                         <p class="profile-data"><strong>Erre módosítom:</strong>
@@ -135,18 +129,6 @@ if ($result) {
                 ?>
             </div>
 
-            <?php
-            // Only show the upload form if viewing own profile
-            if ($work_id == $_SESSION['work_id']) {
-                ?>
-                <form action="upload_profile_picture.php" method="POST" enctype="multipart/form-data" class="profile-picture-upload-form">
-                    <label>Profilkép feltöltése:</label>
-                    <input type="file" accept="image/gif, image/jpg, image/png, image/jpeg" name="profile_picture">
-                    <input type="submit" name="upload_profile_picture" value="Feltöltés">
-                </form>
-                <?php
-            }
-            ?>
             <?php
 
             include "csuszka.php";

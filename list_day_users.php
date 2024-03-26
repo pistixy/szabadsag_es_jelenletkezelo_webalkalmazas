@@ -77,7 +77,7 @@ if (!empty($dayUsers)) {
         echo "<td><a href='$profileUrl'>" . htmlspecialchars($user['email']) . "</a></td>";
         echo "<td>" . htmlspecialchars($user['kar']) . "</td>";
         echo "<td>" . htmlspecialchars($user['szervezetszam']) . "</td>";
-        echo "<td>" . getStatusName($user['day_status']) . "</td>";
+        echo "<td>" . getName($user['day_status']) . "</td>";
         echo "</tr>";
     }
     echo "</table>";

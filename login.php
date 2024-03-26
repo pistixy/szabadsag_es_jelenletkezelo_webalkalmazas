@@ -30,9 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // adminisztrátori jog ellenörzése
                 if((isset($row['position']) && $row['position'] == "admin")){
                     $_SESSION['isAdmin']=true;
+                    $_SESSION['position']=$row['position'];
                     //echo "admin true";//debug
                 }else{
                     $_SESSION['isAdmin']=false;
+                    $_SESSION['position']=$row['position'];
                     //echo "admin false";//debug
                 }
                             // Fömenüre irányítás

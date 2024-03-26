@@ -12,36 +12,11 @@ $szervezetszam = $_POST["szervezetszam"];
 $alkalmazottikartyaszama = $_POST["alkalmazottikartyaszama"];
 $position='user';
 $letterCode = $_POST["letterCode"];
-$payed_free=20; //20
-$payed_requested=0;
-$payed_planned=0;
-$payed_taken=0;
-$payed_past_free=0;
-$payed_past_requested=0;
-$payed_past_planned=0;
-$payed_past_taken=0;
-$payed_edu_free=5; //5
-$payed_edu_requested=0;
-$payed_edu_planned=0;
-$payed_edu_taken=0;
-$payed_award_free=0;
-$payed_award_requested=0;
-$payed_award_planned=0;
-$payed_award_taken=0;
-$unpayed_sickness_taken=0;
-$unpayed_uncertified_taken=0;
-$unpayed_dad_free=0;
-$unpayed_dad_requested=0;
-$unpayed_dad_planned=0;
-$unpayed_dad_taken=0;
-$unpayed_home_free=20; //20
-$unpayed_home_requested=0;
-$unpayed_home_planned=0;
-$unpayed_home_taken=0;
-$unpayed_free=20; //20
-$unpayed_requested=0;
-$unpayed_planned=0;
-$unpayed_taken=0;
+$paid_free=20; //20
+$paid_requested=0;
+$paid_planned=0;
+$paid_taken=0;
+
 
 
 // Check if the passwords match
@@ -63,25 +38,14 @@ if (count($result) > 0) {
 } else {
     $stmt = $conn->prepare("INSERT INTO users (
         name, email, password, cim, adoazonosito, szervezetszam, alkalmazottikartya, position,
-        kar, payed_free, payed_requested, payed_planned, payed_taken, 
-        payed_past_free, payed_past_requested, payed_past_planned, payed_past_taken,
-        payed_edu_free, payed_edu_requested, payed_edu_planned, payed_edu_taken, 
-        payed_award_free, payed_award_requested, payed_award_planned, payed_award_taken, 
-        unpayed_sickness_taken, unpayed_uncertified_taken, unpayed_dad_free, unpayed_dad_requested, 
-        unpayed_dad_planned, unpayed_dad_taken, unpayed_home_free, unpayed_home_requested, 
-        unpayed_home_planned, unpayed_home_taken, unpayed_free, unpayed_requested, unpayed_planned, unpayed_taken
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        kar, paid_free, paid_requested, paid_planned, paid_taken
+        
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     $stmt->execute([
         $name, $email, $hashed_password, $cim, $adoazonosito, $szervezetszam,
-        $alkalmazottikartyaszama,$position, $letterCode, $payed_free, $payed_requested,
-        $payed_planned, $payed_taken, $payed_past_free, $payed_past_requested,
-        $payed_past_planned, $payed_award_taken, $payed_edu_free, $payed_edu_requested,
-        $payed_edu_planned, $payed_edu_taken, $payed_award_free, $payed_award_requested,
-        $payed_award_planned, $payed_award_taken, $unpayed_sickness_taken, $unpayed_uncertified_taken,
-        $unpayed_dad_free, $unpayed_dad_requested, $unpayed_dad_planned, $unpayed_dad_taken,
-        $unpayed_home_free, $unpayed_home_requested, $unpayed_home_planned, $unpayed_home_taken,
-        $unpayed_free, $unpayed_requested, $unpayed_planned, $unpayed_taken
+        $alkalmazottikartyaszama,$position, $letterCode, $paid_free, $paid_requested,
+        $paid_planned, $paid_taken
     ]);
 
     if ($stmt->rowCount() > 0) {

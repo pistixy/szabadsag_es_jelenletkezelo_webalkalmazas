@@ -1,7 +1,7 @@
 <?php
 include "session_check.php";
 include "connect.php";
-include "function_get_status_name.php";
+include "function_get_name.php";
 include "function_translate_month_to_Hungarian.php";
 
 // Ha a felhasználó nincs bejelentkezve, átirányítjuk a bejelentkezési oldalra
@@ -53,31 +53,7 @@ $firstDayOfWeek = date("N", mktime(0, 0, 0, $month, 1, $year));
     <title><?php echo $isOwnCalendar ? "Naptárad" : "{$calendarOwnerName} Naptára"; ?></title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="calendar_colours.css">
-    <style>
-        /* Stílusok a popup-hoz */
-        .popup {
-          position: relative;
-          display: inline-block;
-          cursor: pointer;
-          -webkit-user-select: none;
-          -moz-user-select: none;
-          -ms-user-select: none;
-          user-select: none;
-        }
-
-        /* A popup tartalma */
-        .popup .popuptext {
-          visibility: hidden;
-          background-color: #555;
-          position: absolute;
-        }
-        /* Ez a class váltja ki a megjelenést */
-        .popup .show {
-          visibility: visible;
-          -webkit-animation: fadeIn 1s;
-          animation: fadeIn 1s;
-        }
-    </style>
+    
 </head>
 <body>
 <div class="body-container">
@@ -129,11 +105,7 @@ $firstDayOfWeek = date("N", mktime(0, 0, 0, $month, 1, $year));
     </div>
 </div>
     <script>
-// popup megnyitása
-function myFunction() {
-  var popup = document.getElementById("myPopup");
-  popup.classList.toggle("show");
-}
+
 </script>
     </body>
     </html>

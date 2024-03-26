@@ -1,7 +1,5 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    include "session_check.php"; // Ellenőrizze, hogy a munkamenet aktív-e
-}
+include "session_check.php"; // Ellenőrizze, hogy a munkamenet aktív-e
 include "connect.php"; // Adatbáziskapcsolat fájl beillesztése
 
 if (isset($_SESSION['email'])) {
@@ -17,48 +15,37 @@ if (isset($_SESSION['email'])) {
         $row = $result[0];
         $userWorkId = $row['work_id']; // Állítsa be az oszlopnevet, hogy megfeleljen az adatbázisának
 
-        // Naptáradatok kitöltése az elmúlt 1 évben és a következő 10 évben
+        // Naptáradatok kitöltése az elmúlt 1 évben és a következő 20 évben
         $currentDate = new DateTime();
-        $pastLimit = 365; // Adatok kitöltése az elmúlt 1 évben
-        $futureLimit = 365 * 20; // Adatok kitöltése a következő 20 évre
+        $pastLimit = 150; // Adatok kitöltése az elmúlt idoben
+        $futureLimit = 365 * 2; // Adatok kitöltése a következő évre
 
-        // Múltbeli naptár adatok kitöltése
-        for ($i = 1; $i <= $pastLimit; $i++) {
-            $date = date("Y-m-d", strtotime($currentDate->format("Y-m-d") . " - " . $i . " days"));
-            $day_status = date('N', strtotime($date)) <= 5 ? "work_day" : "weekend";
+        // Start a transaction
+        $conn->beginTransaction();
 
-            $stmt = $conn->prepare("INSERT INTO calendar (work_id, date, day_status ) VALUES (:work_id, :date, :day_status )");
-            $stmt->bindParam(':work_id', $userWorkId);
-            $stmt->bindParam(':date', $date);
-            $stmt->bindParam(':day_status', $day_status);
+        try {
+            $stmt = $conn->prepare("INSERT INTO calendar (work_id, date, day_status) VALUES (:work_id, :date, :day_status)");
 
-            if ($stmt->execute()) {
-                // Sikeres beillesztés
-            } else {
-                echo "Hiba az adatok beillesztésénél a dátumhoz: " . $date . "<br>";
-                echo "Hiba: " . $stmt->errorInfo()[2] . "<br>"; // PDO hibainformáció
+            // Insert for past and future in a single loop
+            for ($i = -$pastLimit; $i < $futureLimit; $i++) {
+                $date = date("Y-m-d", strtotime($currentDate->format("Y-m-d") . " $i days"));
+                $day_status = date('N', strtotime($date)) <= 5 ? "work_day" : "weekend";
+
+                $stmt->bindParam(':work_id', $userWorkId);
+                $stmt->bindParam(':date', $date);
+                $stmt->bindParam(':day_status', $day_status);
+                $stmt->execute();
             }
+
+            // Commit the transaction
+            $conn->commit();
+            echo "Naptár visszamenőleg és a jövőre nézve feltöltve.";
+
+        } catch (PDOException $e) {
+            // Rollback the transaction on error
+            $conn->rollback();
+            echo "Hiba az adatok beillesztésénél: " . $e->getMessage();
         }
-
-        // Jövőbeli naptár adatok kitöltése
-        for ($i = 0; $i < $futureLimit; $i++) {
-            $date = date("Y-m-d", strtotime($currentDate->format("Y-m-d") . " + " . $i . " days"));
-            $day_status = date('N', strtotime($date)) <= 5 ? "work_day" : "weekend";
-
-            $stmt = $conn->prepare("INSERT INTO calendar (work_id, date, day_status ) VALUES (:work_id, :date, :day_status )");
-            $stmt->bindParam(':work_id', $userWorkId);
-            $stmt->bindParam(':date', $date);
-            $stmt->bindParam(':day_status', $day_status);
-
-            if ($stmt->execute()) {
-                // Sikeres beillesztés
-            } else {
-                echo "Hiba az adatok beillesztésénél a dátumhoz: " . $date . "<br>";
-                echo "Hiba: " . $stmt->errorInfo()[2] . "<br>"; // PDO hibainformáció
-            }
-        }
-
-        echo "Naptár visszamenőleg és a jövőre nézve feltöltve.";
     } else {
         echo "A felhasználó nem található az adatbázisban.";
     }

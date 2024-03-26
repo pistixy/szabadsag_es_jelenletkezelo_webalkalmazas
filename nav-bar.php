@@ -44,9 +44,7 @@ include "check_login.php";
         <div class="navbar_items">
             <a href="profile.php"><?php echo $_SESSION['email']; ?></a>
         </div>
-        <div class="navbar_items">
-            <a href="my_messages.php">Üzeneteim</a>
-        </div>
+
         <div class="navbar_items">
             <a href="hr_segedlet.php">HR segédlet</a>
         </div>
@@ -58,19 +56,14 @@ include "check_login.php";
                 <a href="incomming_requests.php">Bejövő Kérelmek</a>
             </div>
         <?php endif; ?>
-        
-        <?php if (isset($_SESSION['is_user']) && !$_SESSION['is_user']): ?>
+        <?php if (isset($_SESSION['logged']) && ($_SESSION['position'] == "dekan" or $_SESSION['position'] == "admin" )): ?>
             <div class="navbar_items">
-                <a href="jelenletiiv.php">Jelenléti ív</a>
+                <a href="osszesito_logika.php">Összesítők</a>
             </div>
-        <?php endif; ?>
-        <?php if (isset($_SESSION['is_user']) && !$_SESSION['is_user']): ?>
-            <div class="navbar_items">
-                <a href="report_missing_form.php">Igazolatlan hiányzások    </a>
-            </div>
-            <hr>
         <?php endif; ?>
 
+       
+       
 
         
         <div class="navbar_items">

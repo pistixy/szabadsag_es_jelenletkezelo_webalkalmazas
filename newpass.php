@@ -40,8 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (move_uploaded_file($_FILES["receipt"]["tmp_name"], $targetFile)) {
                 // Fájl sikeresen feltöltve, most illesszük be az adatokat az adatbázisba
                 $filename = basename($_FILES["receipt"]["name"]); // Fájlnév tárolása változóban
-                $sql = "INSERT INTO public.commute (work_id, honnan, hova, how, date, filename, price) 
-                        VALUES (:work_id, '', '', 'Pass', :date, :filename, :price)";
+                $sql = "INSERT INTO public.commute (work_id, how, date, filename, price) 
+                        VALUES (:work_id, 'Pass', :date, :filename, :price)";
                 $stmt = $conn->prepare($sql);
                 $stmt->bindParam(':work_id', $work_id);
                 $stmt->bindParam(':date', $date);

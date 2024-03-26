@@ -1,7 +1,7 @@
 <?php
 include "session_check.php";
 include "connect.php";
-include "varosok.php";
+
 
 $minkm = 5;
 $maxkm = 1000;
@@ -12,10 +12,7 @@ $mindate = date("Y-m-d", strtotime("2020-01-01"));
 
 if (isset($_POST['upload_receipt'])) {
     $date = $_POST['date'];
-    /*$honnan = $_POST['honnan'];
-    $hova = $_POST['hova'];*/
     $how = $_POST['how'];
-
     $work_id = $_SESSION['work_id'];
     $price = null;
     $km = null;
@@ -29,7 +26,7 @@ if (isset($_POST['upload_receipt'])) {
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         if (count($results) < 1) {
-            echo "Csak olyan napra vehet fel munkábajárást, amelyiken dolgozott is!";
+            echo "Csak olyan napra vehet fel munkábajárást, amelyiken dolgozott is és nem home office!";
             exit;
         }
     } catch (PDOException $e) {
@@ -106,13 +103,13 @@ if (isset($_POST['upload_receipt'])) {
     }
 
     try {
-        $stmt = $conn->prepare("INSERT INTO commute (work_id, how, date, filename, price, km) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO commute (work_id, date, filename, price, how ) VALUES (?, ?, ?, ?, ?)");
         $stmt->bindParam(1, $work_id);
-        $stmt->bindParam(2, $how);
-        $stmt->bindParam(3, $date);
-        $stmt->bindParam(4, $fileName);
-        $stmt->bindParam(5, $price);
-        $stmt->bindParam(6, $km);
+        $stmt->bindParam(2, $date);
+        $stmt->bindParam(3, $fileName);
+        $stmt->bindParam(4, $price);
+        $stmt->bindParam(5, $how);
+        
 
         $stmt->execute();
         echo '<script>alert("Data recorded successfully!");</script>';

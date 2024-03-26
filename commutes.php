@@ -117,11 +117,8 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <th>Work ID</th>
                         <th>Dátum</th>
                         <th>Hogyan?</th>
-                        <th>Honnan?</th>
-                        <th>Hová?</th>
                         <th>Fájlnév</th>
                         <th>Ár</th>
-                        <th>Távolság (km)</th>
                         <th>Bérlet?</th>
                         <th>Műveletek</th>
                     </tr>
@@ -131,11 +128,9 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <td><?php echo htmlspecialchars($commute['work_id']); ?></td>
                             <td><?php echo htmlspecialchars($commute['date']); ?></td>
                             <td><?php echo htmlspecialchars($commute['how']); ?></td>
-                            <td><?php echo htmlspecialchars($commute['honnan']); ?></td>
-                            <td><?php echo htmlspecialchars($commute['hova']); ?></td>
                             <td><?php echo htmlspecialchars($commute['filename']); ?></td>
                             <td><?php echo htmlspecialchars($commute['price']); ?></td>
-                            <td><?php echo htmlspecialchars($commute['km']); ?></td>
+                            
                             <td><?php if($commute['how']=="Pass"){
                                 echo "Igen";
                                 }

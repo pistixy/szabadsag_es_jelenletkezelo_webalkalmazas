@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         try {
             // Ellenőrizzük az állapot oszlop nevét, hogy megelőzzük az SQL injekciót
-            $allowed_statuses = ['payed_free', 'payed_edu_free', 'payed_award_free', 'unpayed_dad_free', 'unpayed_home_free', 'unpayed_free'];
+            $allowed_statuses = ['paid_free'];
             if (!in_array($status, $allowed_statuses)) {
                 throw new Exception("Érvénytelen státusz oszlop.");
             }

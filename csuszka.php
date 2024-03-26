@@ -18,20 +18,11 @@ if ($stmt) {
 
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($result) {
-        $payed_free = $result['payed_free'] + $result['payed_edu_free']+ $result['payed_award_free'] +$result['payed_past_free'];
-        $payed_requested = $result['payed_requested'] + $result['payed_edu_requested']+ $result['payed_award_requested'] +$result['payed_past_requested'];
-        $payed_planned = $result['payed_planned'] + $result['payed_edu_planned']+ $result['payed_award_planned'] +$result['payed_past_planned'];
-        $payed_taken = $result['payed_taken'] + $result['payed_edu_taken']+ $result['payed_award_taken'] +$result['payed_past_taken'];
-
-        $unpayed_free= $result['unpayed_dad_free']+$result['unpayed_home_free']+$result['unpayed_free'];
-        $unpayed_requested=$result['unpayed_dad_requested']+$result['unpayed_home_requested']+$result['unpayed_requested'];
-        $unpayed_planned=$result['unpayed_dad_planned']+$result['unpayed_home_planned']+$result['unpayed_planned'];
-        $unpayed_taken=$result['unpayed_sickness_taken']+$result['unpayed_dad_taken']+$result['unpayed_home_taken']+$result['unpayed_uncertified_taken']+$result['unpayed_taken'];
-
-    } else {
+    if (!$result) {
         echo "User not found in the database.";
-    }
+        exit;
+
+    } 
 } else {
     echo "Error with the database query: " . $conn->errorInfo()[2];
 }
@@ -69,41 +60,22 @@ $conn = null;
             display: block;
         }
 
-        .payed_free_csuszka {
-            flex: <?php echo $payed_free; ?>;
+        .paid_free_csuszka {
+            flex: <?php echo $result['paid_free']; ?>;
             background: linear-gradient(to right, #4caf50, #81c784);
         }
-        .payed_requested_csuszka {
-            flex: <?php echo $payed_requested; ?>;
+        .paid_requested_csuszka {
+            flex: <?php echo $result['paid_requested']; ?>;
             background: linear-gradient(to right, #ffccbc, #ffab91);
         }
 
-        .payed_planned_csuszka {
-            flex: <?php echo $payed_planned; ?>;
+        .paid_planned_csuszka {
+            flex: <?php echo $result['paid_planned']; ?>;
             background: linear-gradient(to right, #aed581, #dcedc8);
         }
 
-        .payed_taken_csuszka {
-            flex: <?php echo $payed_taken; ?>;
-            background: linear-gradient(to right, #e57373, #ef9a9a);
-        }
-
-        .unpayed_free_csuszka {
-            flex: <?php echo $unpayed_free; ?>;
-            background: linear-gradient(to right, #4caf50, #81c784);
-        }
-        .unpayed_requested_csuszka {
-            flex: <?php echo $unpayed_requested; ?>;
-            background: linear-gradient(to right, #ffccbc, #ffab91);
-        }
-
-        .unpayed_planned_csuszka {
-            flex: <?php echo $unpayed_planned; ?>;
-            background: linear-gradient(to right, #aed581, #dcedc8);
-        }
-
-        .unpayed_taken_csuszka {
-            flex: <?php echo $unpayed_taken; ?>;
+        .paid_taken_csuszka {
+            flex: <?php echo  $result['paid_taken']; ?>;
             background: linear-gradient(to right, #e57373, #ef9a9a);
         }
 
@@ -141,42 +113,24 @@ $conn = null;
 <fieldset class="fieldset">
     <legend>Fizetett szabadságok állása</legend>
     <div class="csuszka">
-        <div class="section payed_free_csuszka">
+        <div class="section paid_free_csuszka">
             <span class="tooltiptext"><?php
-        echo "Összesen fel nem használt: " . $payed_free . "<br>";
-        echo "Fizetett szabadság: " . $result['payed_free'] . "<br>";
-        echo "Tanulmányi szabadság: " . $result['payed_edu_free'] . "<br>";
-        echo "Jutalom szabadság: " . $result['payed_award_free'] . "<br>";
-        echo "Előző évi szabadság: " . $result['payed_past_free'] . "<br>";
-        ?></span>
-        </div>
-
-
-        <div class="section payed_requested_csuszka">
-            <span class="tooltiptext"><?php
-                echo "Összesen kérelmezett: " . $payed_requested . "<br>";
-                echo "Fizetett szabadság: " . $result['payed_requested'] . "<br>";
-                echo "Tanulmányi szabadság: " . $result['payed_edu_requested'] . "<br>";
-                echo "Jutalom szabadság: " . $result['payed_award_requested'] . "<br>";
-                echo "Előző évi szabadság: " . $result['payed_past_requested'] . "<br>";
+                echo "Fizetett felhasználható szabadság: " . $result['paid_free'] . "<br>";
                 ?></span>
         </div>
-        <div class="section payed_planned_csuszka">
+        <div class="section paid_requested_csuszka">
             <span class="tooltiptext"><?php
-                echo "Összesen betervezett: " . $payed_planned . "<br>";
-                echo "Fizetett szabadság: " . $result['payed_planned'] . "<br>";
-                echo "Tanulmányi szabadság: " . $result['payed_edu_planned'] . "<br>";
-                echo "Jutalom szabadság: " . $result['payed_award_planned'] . "<br>";
-                echo "Előző évi szabadság: " . $result['payed_past_planned'] . "<br>";
+                echo "Fizetett kérvényezett szabadság: " . $result['paid_requested'] . "<br>";
                 ?></span>
         </div>
-        <div class="section payed_taken_csuszka">
+        <div class="section paid_planned_csuszka">
             <span class="tooltiptext"><?php
-                echo "Összesen felhasznált: " . $payed_taken . "<br>";
-                echo "Fizetett szabadság: " . $result['payed_taken'] . "<br>";
-                echo "Tanulmányi szabadság: " . $result['payed_edu_taken'] . "<br>";
-                echo "Jutalom szabadság: " . $result['payed_award_taken'] . "<br>";
-                echo "Előző évi szabadság: " . $result['payed_past_taken'] . "<br>";
+                echo "Fizetett betervezett szabadság: " . $result['paid_planned'] . "<br>";
+                ?></span>
+        </div>
+        <div class="section paid_taken_csuszka">
+            <span class="tooltiptext"><?php
+                echo "Fizetett felhasznált szabadság: " . $result['paid_taken'] . "<br>";
                 ?></span>
         </div>
 
@@ -184,51 +138,6 @@ $conn = null;
 </fieldset>
 
 
-<fieldset class="fieldset">
-    <legend>Fizetettlen szabadságok állása</legend>
-    <div class="csuszka">
-        <div class="section unpayed_free_csuszka">
-            <span class="tooltiptext"><?php
-                echo "Összesen fel nem használt: " . $unpayed_free . "<br>";
-                echo "Apanap: " . $result['unpayed_dad_free'] . "<br>";
-                echo "Home office: " . $result['unpayed_home_free'] . "<br>";
-                echo "Igazolt távollét: " . $result['unpayed_free'] . "<br>";
-                ?>
-            </span>
-        </div>
 
-
-        <div class="section unpayed_requested_csuszka">
-            <span class="tooltiptext"><?php
-                echo "Összesen kérelmezett: " . $unpayed_requested . "<br>";
-                echo "Apanap: " . $result['unpayed_dad_requested'] . "<br>";
-                echo "Home office: " . $result['unpayed_home_requested'] . "<br>";
-                echo "Igazolt távollét: " . $result['unpayed_requested'] . "<br>";
-                ?>
-            </span>
-        </div>
-        <div class="section unpayed_planned_csuszka">
-            <span class="tooltiptext"><?php
-                echo "Összesen betervezett: " . $unpayed_planned . "<br>";
-                echo "Apanap: " . $result['unpayed_dad_planned'] . "<br>";
-                echo "Home office: " . $result['unpayed_home_planned'] . "<br>";
-                echo "Igazolt távollét: " . $result['unpayed_planned'] . "<br>";
-                ?>
-            </span>
-        </div>
-        <div class="section unpayed_taken_csuszka">
-            <span class="tooltiptext"><?php
-                echo "Összesen felhasznált: " . $unpayed_taken . "<br>";
-                echo "Apanap: " . $result['unpayed_dad_taken'] . "<br>";
-                echo "Home office: " . $result['unpayed_home_taken'] . "<br>";
-                echo "Betegszabadság: " . $result['unpayed_sickness_taken'] . "<br>";
-                echo "Igazolatlan: " . $result['unpayed_uncertified_taken'] . "<br>";
-                echo "Igazolt távollét: " . $result['unpayed_taken'] . "<br>";
-                ?>
-            </span>
-        </div>
-
-    </div>
-</fieldset>
 </body>
 </html>

@@ -2,7 +2,7 @@
     include "session_check.php";
     include "connect.php";
     include "check_login.php";
-    include "function_get_status_name.php";
+    include "function_get_name.php";
 
     if (isset($_GET['view'])) {
         $currentView = $_GET['view'];

@@ -4,7 +4,7 @@ include "session_check.php";
 // Adatbázis kapcsolatfájl beillesztése
 include "connect.php";
 // Funkció beillesztése a státusz nevének lekéréséhez
-include "function_get_status_name.php";
+include "function_get_name.php";
 
 // Ellenőrizzük, hogy a felhasználó be van-e jelentkezve
 if (!isset($_SESSION['logged']) || !isset($_SESSION['work_id'])) {
@@ -77,20 +77,16 @@ if (isset($_GET['work_id'])) {
                         <?php if ($key !== 'work_id' && $key !== 'name' && $key !== 'email' && $key !== 'password' && $key !== 'cim' && $key !== 'adoazonosito' && $key !== 'szervezetszam' && $key !== 'alkalmazottikartya' && $key !== 'position' && $key !== 'profile_picture' && $key !== 'kar'): ?>
                             <tr>
                                 <!-- Státusz nevének lekérése és megjelenítése -->
-                                <td><?php echo getStatusName($key); ?></td>
+                                <td><?php echo getName($key); ?></td>
                                 <td><?php echo $value; ?></td>
                                 <td style="display: flex">
                                     <!-- Státusz növelése gomb -->
-                                    <?php if (in_array($key, ['payed_free', 'payed_edu_free', 'payed_award_free', 'unpayed_dad_free', 'unpayed_home_free', 'unpayed_free']) && ($_SESSION['position'] === 'dekan' || $_SESSION['position'] === 'admin')): ?>
+                                    <?php if (in_array($key, ['paid_free']) && ($_SESSION['position'] === 'dekan' || $_SESSION['position'] === 'tanszekvezeto'|| $_SESSION['position'] === 'admin')): ?>
                                         <form action="increase_day.php" method="post">
                                             <input type="hidden" name="work_id" value="<?php echo $work_id; ?>">
                                             <input type="hidden" name="status" value="<?php echo $key; ?>">
                                             <button type="submit">+1</button>
-                                        </form>
-                                    <?php endif; ?>
-
-                                    <!-- Státusz csökkentése gomb -->
-                                    <?php if (in_array($key, ['payed_free', 'payed_edu_free', 'payed_award_free', 'unpayed_dad_free', 'unpayed_home_free', 'unpayed_free']) && ($_SESSION['position'] === 'dekan' || $_SESSION['position'] === 'admin')): ?>
+                                        <form>
                                         <form action="decrease_day.php" method="post">
                                             <input type="hidden" name="work_id" value="<?php echo $work_id; ?>">
                                             <input type="hidden" name="status" value="<?php echo $key; ?>">

@@ -1,7 +1,7 @@
 <?php
 include "session_check.php";
 include "connect.php";
-include "function_get_status_name.php";
+include "function_get_name.php";
 
 if (!isset($_SESSION['logged'])) {
     header("Location: login_form.php");
@@ -10,7 +10,6 @@ if (!isset($_SESSION['logged'])) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $requestedStatus = $_POST['nap'];
-    $message = $_POST['message'];
     $date = $_POST['date']; // Ensure this date is in 'YYYY-MM-DD' format
     $userWorkID = $_SESSION['work_id'];
     $toWhom = "";
@@ -92,6 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }function updateStatus($calendarID,$requestedStatus){
         include "connect.php";
         //update status
+
         $updateCalendarSql = "UPDATE calendar SET day_status = :requestedStatus WHERE calendar_id = :calendar_id";
         $updateCalendarStmt = $conn->prepare($updateCalendarSql);
         $updateCalendarStmt->bindParam(':calendar_id', $calendarID, PDO::PARAM_INT);
@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $updateCalendarStmt->execute();
         return 0;
     }
-    function updateStatusAndInsertRequest($userWorkID,$calendarID,$requestedStatus,$message,$toWhom,$currentTimestamp){
+    function updateStatusAndInsertRequest($userWorkID,$calendarID,$requestedStatus,$toWhom,$currentTimestamp){
         include "connect.php";
         //update status
         $updateCalendarSql = "UPDATE calendar SET day_status = :requestedStatus WHERE calendar_id = :calendar_id";
@@ -109,322 +109,256 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $updateCalendarStmt->execute();
 
         // Insert the new request
-        $insertSql = "INSERT INTO requests (work_id, calendar_id, requested_status, message, to_whom, request_status, timestamp, modified_date) VALUES (:work_id, :calendar_id, :requested_status, :message, :to_whom, 'pending', :timestamp, NULL)";
+        $insertSql = "INSERT INTO requests (work_id, calendar_id, requested_status, to_whom, request_status, timestamp, modified_date) VALUES (:work_id, :calendar_id, :requested_status, :to_whom, 'pending', :timestamp, NULL)";
         $insertStmt = $conn->prepare($insertSql);
         $insertStmt->bindParam(':work_id', $userWorkID);
         $insertStmt->bindParam(':calendar_id', $calendarID);
         $insertStmt->bindParam(':requested_status', $requestedStatus);
-        $insertStmt->bindParam(':message', $message);
         $insertStmt->bindParam(':to_whom', $toWhom);
         $insertStmt->bindParam(':timestamp', $currentTimestamp);
         $insertStmt->execute();
         return 0;
     }
+        $calendarResult = fetchCalendar($date, $userWorkID);
+        $calendarID = $calendarResult['calendar_id'];
+        $dayStatus = $calendarResult['day_status'];
 
-    switch ($requestedStatus) {
-        case 'payed_leave':
-            $sql = "SELECT work_id, payed_free, payed_requested, payed_past_free, payed_past_requested FROM users WHERE work_id = :userWorkID";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':userWorkID', $userWorkID, PDO::PARAM_INT);
-            $stmt->execute();
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
-            $dateYear = date('Y', strtotime($date)); // Extract the year from $date
-            $jan6 = "$dateYear-01-06"; // January 6th of $date's year
+        if ($dayStatus=="paid_requested"){
+            echo "Mielőtt ezt módosítanád, töröld a kérvényeid erre a napra. (".$date.")";
+            exit;
+        }
+        if ($dayStatus=="paid_taken"){
+            echo "Erre a napra már felhasznált egy szabadságot. Ez nem módosítható! (".$date.")";
+            exit;
+        }
+        if ($dayStatus=="paid_planned"){
+            switch ($requestedStatus) {
+                case 'paid_leave':
+                    echo "Már amúgyis szabadságon lenne, ne kérvényezzen még egyet!";
+                    exit;
+                    break;
+                case 'work_day':
+                    $requestedStatus='work_day';
+                    try {
+                        $calendarResult=fetchCalendar($date, $userWorkID);
 
-            if (!empty($result)) {
-                $userData = $result[0]; 
+                        if ($calendarResult) {
+                            $calendarID = $calendarResult['calendar_id'];
 
-                if ($userData['payed_past_free'] > 0 && $date <= $jan6) {
-                    $requestedStatus = 'payed_past_requested';
-                } elseif ($userData['payed_free'] > 0) {
-                    $requestedStatus = 'payed_requested';
-                } else {
-                    echo "Nincs elég szabadnapod!";
-                    exit; // Use exit instead of break outside a loop/switch
-                }
-            } else {
-                echo "User not found.";
-                exit;
+                            updateStatus($calendarID,$requestedStatus);
+
+                            $updateUserSql = "UPDATE users SET paid_free = paid_free +1, paid_planned = paid_planned - 1 WHERE work_id = :work_id";
+                            $updateUserStmt = $conn->prepare($updateUserSql);
+                            $updateUserStmt->bindParam(':work_id', $userWorkID, PDO::PARAM_INT);
+                            $updateUserStmt->execute();
+                            // Commit the transaction
+                            $conn->commit();
+
+                            header("Location: calendar.php?view=" . urlencode($currentView)."&month=".urlencode($month)."&year=".urlencode($year));
+                            echo "Sikeres Home Office a $date napra.";
+                            exit;
+                        } else {
+                            // Rollback if no calendar entry found
+                            $conn->rollBack();
+                            echo "No calendar entry found for the specified date and user.";
+                            exit;
+                        }
+                    } catch (Exception $e) {
+                        // Rollback on any other exception
+                        $conn->rollBack();
+                        echo "An error occurred: " . $e->getMessage();
+                    }
+
+                    break;
+                case 'home_office':
+
+                    $requestedStatus='home_office';
+                    try {
+                        $calendarResult=fetchCalendar($date, $userWorkID);
+
+                        if ($calendarResult) {
+                            $calendarID = $calendarResult['calendar_id'];
+
+                            updateStatus($calendarID,$requestedStatus);
+
+                            $updateUserSql = "UPDATE users SET paid_free = paid_free +1, paid_planned = paid_planned - 1 WHERE work_id = :work_id";
+                            $updateUserStmt = $conn->prepare($updateUserSql);
+                            $updateUserStmt->bindParam(':work_id', $userWorkID, PDO::PARAM_INT);
+                            $updateUserStmt->execute();
+                            // Commit the transaction
+                            $conn->commit();
+
+                            header("Location: calendar.php?view=" . urlencode($currentView)."&month=".urlencode($month)."&year=".urlencode($year));
+                            echo "Sikeres Home Office a $date napra.";
+                            exit;
+                        } else {
+                            // Rollback if no calendar entry found
+                            $conn->rollBack();
+                            echo "No calendar entry found for the specified date and user.";
+                            exit;
+                        }
+                    } catch (Exception $e) {
+                        // Rollback on any other exception
+                        $conn->rollBack();
+                        echo "An error occurred: " . $e->getMessage();
+                    }
+                    break;
+                case 'unpaid_sickness_taken':
+                    $requestedStatus='unpaid_sickness_taken';
+                    try {
+                        $calendarResult=fetchCalendar($date, $userWorkID);
+
+                        if ($calendarResult) {
+                            $calendarID = $calendarResult['calendar_id'];
+
+                            updateStatus($calendarID,$requestedStatus);
+
+                            $updateUserSql = "UPDATE users SET paid_free = paid_free +1, paid_planned = paid_planned - 1 WHERE work_id = :work_id";
+                            $updateUserStmt = $conn->prepare($updateUserSql);
+                            $updateUserStmt->bindParam(':work_id', $userWorkID, PDO::PARAM_INT);
+                            $updateUserStmt->execute();
+                            // Commit the transaction
+                            $conn->commit();
+
+                            header("Location: calendar.php?view=" . urlencode($currentView)."&month=".urlencode($month)."&year=".urlencode($year));
+                            echo "Sikeres betegszabadság a $date napra.";
+                            exit;
+                        } else {
+                            // Rollback if no calendar entry found
+                            $conn->rollBack();
+                            echo "No calendar entry found for the specified date and user.";
+                            exit;
+                        }
+                    } catch (Exception $e) {
+                        // Rollback on any other exception
+                        $conn->rollBack();
+                        echo "An error occurred: " . $e->getMessage();
+                    }
+                    break;
+                default:
+                    echo "Hiba történt!";
+                    break;
             }
+        }else{
+            switch ($requestedStatus) {
+                case 'paid_leave':
+                    $sql = "SELECT work_id, paid_free, paid_requested FROM users WHERE work_id = :userWorkID";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bindParam(':userWorkID', $userWorkID, PDO::PARAM_INT);
+                    $stmt->execute();
+                    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+                    if (!empty($result)) {
+                        $userData = $result[0];
 
-            try {
-                $calendarResult=fetchCalendar($date, $userWorkID);
-
-                if ($calendarResult) {
-                    $calendarID = $calendarResult['calendar_id'];
-
-                    UpdateStatusAndInsertRequest($userWorkID,$calendarID,$requestedStatus,$message,$toWhom,$currentTimestamp);
-
-                    // Update the user's free and requested counts
-                    if ($requestedStatus =='payed_past_requested'){
-                        $requested='payed_past_requested';
-                        $free='payed_past_free';
-                    }
-                    elseif ($requestedStatus =='payed_requested'){
-                        $requested='payed_requested';
-                        $free='payed_free';
-                    }
-                    // Ensure $free and $requested are valid column names to prevent SQL injection
-                    $validColumns = ['payed_past_requested', 'payed_requested', 'payed_past_free', 'payed_free'];
-                    if (in_array($free, $validColumns) && in_array($requested, $validColumns)) {
-                        $updateUserSql = "UPDATE users SET $free = $free - 1, $requested = $requested + 1 WHERE work_id = :work_id";
-                        $updateUserStmt = $conn->prepare($updateUserSql);
-                        $updateUserStmt->bindParam(':work_id', $userWorkID, PDO::PARAM_INT);
-                        $updateUserStmt->execute();
+                        if ($userData['paid_free'] > 0) {
+                            $requestedStatus = 'paid_requested';
+                        } else {
+                            echo "Nincs elég szabadnapod!";
+                            exit; // Use exit instead of break outside a loop/switch
+                        }
                     } else {
-                        // Handle invalid column names
-                        echo "Invalid column name.";
+                        echo "User not found.";
                         exit;
                     }
+                    try {
+                        $calendarResult=fetchCalendar($date, $userWorkID);
 
-                    // Commit the transaction
-                    $conn->commit();
+                        if ($calendarResult) {
+                            $calendarID = $calendarResult['calendar_id'];
 
-                    // Pop-up window or message for successful request
-                    header("Location: calendar.php?view=" . urlencode($currentView)."&month=".urlencode($month)."&year=".urlencode($year));
-                    echo "Sikeres ", getStatusName($requestedStatus), " kérelmezés a $date napra.";
-                } else {
-                    // Rollback if no calendar entry found
-                    $conn->rollBack();
-                    echo "No calendar entry found for the specified date and user.";
-                }
-            } catch (Exception $e) {
-                // Rollback on any other exception
-                $conn->rollBack();
-                echo "An error occurred: " . $e->getMessage();
-            }
-            break;
-            case 'work_day':
-                try {
-                    $calendarResult = fetchCalendar($date, $userWorkID);
-                            
-                    if ($calendarResult) {
-                        $dayStatus = $calendarResult['day_status'];
-                        $calendarID_for_requests = $calendarResult['calendar_id'];
-           
-                        switch ($dayStatus) {
-                            case 'work_day':
-                                echo "Már jelenleg is dolgozna ezen a napon!";
-                                break;
-                            case 'holiday':
-                            case 'weekend':
-                                echo "Nem kérhetsz munkanapot hétvégére vagy ünnepnapra.";
-                                exit;
-                                break;
+                            UpdateStatusAndInsertRequest($userWorkID,$calendarID,$requestedStatus,$toWhom,$currentTimestamp);
+                            $updateUserSql = "UPDATE users SET paid_free = paid_free - 1, paid_requested = paid_requested + 1 WHERE work_id = :work_id";
+                            $updateUserStmt = $conn->prepare($updateUserSql);
+                            $updateUserStmt->bindParam(':work_id', $userWorkID, PDO::PARAM_INT);
+                            $updateUserStmt->execute();
+                            // Commit the transaction
+                            $conn->commit();
+
+                            // Pop-up window or message for successful request
+                            header("Location: calendar.php?view=" . urlencode($currentView)."&month=".urlencode($month)."&year=".urlencode($year));
+                            echo "Sikeres ", getName($requestedStatus), " kérelmezés a $date napra.";
+                        } else {
+                            // Rollback if no calendar entry found
+                            $conn->rollBack();
+                            echo "No calendar entry found for the specified date and user.";
+                        }
+                    } catch (Exception $e) {
+                        // Rollback on any other exception
+                        $conn->rollBack();
+                        echo "An error occurred: " . $e->getMessage();
                     }
-                } else {
-                    echo "Nincs naptári bejegyzés a megadott dátumhoz.";
-                    exit;
-                }
-            } catch (Exception $e) {
-                echo "Hiba történt: " . $e->getMessage();
-                exit;
+                    break;
+                case 'work_day':
+                    $requestedStatus='work_day';
+                    switch ($dayStatus) {
+                        case 'work_day':
+                            echo "Már jelenleg is dolgozna ezen a napon!";
+                            exit;
+                            break;
+                        case 'holiday':
+                        case 'weekend':
+                            echo "Nem kérhetsz munkanapot hétvégére vagy ünnepnapra.";
+                            exit;
+                            break;
+                        case "home_office":
+                        case "unpaid_sickness_taken":
+                            updateStatus($calendarID,$requestedStatus);
+                            header("Location: calendar.php?view=" . urlencode($currentView)."&month=".urlencode($month)."&year=".urlencode($year));
+                            echo "Státusza munkanapra visszamódosítva";
+                            break;
+                    }
+                    break;
+                case 'home_office':
+                    $requestedStatus='home_office';
+                    try {
+                        $calendarResult=fetchCalendar($date, $userWorkID);
+
+                        if ($calendarResult) {
+                            $calendarID = $calendarResult['calendar_id'];
+
+                            updateStatus($calendarID,$requestedStatus);
+
+                            header("Location: calendar.php?view=" . urlencode($currentView)."&month=".urlencode($month)."&year=".urlencode($year));
+                            echo "Sikeres Home Office a $date napra.";
+                        } else {
+                            // Rollback if no calendar entry found
+                            $conn->rollBack();
+                            echo "No calendar entry found for the specified date and user.";
+                        }
+                    } catch (Exception $e) {
+                        // Rollback on any other exception
+                        $conn->rollBack();
+                        echo "An error occurred: " . $e->getMessage();
+                    }
+                    break;
+                case 'unpaid_sickness_taken':
+                    $requestedStatus='unpaid_sickness_taken';
+                    try {
+                        $calendarResult=fetchCalendar($date, $userWorkID);
+
+                        if ($calendarResult) {
+                            $calendarID = $calendarResult['calendar_id'];
+
+                            updateStatus($calendarID,$requestedStatus);
+
+                            header("Location: calendar.php?view=" . urlencode($currentView)."&month=".urlencode($month)."&year=".urlencode($year));
+                            echo "Sikeres betegszabadság a $date napra.";
+                        } else {
+                            // Rollback if no calendar entry found
+                            $conn->rollBack();
+                            echo "No calendar entry found for the specified date and user.";
+                        }
+                    } catch (Exception $e) {
+                        // Rollback on any other exception
+                        $conn->rollBack();
+                        echo "An error occurred: " . $e->getMessage();
+                    }
+                    break;
+                default:
+                    echo "Hiba történt!";
+                    break;
             }
-            break;
-        case 'online_work':
-            $requestedStatus='unpayed_home_requested';
-            try {
-                $calendarResult=fetchCalendar($date, $userWorkID);
+        }
 
-                if ($calendarResult) {
-                    $calendarID = $calendarResult['calendar_id'];
-
-                    UpdateStatusAndInsertRequest($userWorkID,$calendarID,$requestedStatus,$message,$toWhom,$currentTimestamp);
-
-                    // Update the user's free and requested counts
-                    $updateUserSql = "UPDATE users SET unpayed_home_free = unpayed_home_free - 1, unpayed_home_requested = unpayed_home_requested + 1 WHERE work_id = :work_id";
-                    $updateUserStmt = $conn->prepare($updateUserSql);
-                    $updateUserStmt->bindParam(':work_id', $userWorkID, PDO::PARAM_INT);
-                    $updateUserStmt->execute();
-
-                    // Commit the transaction
-                    $conn->commit();
-
-                    // Pop-up window or message for successful request
-                    header("Location: calendar.php?view=" . urlencode($currentView)."&month=".urlencode($month)."&year=".urlencode($year));
-                    echo "Sikeres kérelmezés a $date napra.";
-                } else {
-                    // Rollback if no calendar entry found
-                    $conn->rollBack();
-                    echo "No calendar entry found for the specified date and user.";
-                }
-            } catch (Exception $e) {
-                // Rollback on any other exception
-                $conn->rollBack();
-                echo "An error occurred: " . $e->getMessage();
-            }
-            break;
-        case 'award_leave':
-            $requestedStatus='payed_award_requested';
-            try {
-                $calendarResult=fetchCalendar($date, $userWorkID);
-
-                if ($calendarResult) {
-                    $calendarID = $calendarResult['calendar_id'];
-
-                    UpdateStatusAndInsertRequest($userWorkID,$calendarID,$requestedStatus,$message,$toWhom,$currentTimestamp);
-
-                    // Update the user's free and requested counts
-                    $updateUserSql = "UPDATE users SET payed_award_free = payed_award_free - 1, payed_award_requested = payed_award_requested + 1 WHERE work_id = :work_id";
-                    $updateUserStmt = $conn->prepare($updateUserSql);
-                    $updateUserStmt->bindParam(':work_id', $userWorkID, PDO::PARAM_INT);
-                    $updateUserStmt->execute();
-
-                    // Commit the transaction
-                    $conn->commit();
-
-                    // Pop-up window or message for successful request
-                    header("Location: calendar.php?view=" . urlencode($currentView)."&month=".urlencode($month)."&year=".urlencode($year));
-
-                    echo "Sikeres kérelmezés a $date napra.";
-                } else {
-                    // Rollback if no calendar entry found
-                    $conn->rollBack();
-                    echo "No calendar entry found for the specified date and user.";
-                }
-            } catch (Exception $e) {
-                // Rollback on any other exception
-                $conn->rollBack();
-                echo "An error occurred: " . $e->getMessage();
-            }
-    break;
-        case 'edu_leave':
-            $requestedStatus='payed_edu_requested';
-            try {
-                $calendarResult=fetchCalendar($date, $userWorkID);
-
-                if ($calendarResult) {
-                    $calendarID = $calendarResult['calendar_id'];
-
-                    UpdateStatusAndInsertRequest($userWorkID,$calendarID,$requestedStatus,$message,$toWhom,$currentTimestamp);
-
-                    // Update the user's free and requested counts
-                    $updateUserSql = "UPDATE users SET payed_edu_free = payed_edu_free - 1, payed_edu_requested = payed_edu_requested + 1 WHERE work_id = :work_id";
-                    $updateUserStmt = $conn->prepare($updateUserSql);
-                    $updateUserStmt->bindParam(':work_id', $userWorkID, PDO::PARAM_INT);
-                    $updateUserStmt->execute();
-
-                    // Commit the transaction
-                    $conn->commit();
-
-                    // Pop-up window or message for successful request
-                    header("Location: calendar.php?view=" . urlencode($currentView)."&month=".urlencode($month)."&year=".urlencode($year));
-                    echo "Sikeres kérelmezés a $date napra.";
-                } else {
-                    // Rollback if no calendar entry found
-                    $conn->rollBack();
-                    echo "No calendar entry found for the specified date and user.";
-                }
-            } catch (Exception $e) {
-                // Rollback on any other exception
-                $conn->rollBack();
-                echo "An error occurred: " . $e->getMessage();
-            }
-            break;
-        case 'dad_leave':
-            $requestedStatus='unpayed_dad_requested';
-            try {
-                $calendarResult=fetchCalendar($date, $userWorkID);
-
-                if ($calendarResult) {
-                    $calendarID = $calendarResult['calendar_id'];
-
-                    UpdateStatusAndInsertRequest($userWorkID,$calendarID,$requestedStatus,$message,$toWhom,$currentTimestamp);
-
-                    // Update the user's free and requested counts
-                    $updateUserSql = "UPDATE users SET unpayed_dad_free = unpayed_dad_free - 1, unpayed_dad_requested = unpayed_dad_requested + 1 WHERE work_id = :work_id";
-                    $updateUserStmt = $conn->prepare($updateUserSql);
-                    $updateUserStmt->bindParam(':work_id', $userWorkID, PDO::PARAM_INT);
-                    $updateUserStmt->execute();
-
-                    // Commit the transaction
-                    $conn->commit();
-
-                    // Pop-up window or message for successful request
-                    header("Location: calendar.php?view=" . urlencode($currentView)."&month=".urlencode($month)."&year=".urlencode($year));
-                    echo "Sikeres kérelmezés a $date napra.";
-                } else {
-                    // Rollback if no calendar entry found
-                    $conn->rollBack();
-                    echo "No calendar entry found for the specified date and user.";
-                }
-            } catch (Exception $e) {
-                // Rollback on any other exception
-                $conn->rollBack();
-                echo "An error occurred: " . $e->getMessage();
-            }
-            break;
-        case 'unpayed_sickness_taken':
-            $requestedStatus='unpayed_sickness_taken';
-            try {
-                $calendarResult=fetchCalendar($date, $userWorkID);
-
-                if ($calendarResult) {
-                    $calendarID = $calendarResult['calendar_id'];
-
-                    updateStatus($calendarID,$requestedStatus);
-
-                    // Update the user's free and requested counts
-                    $updateUserSql = "UPDATE users SET unpayed_sickness_taken = unpayed_sickness_taken + 1 WHERE work_id = :work_id";
-                    $updateUserStmt = $conn->prepare($updateUserSql);
-                    $updateUserStmt->bindParam(':work_id', $userWorkID, PDO::PARAM_INT);
-                    $updateUserStmt->execute();
-
-                    // Commit the transaction
-                    $conn->commit();
-
-                    // TODO Pop-up window or message for successful request
-
-                    header("Location: calendar.php?view=" . urlencode($currentView)."&month=".urlencode($month)."&year=".urlencode($year));
-                    echo "Sikeres betegszabadság a $date napra.";
-                } else {
-                    // Rollback if no calendar entry found
-                    $conn->rollBack();
-                    echo "No calendar entry found for the specified date and user.";
-                }
-            } catch (Exception $e) {
-                // Rollback on any other exception
-                $conn->rollBack();
-                echo "An error occurred: " . $e->getMessage();
-            }
-            break;
-        case 'unpayed_leave':
-            $requestedStatus='unpayed_requested';
-            try {
-                $calendarResult=fetchCalendar($date, $userWorkID);
-
-                if ($calendarResult) {
-                    $calendarID = $calendarResult['calendar_id'];
-
-                    UpdateStatusAndInsertRequest($userWorkID,$calendarID,$requestedStatus,$message,$toWhom,$currentTimestamp);
-
-                    // Update the user's free and requested counts
-                    $updateUserSql = "UPDATE users SET unpayed_free = unpayed_free - 1, unpayed_requested = unpayed_requested + 1 WHERE work_id = :work_id";
-                    $updateUserStmt = $conn->prepare($updateUserSql);
-                    $updateUserStmt->bindParam(':work_id', $userWorkID, PDO::PARAM_INT);
-                    $updateUserStmt->execute();
-
-                    // Commit the transaction
-                    $conn->commit();
-
-                    // Pop-up window or message for successful request
-                    header("Location: calendar.php?view=" . urlencode($currentView)."&month=".urlencode($month)."&year=".urlencode($year));
-                    echo "Sikeres kérelmezés a $date napra.";
-                } else {
-                    // Rollback if no calendar entry found
-                    $conn->rollBack();
-                    echo "No calendar entry found for the specified date and user.";
-                }
-            } catch (Exception $e) {
-                // Rollback on any other exception
-                $conn->rollBack();
-                echo "An error occurred: " . $e->getMessage();
-            }
-            break;
-        default:
-            // Code to handle an unknown value
-            break;
-    }
 ?>

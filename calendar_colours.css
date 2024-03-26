@@ -1,105 +1,95 @@
-.payed_requested {
+.paid_requested {
     background-color: #90EE90;
     color: #004225; /* Dark green for contrast */
 }
 
-.payed_planned {
+.paid_planned {
     background-color: #32CD32;
     color: #ffffff;
 }
 
-.payed_taken {
+.paid_taken {
     background-color: #006400;
     color: #ffffff;
 }
-.unpayed_requested{
+.unpaid_requested{
     background-color: grey;
     color: #ffffff;
 }
 
-.unpayed_planned{
+.unpaid_planned{
     background-color: dimgray;
     color: #ffffff;
 }
 
-.unpayed_taken{
+.unpaid_taken{
     background-color: dimgrey;
     color: #ffffff;
 }
 
-.payed_past_requested {
+.paid_past_requested {
     background-color: #FFFFE0;
     color: #333333;
 }
 
-.payed_past_planned {
+.paid_past_planned {
     background-color: rgba(255, 255, 0, 0.43);
     color: #333333;
 }
 
-.payed_past_taken {
+.paid_past_taken {
     background-color: rgba(255, 215, 0, 0.65);
     color: #333333;
 }
 
-.payed_edu_requested {
+.paid_edu_requested {
     background-color: #ADD8E6;
     color: #002366; /* Dark blue for contrast */
 }
 
-.payed_edu_planned {
+.paid_edu_planned {
     background-color: #0000FF;
     color: #ffffff;
 }
 
-.payed_edu_taken {
+.paid_edu_taken {
     background-color: #00008B;
     color: #ffffff;
 }
 
-.payed_award_requested {
+.paid_award_requested {
     background-color: #DDA0DD;
     color: #4B0082; /* Dark purple for contrast */
 }
 
-.payed_award_planned {
+.paid_award_planned {
     background-color: #800080;
     color: #ffffff;
 }
 
-.payed_award_taken {
+.paid_award_taken {
     background-color: #4B0082;
     color: #ffffff;
 }
 
-.unpayed_dad_requested {
+.unpaid_dad_requested {
     background-color: #A52A2A;
     color: #ffffff;
 }
 
-.unpayed_dad_planned {
+.unpaid_dad_planned {
     background-color: #8B4513;
     color: #ffffff;
 }
 
-.unpayed_dad_taken {
+.unpaid_dad_taken {
     background-color: #654321;
     color: #ffffff;
 }
 
-.unpayed_home_requested {
+.home_office {
     background-color: #D3D3D3;
     color: #333333;
-}
-
-.unpayed_home_planned {
-    background-color: #808080;
-    color: #ffffff;
-}
-
-.unpayed_home_taken {
-    background-color: #696969;
-    color: #ffffff;
 }
 
 .work_day {
@@ -117,12 +107,12 @@
     color: #ffffff;
 }
 
-.unpayed_sickness_taken {
+.unpaid_sickness_taken {
     background-color: #0000FF;
     color: #ffffff;
 }
 
-.unpayed_uncertified_taken {
+.unpaid_uncertified_taken {
     background-color: #000000;
     color: #ffffff;
 }

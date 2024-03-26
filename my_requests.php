@@ -2,6 +2,7 @@
 include "session_check.php";
 include "connect.php";
 include "nav-bar.php";
+include "function_get_name.php";
 
 if (!isset($_SESSION['logged'])) {
     header("Location: login_form.php");
@@ -16,7 +17,7 @@ if (isset($_SESSION['work_id'])) {
     $sql = "SELECT r.*, c.date 
             FROM requests r
             LEFT JOIN calendar c ON r.calendar_id = c.calendar_id
-            WHERE r.work_id = :userWorkID 
+            WHERE r.work_id = :userWorkID and r.request_status!='deleted'
             ORDER BY r.request_id DESC";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':userWorkID', $userWorkID, PDO::PARAM_INT);
@@ -74,22 +75,14 @@ if (isset($_SESSION['work_id'])) {
                                     N/A
                                 <?php endif; ?>
                             </td>
-                            <td><?php echo htmlspecialchars($request['requested_status']); ?></td>
+                            <td><?php echo htmlspecialchars(getName($request['requested_status'])); ?></td>
                             <!--<td><?php //echo htmlspecialchars($request['message']); ?></td>-->
                             <td><?php echo htmlspecialchars($request['to_whom']); ?></td>
-                            <td><?php echo htmlspecialchars($request['request_status']); ?></td>
+                            <td><?php echo htmlspecialchars(getName($request['request_status'])); ?></td>
                             <td><?php echo htmlspecialchars($request['timestamp']); ?></td>
                             <td><?php echo htmlspecialchars($request['modified_date']); ?></td>
                             
                             <td>
-                                <!-- Modify Button -->
-                                <?php if ($request['request_status'] == "pending" || $request['request_status'] == "messaged"): ?>
-                                    <form action="modify_request.php" method="post">
-                                        <input type="hidden" name="request_id" value="<?php echo $request['request_id']; ?>">
-                                        <input type="submit" value="Módosít">
-                                    </form>
-                                <?php endif; ?>
-
                                 <!-- Delete Button -->
                                 <?php if ($request['request_status'] == "pending" || $request['request_status'] == "messaged"): ?>
                                     <form action="delete_request.php" method="post" onsubmit="return confirm('Biztosan törölni szeretné ezt a kérelmet?');">

@@ -31,20 +31,40 @@ if (isset($_POST['year']) && isset($_POST['month'])&& isset($_POST['feltetel'])&
     $pdf->SetFont('dejavusans', '', 6);
 
     $HungarianMonth= translateMonthToHungarian($month);
+    $path="unilogo.png";
+    $html = <<<EOD
+    <table cellspacing="0" cellpadding="0" border="0" style="width: 100%;">
+        <tr>
+            <td style="width: 20%;">
+                
+            </td>
+            <td style="width: 60%; text-align: center;">
+                <h2>SZÉCHENYI EGYETEM</h2>
+                <h2>UNIVERSITY OF GYŐR</h2>
+                <h3>ADATSZOLGÁLTATÁS BÉRSZÁMFEJTÉSHEZ</h3>
+            </td>
+            <td style="width: 20%; text-align: right;">
+                <!-- Any other header content on the right -->
+            </td>
+        </tr>
+    </table>
+EOD;
+
     // HTML tartalom definíciója
-    $html = '<h1 style="text-align: center;"> '.$feltetel . " $year" . " $HungarianMonth ". '-i beosztás '. $feltetel . ' számára</h1>';
+    $html .= '<h1 style="text-align: center;"> '.$feltetel . " $year" . " $HungarianMonth ". '-i beosztás '. $feltetel . ' számára</h1>';
 
     // Táblázat kezdése
     $html .= '<table border="1" cellpadding="4">';
 
     $baseWidth = 16; // basewidth
     $totalDayColumns = cal_days_in_month(CAL_GREGORIAN, $month, $year); // Number of days in the month
-    $summaryColumns = 9; // Number of summary columns (F, E, T, J, A, O, I, B, H)
+    $summaryColumns = 3; // Number of summary columns (F,O,B)
     $totalColumns = $totalDayColumns + $summaryColumns;
 
     // A táblázat fejlécének megadása
     $html .= '<tr>';
     $html .= '<th width="' . (4 * $baseWidth) . '" colspan="2"></th>';
+    $html .= '<th width="' . (4 * $baseWidth) . '" colspan="1"></th>';
     $html .= '<th width="' . (4 * $baseWidth) . '" colspan="1"></th>';
     $html .= '<th style="text-align: center;" width="' . ($baseWidth * $totalDayColumns) . '" colspan="' . $totalDayColumns . '">LE NEM DOLGOZOTT NAPOK JELÖLÉSE</th>'; // Header for the days of the month
     $html .= '<th style="text-align: center;" width="' . ($baseWidth * $summaryColumns) . '" colspan="' . $summaryColumns . '">TÁVOLLET ÖSSZESÍTÉSE (nap)</th>'; // Header for the summary
@@ -52,35 +72,32 @@ if (isset($_POST['year']) && isset($_POST['month'])&& isset($_POST['feltetel'])&
     $html .= '<tr>';
     $html .= '<th width="' . (4 * $baseWidth) . '">Adoazonosito</th>'; //3 szor szélesebb oszlop
     $html .= '<th width="' . (4 * $baseWidth) . '">Név</th>'; // 3 szor szélesebb oszlop
-    
+    $html .= '<th width="' . (4 * $baseWidth) . '">Tanszék</th>'; // 3 szor szélesebb oszlop
     // dinamukus fejlec generalas
     for ($i = 1; $i <= cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++) {
         $html .= '<th width="' . $baseWidth . '">' . $i . '</th>'; // Normal szelesség
     }
         $html .= "<th width=". $baseWidth ." >F</th>";
-        $html .= "<th width=". $baseWidth ." >E</th>";
-        $html .= "<th width=". $baseWidth ." >T</th>";
-        $html .= "<th width=". $baseWidth ." >J</th>";
-        $html .= "<th width=". $baseWidth ." >A</th>";
         $html .= "<th width=". $baseWidth ." >O</th>";
-        $html .= "<th width=". $baseWidth ." >I</th>";
         $html .= "<th width=". $baseWidth ." >B</th>";
-        $html .= "<th width=". $baseWidth ." >H</th>";
+       
     $html .= '</tr>';
 
     // Adatok bejárása és táblázatba írása
     foreach ($workIds as $workId) {
-        $sql ="SELECT * from users where work_id= :workId";
+        $sql ="SELECT * from users where work_id= :workId order by szervezetszam";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':workId', $workId, PDO::PARAM_INT); // Corrected the case to match the placeholder
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         $name=$user["name"];
         $adoazonosito=$user["adoazonosito"];
+        $szervezetszam=$user["szervezetszam"];
 
         $html .= '<tr>';
         $html .= '<td>' . $adoazonosito . '</td>'; // adoazonosito
         $html .= '<td>' . $name . '</td>'; // név
+        $html .= '<td>' . $szervezetszam . '</td>'; // tanszek
 
         // Get the first day of the month
         $mindate = $year . '-' . $month . '-01';
@@ -97,76 +114,28 @@ if (isset($_POST['year']) && isset($_POST['month'])&& isset($_POST['feltetel'])&
         $calendar = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $F=0;
-        $E=0;
-        $T=0;
-        $J=0;
-        $A=0;
         $O=0;
-        $I=0;
         $B=0;
-        $H=0;
+       
         // Generate empty cells for each day of the month
         for ($i = 1; $i < cal_days_in_month(CAL_GREGORIAN, $month, $year)+1; $i++) { // Adjusted loop to start from 1 and end at 16
             if (isset($calendar[$i - 1])) { // Subtract 1 to match array indexing
                 $dayStatus = $calendar[$i - 1]['day_status']; // Subtract 1 to match array indexing
                 // Append the day status to the HTML table cell
                 switch ($dayStatus) {
-                    case "payed_free":
-                    case "payed_requested":
-                    case "payed_planned":
-                    case "payed_taken":
+                    case "paid_free":
+                    case "paid_requested":
+                    case "paid_planned":
+                    case "paid_taken":
                         $output = "F";
                         $F++;
                         break;
-        
-                    case "payed_past_free":
-                    case "payed_past_requested":
-                    case "payed_past_planned":
-                    case "payed_past_taken":
-                        $output = "E";
-                        $E++;
-                        break;
-        
-                    case "payed_edu_free":
-                    case "payed_edu_requested":
-                    case "payed_edu_planned":
-                    case "payed_edu_taken":
-                        $output = "T";
-                        $T++;
-                        break;
-        
-                    case "payed_award_free":
-                    case "payed_award_requested":
-                    case "payed_award_planned":
-                    case "payed_award_taken":
-                        $output = "J";
-                        $J++;
-                        break;
-        
-                    case "unpayed_dad_free":
-                    case "unpayed_dad_requested":
-                    case "unpayed_dad_planned":
-                    case "unpayed_dad_taken":
-                        $output = "A";
-                        $A++;
-                        break;
-        
-                    case "unpayed_home_free":
-                    case "unpayed_home_requested":
-                    case "unpayed_home_planned":
-                    case "unpayed_home_taken":
+
+                    case "home_office":
                         $output = "O";
                         $O++;
                         break;
-        
-                    case "unpayed_free":
-                    case "unpayed_requested":
-                    case "unpayed_planned":
-                    case "unpayed_taken":
-                        $output = "I";
-                        $I++;
-                        break;
-        
+
                     case "work_day":
                         $output = "";
                         break;
@@ -176,19 +145,14 @@ if (isset($_POST['year']) && isset($_POST['month'])&& isset($_POST['feltetel'])&
                         break;
         
                     case "holiday":
-                        $output = "";
+                        $output = "X";
                         break;
         
-                    case "unpayed_sickness_taken":
+                    case "unpaid_sickness_taken":
                         $output = "B";
                         $B++;
                         break;
-        
-                    case "unpayed_uncertified_taken":
-                        $output = "H";
-                        $H++;
-                        break;
-        
+
                     default:
                         $output = "";
                         break;
@@ -205,20 +169,56 @@ if (isset($_POST['year']) && isset($_POST['month'])&& isset($_POST['feltetel'])&
         }
         //$html .= "<td></td>";
         $html .= "<td>$F</td>";
-        $html .= "<td>$E</td>";
-        $html .= "<td>$T</td>";
-        $html .= "<td>$J</td>";
-        $html .= "<td>$A</td>";
         $html .= "<td>$O</td>";
-        $html .= "<td>$I</td>";
         $html .= "<td>$B</td>";
-        $html .= "<td>$H</td>";
         $html .= '</tr>';
     }
 
     
     // Táblázat lezárása
     $html .= '</table>';
+
+    $html .= <<<EOD
+<table cellpadding="4" cellspacing="0" border="0" style="font-size: 8pt; width: 100%;">
+    <tr>
+        <td>                               </td>
+        <td>                               </td>
+        <td>                               </td>
+        <td>__________________      _______________</td>
+    </tr>
+    <tr>
+        <td>Győr, 20.... . ....hó ....nap</td>
+        <td>F = Fizetett tárgyévi szabadság</td>
+        <td>I = Fiz. nélk. igazolt távollét</td>
+        <td>küldősert felelős vezető dékán</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>E = Fizetett előző évi szabadság</td>
+        <td>B = Betegség</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>T = Tanulmányi szabadság</td>
+        <td>H = Igazolatlan távollét</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>J = Jutalomszabadság</td>
+        <td>A = Apaság</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td>O = Home-office</td>
+        <td></td>
+    </tr>
+</table>
+EOD;
+
 
 
 
@@ -229,7 +229,7 @@ if (isset($_POST['year']) && isset($_POST['month'])&& isset($_POST['feltetel'])&
     $pdf->Output($title . '.pdf', 'D');
 } else {
     // Ha az év és hónap paraméterek nincsenek beállítva, hibaüzenet kiírása
-    echo "Year and month parameters are required.";
+    echo "Év és hónap paraméterek hiányoznak.";
     exit;
 }
 ?>

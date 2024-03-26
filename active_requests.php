@@ -3,7 +3,7 @@
                     <?php if (!empty($requests)): ?>
                         <ul>
                             <?php foreach ($requests as $request): ?>
-                                <li><?php echo htmlspecialchars($request['message']); ?></li>
+                            
                             <?php endforeach; ?>
                         </ul>
                     <?php else: ?>
@@ -114,7 +114,7 @@
                                             <a href="<?php echo $profileUrl; ?>">
                                                 <?php echo htmlspecialchars($adminRequest['name']); ?>
                                             </a>
-                                            <?php echo ": " . htmlspecialchars($adminRequest['message']); ?>
+                                        
                                             <?php echo ": " . htmlspecialchars($adminRequest['request_status']); ?>
                                         </td>
                                         <td>
@@ -128,12 +128,6 @@
                                             <form action="reject_request.php" method="post">
                                                 <input type="hidden" name="request_id" value="<?php echo $adminRequest['request_id']; ?>">
                                                 <input type="submit" value="Elutasít">
-                                            </form>
-
-                                            <!-- Respond Button -->
-                                            <form action="respond_request_form.php" method="get">
-                                                <input type="hidden" name="request_id" value="<?php echo $adminRequest['request_id']; ?>">
-                                                <input type="submit" value="Válaszol">
                                             </form>
                                         </td>
                                     </tr>

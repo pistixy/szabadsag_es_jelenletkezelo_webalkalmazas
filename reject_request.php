@@ -31,7 +31,7 @@ if (isset($_POST['request_id']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Determine the type of leave request
             switch ($requestedStatus) {
-                case 'payed_requested':
+                case 'paid_requested':
                     // Update the request status to "rejected" in the requests table
                     $updateRequestSql = "UPDATE requests SET request_status = 'rejected', modified_date = :modifiedDate WHERE request_id = :requestId";
                     $updateRequestStmt = $conn->prepare($updateRequestSql);
@@ -46,150 +46,21 @@ if (isset($_POST['request_id']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                     $updateCalendarStmt->execute();
 
                     // Update the user's free and requested counts
-                    $updateUserSql = "UPDATE users SET payed_free = payed_free + 1, payed_requested = payed_requested - 1 WHERE work_id = :requestingUserID";
+                    $updateUserSql = "UPDATE users SET paid_free = paid_free + 1, paid_requested = paid_requested - 1 WHERE work_id = :requestingUserID";
                     $updateUserStmt = $conn->prepare($updateUserSql);
                     $updateUserStmt->bindParam(':requestingUserID', $requestingUserID, PDO::PARAM_INT);
                     $updateUserStmt->execute();
                     break;
-                case 'payed_past_requested':
-                    // Update the request status to "rejected" in the requests table
-                    $updateRequestSql = "UPDATE requests SET request_status = 'rejected', modified_date = :modifiedDate WHERE request_id = :requestId";
-                    $updateRequestStmt = $conn->prepare($updateRequestSql);
-                    $updateRequestStmt->bindParam(':requestId', $requestId, PDO::PARAM_INT);
-                    $updateRequestStmt->bindParam(':modifiedDate', $currentTimestamp, PDO::PARAM_STR);
-                    $updateRequestStmt->execute();
+                
+                
 
-                    // Update the day status in the calendar table back to '1'
-                    $updateCalendarSql = "UPDATE calendar SET day_status = 'work_day' WHERE calendar_id = :calendarId";
-                    $updateCalendarStmt = $conn->prepare($updateCalendarSql);
-                    $updateCalendarStmt->bindParam(':calendarId', $calendarId, PDO::PARAM_INT);
-                    $updateCalendarStmt->execute();
-
-                    // Update the user's free and requested counts
-                    $updateUserSql = "UPDATE users SET payed_past_free = payed_past_free + 1, payed_past_requested = payed_past_requested - 1 WHERE work_id = :requestingUserID";
-                    $updateUserStmt = $conn->prepare($updateUserSql);
-                    $updateUserStmt->bindParam(':requestingUserID', $requestingUserID, PDO::PARAM_INT);
-                    $updateUserStmt->execute();
-                    break;
-                case 'payed_edu_requested':
-                    // Update the request status to "rejected" in the requests table
-                    $updateRequestSql = "UPDATE requests SET request_status = 'rejected', modified_date = :modifiedDate WHERE request_id = :requestId";
-                    $updateRequestStmt = $conn->prepare($updateRequestSql);
-                    $updateRequestStmt->bindParam(':requestId', $requestId, PDO::PARAM_INT);
-                    $updateRequestStmt->bindParam(':modifiedDate', $currentTimestamp, PDO::PARAM_STR);
-                    $updateRequestStmt->execute();
-
-                    // Update the day status in the calendar table back to '1'
-                    $updateCalendarSql = "UPDATE calendar SET day_status = 'work_day' WHERE calendar_id = :calendarId";
-                    $updateCalendarStmt = $conn->prepare($updateCalendarSql);
-                    $updateCalendarStmt->bindParam(':calendarId', $calendarId, PDO::PARAM_INT);
-                    $updateCalendarStmt->execute();
-
-                    // Update the user's free and requested counts
-                    $updateUserSql = "UPDATE users SET payed_edu_free = payed_edu_free + 1, payed_edu_requested = payed_edu_requested - 1 WHERE work_id = :requestingUserID";
-                    $updateUserStmt = $conn->prepare($updateUserSql);
-                    $updateUserStmt->bindParam(':requestingUserID', $requestingUserID, PDO::PARAM_INT);
-                    $updateUserStmt->execute();
-                    break;
-                case 'payed_award_requested':
-                    // Update the request status to "rejected" in the requests table
-                    $updateRequestSql = "UPDATE requests SET request_status = 'rejected', modified_date = :modifiedDate WHERE request_id = :requestId";
-                    $updateRequestStmt = $conn->prepare($updateRequestSql);
-                    $updateRequestStmt->bindParam(':requestId', $requestId, PDO::PARAM_INT);
-                    $updateRequestStmt->bindParam(':modifiedDate', $currentTimestamp, PDO::PARAM_STR);
-                    $updateRequestStmt->execute();
-
-                    // Update the day status in the calendar table back to '1'
-                    $updateCalendarSql = "UPDATE calendar SET day_status = 'work_day' WHERE calendar_id = :calendarId";
-                    $updateCalendarStmt = $conn->prepare($updateCalendarSql);
-                    $updateCalendarStmt->bindParam(':calendarId', $calendarId, PDO::PARAM_INT);
-                    $updateCalendarStmt->execute();
-
-                    // Update the user's free and requested counts
-                    $updateUserSql = "UPDATE users SET payed_award_free = payed_award_free + 1, payed_award_requested = payed_award_requested - 1 WHERE work_id = :requestingUserID";
-                    $updateUserStmt = $conn->prepare($updateUserSql);
-                    $updateUserStmt->bindParam(':requestingUserID', $requestingUserID, PDO::PARAM_INT);
-                    $updateUserStmt->execute();
-                    break;
-                case 'unpayed_dad_requested':
-                    // Update the request status to "rejected" in the requests table
-                    $updateRequestSql = "UPDATE requests SET request_status = 'rejected', modified_date = :modifiedDate WHERE request_id = :requestId";
-                    $updateRequestStmt = $conn->prepare($updateRequestSql);
-                    $updateRequestStmt->bindParam(':requestId', $requestId, PDO::PARAM_INT);
-                    $updateRequestStmt->bindParam(':modifiedDate', $currentTimestamp, PDO::PARAM_STR);
-                    $updateRequestStmt->execute();
-
-                    // Update the day status in the calendar table back to '1'
-                    $updateCalendarSql = "UPDATE calendar SET day_status = 'work_day' WHERE calendar_id = :calendarId";
-                    $updateCalendarStmt = $conn->prepare($updateCalendarSql);
-                    $updateCalendarStmt->bindParam(':calendarId', $calendarId, PDO::PARAM_INT);
-                    $updateCalendarStmt->execute();
-
-                    // Update the user's free and requested counts
-                    $updateUserSql = "UPDATE users SET unpayed_dad_free = unpayed_dad_free + 1, unpayed_dad_requested = unpayed_dad_requested - 1 WHERE work_id = :requestingUserID";
-                    $updateUserStmt = $conn->prepare($updateUserSql);
-                    $updateUserStmt->bindParam(':requestingUserID', $requestingUserID, PDO::PARAM_INT);
-                    $updateUserStmt->execute();
-                    break;
-                case 'unpayed_home_requested':
-                    // Update the request status to "rejected" in the requests table
-                    $updateRequestSql = "UPDATE requests SET request_status = 'rejected', modified_date = :modifiedDate WHERE request_id = :requestId";
-                    $updateRequestStmt = $conn->prepare($updateRequestSql);
-                    $updateRequestStmt->bindParam(':requestId', $requestId, PDO::PARAM_INT);
-                    $updateRequestStmt->bindParam(':modifiedDate', $currentTimestamp, PDO::PARAM_STR);
-                    $updateRequestStmt->execute();
-
-                    // Update the day status in the calendar table back to '1'
-                    $updateCalendarSql = "UPDATE calendar SET day_status = 'work_day' WHERE calendar_id = :calendarId";
-                    $updateCalendarStmt = $conn->prepare($updateCalendarSql);
-                    $updateCalendarStmt->bindParam(':calendarId', $calendarId, PDO::PARAM_INT);
-                    $updateCalendarStmt->execute();
-
-                    // Update the user's free and requested counts
-                    $updateUserSql = "UPDATE users SET unpayed_home_free = unpayed_home_free + 1, unpayed_home_requested = unpayed_home_requested - 1 WHERE work_id = :requestingUserID";
-                    $updateUserStmt = $conn->prepare($updateUserSql);
-                    $updateUserStmt->bindParam(':requestingUserID', $requestingUserID, PDO::PARAM_INT);
-                    $updateUserStmt->execute();
-                    break;
-                case 'unpayed_requested':
-                    // Update the request status to "rejected" in the requests table
-                    $updateRequestSql = "UPDATE requests SET request_status = 'rejected', modified_date = :modifiedDate WHERE request_id = :requestId";
-                    $updateRequestStmt = $conn->prepare($updateRequestSql);
-                    $updateRequestStmt->bindParam(':requestId', $requestId, PDO::PARAM_INT);
-                    $updateRequestStmt->bindParam(':modifiedDate', $currentTimestamp, PDO::PARAM_STR);
-                    $updateRequestStmt->execute();
-
-                    // Update the day status in the calendar table back to '1'
-                    $updateCalendarSql = "UPDATE calendar SET day_status = 'work_day' WHERE calendar_id = :calendarId";
-                    $updateCalendarStmt = $conn->prepare($updateCalendarSql);
-                    $updateCalendarStmt->bindParam(':calendarId', $calendarId, PDO::PARAM_INT);
-                    $updateCalendarStmt->execute();
-
-                    // Update the user's free and requested counts
-                    $updateUserSql = "UPDATE users SET unpayed_free = unpayed_free + 1, unpayed_requested = unpayed_requested - 1 WHERE work_id = :requestingUserID";
-                    $updateUserStmt = $conn->prepare($updateUserSql);
-                    $updateUserStmt->bindParam(':requestingUserID', $requestingUserID, PDO::PARAM_INT);
-                    $updateUserStmt->execute();
-                    break;
                 default:
                     // Optional: Handle unknown requested status
                     break;
             }
 
             // Insert the rejection message into the messages table
-            $message = "Elutasítva";
-            $type = 'response to request';
-            $currentTimestamp = date('Y-m-d H:i:s');
-
-            $insertSql = "INSERT INTO messages (from_work_id, to_work_id, type, request_id, message, timestamp) VALUES (:fromWorkID, :toWorkID, :type, :requestId, :message, :timestamp)";
-            $insertStmt = $conn->prepare($insertSql);
-            $insertStmt->bindParam(':fromWorkID', $fromWorkID, PDO::PARAM_INT);
-            $insertStmt->bindParam(':toWorkID', $requestingUserID, PDO::PARAM_INT);
-            $insertStmt->bindParam(':type', $type, PDO::PARAM_STR);
-            $insertStmt->bindParam(':requestId', $requestId, PDO::PARAM_INT);
-            $insertStmt->bindParam(':message', $message, PDO::PARAM_STR);
-            $insertStmt->bindParam(':timestamp', $currentTimestamp, PDO::PARAM_STR);
-            $insertStmt->execute();
+            
 
             // Commit the transaction
             $conn->commit();
