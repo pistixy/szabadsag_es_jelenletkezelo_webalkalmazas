@@ -78,9 +78,9 @@ EOD;
     for ($i = 1; $i <= cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++) {
         $html .= '<th width="' . $baseWidth . '">' . $i . '</th>'; // Normal szelesség
     }
-        $html .= "<th width=". $baseWidth ." >F</th>";
-        $html .= "<th width=". $baseWidth ." >O</th>";
-        $html .= "<th width=". $baseWidth ." >B</th>";
+    $html .= "<th width=". $baseWidth ." >F</th>";
+    $html .= "<th width=". $baseWidth ." >O</th>";
+    $html .= "<th width=". $baseWidth ." >B</th>";
 
     $html .= '</tr>';
 
@@ -232,8 +232,9 @@ EOD;
     // ... existing code ...
 
     if ($position == "dekan") {
+        $title="elonezet";
         // Define the directory path based on year and month
-        $dirPath = __DIR__ . "/Beosztasok/$year/$month"; // Ensure full path is used
+        $dirPath = __DIR__ . "/Beosztasok_elonezete"; // Ensure full path is used
 
         // Check if the directory exists, if not, create it
         if (!file_exists($dirPath)) {

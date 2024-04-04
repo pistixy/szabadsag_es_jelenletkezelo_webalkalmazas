@@ -55,29 +55,7 @@ include "check_login.php";
                     echo "</td>";
                     break;
                 case "dekan":
-                    $karPattern = '%' . $kar . '%';
-                    $pendingRequestSql = "SELECT COUNT(*) AS pendingcount FROM requests 
-                        WHERE request_status = 'pending' 
-                        AND (to_whom LIKE :kar)";
-                    $pendingRequestStmt = $conn->prepare($pendingRequestSql);
-                    $pendingRequestStmt->bindParam(':kar', $karPattern);
 
-                    if ($pendingRequestStmt->execute()) {
-                        $pendingRequestResult = $pendingRequestStmt->fetch(PDO::FETCH_ASSOC);
-                        if ($pendingRequestResult) {
-                            $hasPendingRequests = $pendingRequestResult['pendingcount'] > 0;
-                        } else {
-                            $hasPendingRequests = false;
-                        }
-                    } else {
-                        // hibakezelés
-                        $errorInfo = $pendingRequestStmt->errorInfo();
-                        echo "SQL Error: " . $errorInfo[2];
-                        $hasPendingRequests = false;
-                    }
-
-                    $notificationClass = $hasPendingRequests ? "notification" : "";
-                    echo "<td><a href='incomming_requests.php' class='$notificationClass'>Bejövő kérelmek</a></td>";
                     break;
                 case "tanszekvezeto":
                     $karPattern = '%' . $kar . '%';
@@ -166,7 +144,13 @@ include "check_login.php";
                 echo "</td>";
            }
            ?>
-
+           <?php
+           if (isset($_SESSION['logged']) && $_SESSION['position'] == "admin" ){
+               echo "<td>";
+               echo "<a href='letoltheto_fajlok.php'>Letölthetö beosztások</a>";
+               echo "</td>";
+           }
+           ?>
     </tr>
     
 </table>

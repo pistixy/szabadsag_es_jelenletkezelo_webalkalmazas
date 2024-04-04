@@ -81,7 +81,7 @@ if (isset($_GET['work_id'])) {
                                 <td><?php echo $value; ?></td>
                                 <td style="display: flex">
                                     <!-- Státusz növelése gomb -->
-                                    <?php if (in_array($key, ['paid_free']) && ($_SESSION['position'] === 'dekan' || $_SESSION['position'] === 'tanszekvezeto'|| $_SESSION['position'] === 'admin')): ?>
+                                    <?php if (in_array($key, ['paid_free']) && ($user['position'] === 'admin' )): ?>
                                         <form action="increase_day.php" method="post">
                                             <input type="hidden" name="work_id" value="<?php echo $work_id; ?>">
                                             <input type="hidden" name="status" value="<?php echo $key; ?>">

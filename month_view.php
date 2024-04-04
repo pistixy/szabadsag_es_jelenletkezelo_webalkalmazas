@@ -1,6 +1,9 @@
 <?php
-$currentDay = date('j');
+include "set_days_to_taken.php";
+$currentDay = date('Y-m-d');
 ?>
+
+
 <div class="calendar">
     <h2><?php echo translateMonthToHungarian($monthName) . " " . $year; ?></h2> <!-- Display the current month and year -->
     <a href="calendar.php?year=<?php echo $prevYear; ?>&month=<?php echo $prevMonth; ?>&work_id=<?php echo $userWorkId; ?>&view=<?php echo $selectedView; ?>" class="year-button">Előző hónap</a>

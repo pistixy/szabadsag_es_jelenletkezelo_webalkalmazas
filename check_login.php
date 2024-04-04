@@ -37,11 +37,11 @@ if (isset($_SESSION['logged']) && $_SESSION['logged'] === true) {
         echo "Adatbázis hiba: " . $e->getMessage();
     }
 }
-/*echo $_SESSION['position']; //debughoz adatok
-if($_SESSION['is_user'] == true) {
-    echo $_SESSION['position'];
-}
-if($_SESSION['is_user'] == false) {
-    echo $_SESSION['position'];
-}*/
+//echo "                                             ",$_SESSION['position']; //debughoz adatok
+//if($_SESSION['is_user'] == true) {
+//    echo "                                             ",$_SESSION['position'];
+//}
+//if($_SESSION['is_user'] == false) {
+//    echo "                                             ",$_SESSION['position'];
+//}
 ?>

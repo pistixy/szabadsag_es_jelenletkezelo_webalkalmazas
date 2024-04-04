@@ -18,6 +18,7 @@ if (isset($_GET['year'])) {
 } else {
     $year = date("Y");
 }
+include "set_days_to_taken.php";
 
 $previousYear = $year - 1;
 $nextYear = $year + 1;

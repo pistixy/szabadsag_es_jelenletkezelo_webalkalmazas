@@ -15,12 +15,12 @@ include "check_login.php";
         <!--<div class="navbar_items">
             <a href="index.php">Kezdőlap</a>
         </div>-->
-        <?php if (isset($_SESSION['is_user']) && !$_SESSION['is_user']): ?>
+        <?php if (isset($_SESSION['is_user']) && !$_SESSION['is_user'] ): ?>
             <div class="navbar_items">
                 <form action="search_results.php" method="get">
                     <label name="search_query"  >Keresés</label>
                     <input type="text" name="search_query" placeholder="work_id or name or email">
-                    <!-- The submit button can be triggered by pressing Enter in the input field -->
+                    <!-- Enter gomb lenyomásával már kereshetünk is -->
                 </form>
                 <hr>
             </div>
@@ -50,13 +50,14 @@ include "check_login.php";
         </div>
 
         
-        <?php if (isset($_SESSION['is_user']) && !$_SESSION['is_user']): ?>
+        <?php if (isset($_SESSION['is_user']) && !$_SESSION['is_user'] && ($_SESSION['position']== "tanszekvezeto" or $_SESSION['position']== "admin")): ?>
             <hr>
             <div class="navbar_items">
                 <a href="incomming_requests.php">Bejövő Kérelmek</a>
             </div>
         <?php endif; ?>
         <?php if (isset($_SESSION['logged']) && ($_SESSION['position'] == "dekan" or $_SESSION['position'] == "admin" )): ?>
+            <hr>
             <div class="navbar_items">
                 <a href="osszesito_logika.php">Összesítők</a>
             </div>

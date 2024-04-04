@@ -1,9 +1,9 @@
 <?php
-$host = 'localhost'; //adatbázis host ip cime
-$port = '5432'; //adatbázis potja
+$host = 'pg-2112129e-holidaycalendar.a.aivencloud.com'; //adatbázis host ip cime
+$port = '23979'; //adatbázis portja
 $dbname = 'holidaycalendar';// adatbázis neve
-$user = 'postgres';//adatbázis felhasználója
-$password = '123';//adatbázis jelszava
+$user = 'avnadmin';//adatbázis felhasználója
+$password = 'AVNS_v_kjZs2HVng0A48jdbt';//adatbázis jelszava
 
 // PDO DSN (Data Source Name) format for PostgreSQL
 $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;user=$user;password=$password";
