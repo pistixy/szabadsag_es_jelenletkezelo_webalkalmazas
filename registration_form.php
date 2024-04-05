@@ -29,17 +29,17 @@
             </div>
             <div class="row" style="max-width: 500px;margin:0 auto;">
                 <div class="col-md-12" >
-                    <input class="logininput" type="text" id="email" name="email" placeholder="Egyetemi email cím" required>
+                    <input class="logininput" type="email" id="email" name="email" placeholder="Egyetemi email cím" required>
                 </div>
             </div>
             <div class="row" style="max-width: 500px;margin:0 auto;">
                 <div class="col-md-12" >
-                    <input class="logininput" type="password" id="password" name="password" placeholder="Jelszó" required>
+                    <input class="logininput" type="password" id="password" name="password" placeholder="Jelszó" minlength="8" required>
                 </div>
             </div>
             <div class="row" style="max-width: 500px;margin:0 auto;">
                 <div class="col-md-12" >
-                    <input class="logininput" type="password" id="jelszoujra" name="jelszoujra" placeholder="Jelszó újra" required>
+                    <input class="logininput" type="password" id="jelszoujra" name="jelszoujra" placeholder="Jelszó újra" minlength="8" required>
                 </div>
             </div>
             <div class="row" style="max-width: 500px;margin:0 auto;">

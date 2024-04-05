@@ -10,13 +10,20 @@ if (!isset($_SESSION['logged'])) {
     exit;
 }
 
-// Felhasználó által megadott adatok begyűjtése az űrlapról
-$email = $_SESSION['email'];
-$name = $_POST['name'];
-$cim = $_POST['cim'];
-$adoazonosito = $_POST['adoazonosito'];
-$szervezetszam = $_POST['szervezetszam'];
-$alkalmazottikartyaszama = $_POST['alkalmazottikartyaszama'];
+// Input ellenőrzése és tisztítása
+function sanitizeInput($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+$email = $_SESSION['email']; // Email már szerepel a munkamenetben, feltételezzük, hogy biztonságos
+$name = sanitizeInput($_POST['name']);
+$cim = sanitizeInput($_POST['cim']);
+$adoazonosito = sanitizeInput($_POST['adoazonosito']);
+$szervezetszam = sanitizeInput($_POST['szervezetszam']);
+$alkalmazottikartyaszama = sanitizeInput($_POST['alkalmazottikartyaszama']);
 
 // Felhasználó adatainak frissítése az adatbázisban
 $stmt = $conn->prepare("UPDATE users SET name = :name, cim = :cim, adoazonosito = :adoazonosito, szervezetszam = :szervezetszam, alkalmazottikartya = :alkalmazottikartyaszama WHERE email = :email");
@@ -35,5 +42,4 @@ if ($stmt->execute()) {
 } else {
     echo "Hiba a profil frissítésekor: " . $stmt->errorInfo()[2];
 }
-
 ?>

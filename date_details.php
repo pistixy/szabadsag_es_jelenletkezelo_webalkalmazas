@@ -33,7 +33,7 @@
             }
 
             // Fetch requests for the date
-            $requestSql = "SELECT * FROM requests WHERE work_id = :userWorkID AND calendar_id = :calendarId";
+            $requestSql = "SELECT * FROM requests WHERE work_id = :userWorkID AND calendar_id = :calendarId and request_status='pending'";
             $requestStmt = $conn->prepare($requestSql);
             $requestStmt->bindParam(':userWorkID', $userWorkID, PDO::PARAM_INT);
             $requestStmt->bindParam(':calendarId', $calendarResult['calendar_id'], PDO::PARAM_INT);
@@ -66,9 +66,25 @@
                     <div class=date-details-container>
                         <h1 class=date-details-title>Date: <?php echo $calendarResult['date']; ?></h1>
                     </div>
-                    <?php
-                        include "date_details-single_day.php";
-                    ?>
+                        <p>Nap: <?php echo getName(date('l', strtotime($calendarResult['date']))); ?></p>
+                        <p>Státusz: <?php echo getName($calendarResult['day_status'])?></p>
+                        <p>Megjegyzés: <?php echo $calendarResult['comment']; ?></p>
+
+
+                        <?php
+                        if($calendarResult['day_status']=="holiday" or $calendarResult['day_status']=="weekend"){
+                            Echo "Hétvégén vagy ünnepnapon nem lehet módosításokat eszközölni.";
+                        }else{
+                            include "active_requests.php";
+
+                            if ($_SESSION['is_user']==false){
+                                include "list_day_users.php";
+                            }
+
+                            include "day_selector.php";
+                        }
+
+                        ?>
                     <div class="footer-div">
                         <?php
                         include "footer.php";

@@ -1,14 +1,26 @@
 <?php if ($_SESSION['is_user']==true): ?>
-                    <h3>Az én kéréseim:</h3>
-                    <?php if (!empty($requests)): ?>
-                        <ul>
-                            <?php foreach ($requests as $request): ?>
-                            
-                            <?php endforeach; ?>
-                        </ul>
-                    <?php else: ?>
-                        <p>Nincsenek kérelmek erre a napra.</p>
-                    <?php endif; ?>
+    <h3>Az én kéréseim:</h3>
+    <?php if (!empty($requests)): ?>
+        <ul>
+            <table>
+                <th>ID</th>
+                <th>Kérelmezett státusz</th>
+                <th>Műveletek</th>
+                <?php foreach ($requests as $request):
+                    // Itt ellenőrizzük, hogy a kérelem státusza 'pending'-e
+                        echo "<tr><td>".$request["request_id"]."</td>";
+                        echo "<td>".getName($request["requested_status"])."</td>";
+                        echo "<td><form action='delete_request.php' method='post'>";
+                        echo '<input type="hidden" name="request_id" value='.$request["request_id"].'>';
+                        echo '<input type="submit" value="Töröl">';
+                        echo "</form></td>";
+                        echo "</tr>";
+                endforeach; ?>
+            </table>
+        </ul>
+    <?php else: ?>
+        <p>Nincsenek aktív kérelmek erre a napra.</p>
+    <?php endif; ?>
                 <?php elseif($_SESSION['is_user']==false): ?>
                     <h3>Kérések erre a napra:</h3>
                     <?php
@@ -100,12 +112,10 @@
                                     <tr>
                                         <td>
                                             <?php
-                                            $requestDetailsUrl = "request.php?request_id=" . urlencode($adminRequest['request_id']);
+
                                             $profileUrl = "profile.php?work_id=" . urlencode($adminRequest['work_id']);
                                             ?>
-                                            <a href="<?php echo $requestDetailsUrl; ?>">
                                                 <?php echo "ID: " . htmlspecialchars($adminRequest['request_id']); ?>
-                                            </a>
                                             <?php echo ", "; ?>
                                             <a href="<?php echo $profileUrl; ?>">
                                                 <?php echo "work_id: " . htmlspecialchars($adminRequest['work_id']); ?>
@@ -114,7 +124,7 @@
                                             <a href="<?php echo $profileUrl; ?>">
                                                 <?php echo htmlspecialchars($adminRequest['name']); ?>
                                             </a>
-                                        
+
                                             <?php echo ": " . htmlspecialchars($adminRequest['request_status']); ?>
                                         </td>
                                         <td>
