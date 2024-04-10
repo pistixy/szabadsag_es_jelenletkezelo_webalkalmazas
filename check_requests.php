@@ -108,7 +108,7 @@ AND EXTRACT(MONTH FROM calendar.date) = :selectedMonth
         echo "Error during record creation: " . $e->getMessage();
     }
 }else{
-    echo "Az nincs megjeleníthetö adat, az adott karhoz.";
+    echo "Az nincs megjeleníthető adat, az adott karhoz.";
 }
 ?>
 
