@@ -33,8 +33,13 @@ function getName($code) {
         "Thursday" => "Csütörtök",
         "Friday" => "Péntek",
         "Saturday" => "Szombat",
-        "Sunday" => "Vasárnap"
-        
+        "Sunday" => "Vasárnap",
+
+        //munkábajárás típusok
+        "Pass" => "Bérlet",
+        "Car" => "Autó",
+        "PublicTransport" => "Közösségi Közlekedés",
+        "Oda_Vissza" => "Egy nap alatt oda-vissza"
         
 
 

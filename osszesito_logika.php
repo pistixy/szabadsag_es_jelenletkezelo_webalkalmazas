@@ -16,7 +16,7 @@
             <?php
             include "connect.php";
             include "session_check.php";
-
+            $karok_tomb = ['ESK', 'DFK', 'GIVK', 'KGYK', 'MK', 'ÉÉKK', 'MÉK', 'AK', 'AHJK'];
             // Check if the user is logged in and has permission
             if (isset($_SESSION['logged']) && ($_SESSION['position'] == "dekan" || $_SESSION['position'] == "admin")) {
                 $work_id = $_SESSION['work_id'];
@@ -49,7 +49,24 @@
 
                 // Start form
                 echo '<form action="" method="post">'; // Form submits to itself to select year and month
+
+                // Include the kar selector for admins
+                if ($_SESSION['position'] == "admin") {
+                    $kar = isset($_POST['kar']) ? $_POST['kar'] : $kar; // Use posted value if available, otherwise use the user's kar
+                    echo '<label for="kar">Válasszon kart:</label>';
+                    echo '<select name="kar" id="kar">';
+                    foreach ($karok_tomb as $karok) {
+                        $selected = ($karok == $kar) ? 'selected' : '';
+                        echo "<option value=\"$karok\" $selected>$karok</option>";
+                    }
+                    echo '</select> ';
+                } else {
+                    // For non-admin users, set a hidden input to use their 'kar'
+                    echo '<input type="hidden" name="kar" value="' . htmlspecialchars($kar) . '">';
+                }
+
                 // Year selector
+                $selectedYear = isset($_POST['year']) ? $_POST['year'] : date('Y');
                 echo '<label for="year">Válasszon évet:</label>';
                 echo '<select name="year" id="year">';
                 for ($i = date('Y') + 2; $i >= 2022; $i--) {
@@ -59,6 +76,7 @@
                 echo '</select> ';
 
                 // Month selector
+                $selectedMonth = isset($_POST['month']) ? $_POST['month'] : date('m');
                 echo '<label for="month">Válasszon hónapot:</label>';
                 echo '<select name="month" id="month">';
                 for ($i = 1; $i <= 12; $i++) {
@@ -81,52 +99,7 @@
                 $workerIds = array_column($users, 'work_id'); // Get the worker IDs
 
                 if (isset($_POST['check_requests'])) {
-                    // Redefine the $stmt for pending requests as the previous $stmt is now used for fetching $users
-                    $stmt = $conn->prepare("
-                    SELECT COUNT(*) AS pending_count 
-                    FROM requests 
-                    INNER JOIN users ON requests.work_id = users.work_id 
-                    INNER JOIN calendar ON requests.calendar_id = calendar.calendar_id 
-                    WHERE users.kar = :kar 
-                    AND requests.request_status = 'pending' 
-                    AND EXTRACT(YEAR FROM calendar.date) = :selectedYear 
-                    AND EXTRACT(MONTH FROM calendar.date) = :selectedMonth
-                ");
-                    $stmt->bindParam(':kar', $kar);
-                    $stmt->bindParam(':selectedYear', $selectedYear, PDO::PARAM_INT);
-                    $stmt->bindParam(':selectedMonth', $selectedMonth, PDO::PARAM_INT);
-                    $stmt->execute();
-                    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                    // Check if there are no pending requests and show the export button if none are found
-                    if ($result['pending_count'] == 0) {
-
-                        echo "Előnézet: ";
-                        echo '<form action="download_preview.php" method="post">';
-                        echo '<input type="hidden" name="work_ids" value="' . implode(',', $workerIds) . '">';
-                        echo '<input type="hidden" name="feltetel" value="' . $kar . '">';
-                        echo '<input type="hidden" name="month" value="' . $selectedMonth . '">';
-                        echo '<input type="hidden" name="year" value="' . $selectedYear . '">';
-                        echo '<input type="hidden" name="position" value="dekan">';
-                        echo '<button type="submit">Az elönezetért kattintson ide</button>';
-                        echo '</form>';
-
-                        // Show the export button form
-                        echo "<br>";
-                        echo '<form action="export_workers_to_pdf.php" method="post">';
-                        echo '<input type="hidden" name="work_ids" value="' . implode(',', $workerIds) . '">';
-                        echo '<input type="hidden" name="feltetel" value="' . $kar . '">';
-                        echo '<input type="hidden" name="month" value="' . $selectedMonth . '">';
-                        echo '<input type="hidden" name="year" value="' . $selectedYear . '">';
-                        echo '<input type="hidden" name="position" value="dekan">';
-                        echo '<button type="submit" name="export_workers_pdf" value="1">Beosztások validálása és exportálása</button>';
-                        echo '</form>';
-
-
-                    } else {
-                        echo "Még vannak függőben lévő kérelmek a választott hónapra és évre!";
-                    }
-
+                    include "check_requests.php";
                 }
             } else {
                 echo "Nincs jogosultságod ezt megtekinteni!";

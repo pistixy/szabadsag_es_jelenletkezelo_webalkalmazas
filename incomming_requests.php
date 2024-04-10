@@ -118,8 +118,8 @@ $requests = $requestsStmt->fetchAll(PDO::FETCH_ASSOC);
                             <th>Szabadnap típusa</th>
                             <th>Kinek</th>
                             <th>Kérvény státusza</th>
-                            <th>Időbélyegő</th>
-                            <th>Utolsó módósítás ekkor</th>
+<!--                            <th>Időbélyegző</th>-->
+<!--                            <th>Utolsó módósítás ekkor</th>-->
                             <th>Műveletek</th> <!-- Operations column -->
                         </tr>
                         <?php foreach ($requests as $request): ?>
@@ -132,8 +132,8 @@ $requests = $requestsStmt->fetchAll(PDO::FETCH_ASSOC);
                                 <td><?php echo htmlspecialchars(getName($request['requested_status'])); ?></td>
                                 <td><?php echo htmlspecialchars($request['to_whom']); ?></td>
                                 <td><?php echo htmlspecialchars(getName($request['request_status'])); ?></td>
-                                <td><?php echo htmlspecialchars($request['timestamp']); ?></td>
-                                <td><?php echo htmlspecialchars($request['modified_date']); ?></td>
+<!--                                <td>--><?php //echo htmlspecialchars($request['timestamp']); ?><!--</td>-->
+<!--                                <td>--><?php //echo htmlspecialchars($request['modified_date']); ?><!--</td>-->
                                 <td>
                                     <!-- Accept Button -->
                                     <?php /*if ($request['request_status'] == "pending" || $request['request_status'] == "messaged"): ?>

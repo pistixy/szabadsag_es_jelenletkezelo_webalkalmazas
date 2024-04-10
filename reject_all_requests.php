@@ -75,20 +75,20 @@ if (isset($_POST['request_ids']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                         // Commit the transaction
                         $conn->commit();
 
-                        echo "The request has been successfully rejected and the response sent.";
+                        echo "Kérelem ID: ",$requestId, ": A kérelem sikeresen elutasítva.";
                     } else {
                         $conn->rollBack();
                         echo "Request not found.";
                     }
                 } catch (Exception $e) {
                     $conn->rollBack();
-                    echo "An error occurred while processing your request: " . $e->getMessage();
+                    echo "Hiba történt a kérelem feldolgozása közben: " . $e->getMessage();
                 }
             }} else {
-                echo "Invalid or empty Request ID encountered.<br>";
+                echo "Hibás vagy hiányzó kérelem ID.<br>";
             }
         }
     } else {
-        echo "No requests specified to respond to.";
+        echo "Nincs kiválasztott kérelem.";
     }
     ?>

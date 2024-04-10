@@ -44,11 +44,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['request_id'])) {
 
         // Commit the transaction
         $conn->commit();
-        echo "The request has been successfully accepted.";
+        echo "A kérelem sikeresen elfogadva.";
     } catch (Exception $e) {
         // An error occurred; roll back the transaction
         $conn->rollBack();
-        echo "An error occurred while processing the acceptance: " . $e->getMessage();
+        echo "Hiba történt a kérelem elfogadása során: " . $e->getMessage();
     }
 } else {
     echo "Invalid request method.";

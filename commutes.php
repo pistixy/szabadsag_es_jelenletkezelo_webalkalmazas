@@ -2,6 +2,7 @@
 include "session_check.php";
 include "connect.php";
 include "function_translate_month_to_Hungarian.php";
+include "function_get_name.php";
 
 // Check if the user is logged in
 if (!isset($_SESSION['logged']) || !isset($_SESSION['work_id'])) {
@@ -127,7 +128,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <td><?php echo htmlspecialchars($commute['commute_id']); ?></td>
                             <td><?php echo htmlspecialchars($commute['work_id']); ?></td>
                             <td><?php echo htmlspecialchars($commute['date']); ?></td>
-                            <td><?php echo htmlspecialchars($commute['how']); ?></td>
+                            <td><?php echo htmlspecialchars(getName($commute['how'])); ?></td>
                             <td><?php echo htmlspecialchars($commute['filename']); ?></td>
                             <td><?php echo htmlspecialchars($commute['price']); ?></td>
                             
