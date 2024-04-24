@@ -23,3 +23,4 @@ if (isset($_SESSION['work_id'])) {
     echo "Nincs munka azonosító a munkamenetben.";
 }
 ?>
+
