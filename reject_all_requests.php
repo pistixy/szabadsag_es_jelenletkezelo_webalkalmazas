@@ -69,9 +69,6 @@ if (isset($_POST['request_ids']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                                 // Optional: Handle unknown requested status
                                 break;
                         }
-
-                        
-
                         // Commit the transaction
                         $conn->commit();
 

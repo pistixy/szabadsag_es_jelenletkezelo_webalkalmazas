@@ -36,7 +36,6 @@ $months = [
 '11' => 'November',
 '12' => 'December'
 ];
-
 return $months[$monthName] ?? 'Ismeretlen';
 }
 ?>

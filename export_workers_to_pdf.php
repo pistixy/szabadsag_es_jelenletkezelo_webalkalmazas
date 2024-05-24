@@ -259,9 +259,6 @@ EOD;
         $pdf->Output($title . '.pdf', 'D');
     }
 
-// ... remaining code ...
-
-
 } else {
     // Ha az év és hónap paraméterek nincsenek beállítva, hibaüzenet kiírása
     echo "Év és hónap paraméterek hiányoznak.";

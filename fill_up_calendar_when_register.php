@@ -36,7 +36,6 @@ if (isset($_SESSION['email'])) {
                 $stmt->bindParam(':day_status', $day_status);
                 $stmt->execute();
             }
-
             // Commit the transaction
             $conn->commit();
             echo "Naptár visszamenőleg és a jövőre nézve feltöltve.";

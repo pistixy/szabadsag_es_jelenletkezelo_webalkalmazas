@@ -12,5 +12,5 @@ function getCssClass($dayStatus) {
             return ""; // default, amikor ismeretlen státuszt talál vagy nincs megadva
     }
 }
-//Nincs használatban
+//Nincs jelenleg használatban
 ?>

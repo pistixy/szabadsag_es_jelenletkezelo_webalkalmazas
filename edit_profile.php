@@ -1,24 +1,22 @@
 <!DOCTYPE html>
-<html lang="hu-HU">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Szerkesztés</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Kérelmeim</title>
+    <link rel="stylesheet" href="styles4.css">
 </head>
 <body>
 <?php
 // Session ellenőrzése
 include "session_check.php";
+include "function_get_name.php";
+include "connect.php";
 
 // Ha nincs bejelentkezve, átirányítás a bejelentkezési oldalra
 if (!isset($_SESSION['logged'])) {
     header("Location: login_form.php");
     exit;
 }
-
-// Adatbázis kapcsolat létrehozása
-include "connect.php";
-
 // Bejelentkezett felhasználó e-mail címének lekérdezése a munkamenetből
 $email = $_SESSION['email'];
 
@@ -36,31 +34,40 @@ if (count($result) > 0) {
     echo "Nincs felhasználó a megadott e-mail címmel.";
 }
 ?>
+<?php include "test_top-bar.php"; ?>
+<div class="body-container">
+    <div class="navbar" id="sidebar">
+        <?php include "test_nav-bar.php"; ?>
+    </div>
+    <div class="main-content" id="main-content">
+        <div class="test_content">
+            <div class="profile-container">
+                <h1 class="profile-heading">Profil szerkesztése</h1>
+                <form action="update_profile.php" method="post">
+                    <label for="name">Teljes név:</label>
+                    <input type="text" id="name" name="name" value="<?php echo $row['name']; ?>" required>
 
-<div class="profile-container">
-    <h1 class="profile-heading">Profil szerkesztése</h1>
-    <form action="update_profile.php" method="post">
-        <label for="name">Teljes név:</label>
-        <input type="text" id="name" name="name" value="<?php echo $row['name']; ?>" required>
+                    <label for="cim">Lakcím:</label>
+                    <input type="text" id="cim" name="cim" value="<?php echo $row['cim']; ?>" required>
 
-        <label for="cim">Lakcím:</label>
-        <input type="text" id="cim" name="cim" value="<?php echo $row['cim']; ?>" required>
+                    <label for="adoazonosito">Adóazonosító:</label>
+                    <input type="text" id="adoazonosito" name="adoazonosito" value="<?php echo $row['adoazonosito']; ?>" required>
 
-        <label for="adoazonosito">Adóazonosító:</label>
-        <input type="text" id="adoazonosito" name="adoazonosito" value="<?php echo $row['adoazonosito']; ?>" required>
+                    <label for="szervezetszam">Szervezetszám:</label>
+                    <input type="text" id="szervezetszam" name="szervezetszam" value="<?php echo $row['szervezetszam']; ?>" required>
 
-        <label for="szervezetszam">Szervezetszám:</label>
-        <input type="text" id="szervezetszam" name="szervezetszam" value="<?php echo $row['szervezetszam']; ?>" required>
+                    <label for="alkalmazottikartyaszama">Alkalmazotti kártyaszám:</label>
+                    <input type="text" id="alkalmazottikartyaszama" name="alkalmazottikartyaszama" value="<?php echo $row['alkalmazottikartya']; ?>" required>
 
-        <label for="alkalmazottikartyaszama">Alkalmazotti kártyaszám:</label>
-        <input type="text" id="alkalmazottikartyaszama" name="alkalmazottikartyaszama" value="<?php echo $row['alkalmazottikartya']; ?>" required>
-
-        <input type="submit" value="Mentés">
-    </form>
+                    <input type="submit" value="Mentés">
+                </form>
+            </div>
+        </div>
+        <div class="footer-div">
+            <?php include "footer.php"; ?>
+        </div>
+    </div>
 </div>
-<?php
-// Lábléc beillesztése
-include "footer.php";
-?>
+<script src="collapse.js"></script>
 </body>
 </html>

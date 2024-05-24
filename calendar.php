@@ -46,66 +46,68 @@ $monthName = date("F", mktime(0, 0, 0, $month, 1, $year));
 
 $firstDayOfWeek = date("N", mktime(0, 0, 0, $month, 1, $year));
 ?>
+
 <!DOCTYPE html>
-<html lang="hu">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title><?php echo $isOwnCalendar ? "Naptárad" : "{$calendarOwnerName} Naptára"; ?></title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles4.css">
     <link rel="stylesheet" href="calendar_colours.css">
-    
 </head>
 <body>
+<?php include "test_top-bar.php"; ?>
 <div class="body-container">
-    <div class="navbar">
-        <?php
-        include "nav-bar.php";
-        ?>
+    <div class="navbar" id="sidebar">
+        <?php include "test_nav-bar.php"; ?>
     </div>
-    <div class="main-content">
-        <div class="calendar-view-container">
-            <div class="calendar-view-name">
-                <h1>
-                    <?php echo $isOwnCalendar ? "Naptárad" : '<a href="profile.php?work_id=' . $userWorkId . '">' . $calendarOwnerName . '</a> Naptára'; ?>
-                </h1>
-            </div>
-            <div class="calendar-view-selector">
-                <form action="" method="get">
-                    <input type="hidden" name="year" value="<?php echo $year; ?>">
-                    <input type="hidden" name="work_id" value="<?php echo $userWorkId; ?>">
-                    <select name="view" onchange="this.form.submit()">
-                        <option value="yearly" <?php echo (!isset($_GET['view']) || $_GET['view'] == 'yearly') ? 'selected' : ''; ?>>Éves Nézet</option>
-                        <option value="monthly" <?php echo (isset($_GET['view']) && $_GET['view'] == 'monthly') ? 'selected' : ''; ?>>Havi Nézet</option>
-                    </select>
-                </form>
-            </div>
-        </div>
-        <div class="calendar-container">
-        <?php
-        // Alapértelmezett éves nézet, ha nincs megadva nézet, vagy ha az éves nézet van kiválasztva
-        $selectedView = $_GET['view'] ?? 'yearly';
+    <div class="main-content" id="main-content">
+        <div class="test_content">
+            <div class="calendar-container">
+                <div class="calendar-view-container">
+                    <div class="calendar-view-name">
+                        <h1>
+                            <?php echo $isOwnCalendar ? "Naptárad" : '<a href="profile.php?work_id=' . $userWorkId . '">' . $calendarOwnerName . '</a> Naptára'; ?>
+                        </h1>
+                    </div>
+                    <div class="calendar-view-selector">
+                        <form action="" method="get">
+                            <input type="hidden" name="year" value="<?php echo $year; ?>">
+                            <input type="hidden" name="work_id" value="<?php echo $userWorkId; ?>">
+                            <select name="view" onchange="this.form.submit()">
+                                <option value="yearly" <?php echo (!isset($_GET['view']) || $_GET['view'] == 'yearly') ? 'selected' : ''; ?>>Éves Nézet</option>
+                                <option value="monthly" <?php echo (isset($_GET['view']) && $_GET['view'] == 'monthly') ? 'selected' : ''; ?>>Havi Nézet</option>
+                            </select>
+                        </form>
+                    </div>
+                </div>
+                <div class="calendar-container">
+                    <?php
+                    // Alapértelmezett éves nézet, ha nincs megadva nézet, vagy ha az éves nézet van kiválasztva
+                    $selectedView = $_GET['view'] ?? 'yearly';
 
-        if ($selectedView == 'yearly') {
-            $currentView = 'yearly';
-            include "year_view.php";
-        } elseif ($selectedView == 'monthly') {
-            $currentView = 'monthly';
-            include "month_view.php";
-        }
-        ?>
+                    if ($selectedView == 'yearly') {
+                        $currentView = 'yearly';
+                        include "year_view.php";
+                    } elseif ($selectedView == 'monthly') {
+                        $currentView = 'monthly';
+                        include "month_view.php";
+                    }
+                    ?>
+                </div>
+                <?php
+                include "csuszka.php";
+                ?>
+            </div>
         </div>
-        <?php
-        include "csuszka.php";
-        ?>
         <div class="footer-div">
-            <?php
-            include "footer.php";
-            ?>
+            <?php include "footer.php"; ?>
         </div>
     </div>
 </div>
-    <script>
+<script src="collapse.js"></script>
+</body>
+</html>
 
-</script>
-    </body>
-    </html>
+
+

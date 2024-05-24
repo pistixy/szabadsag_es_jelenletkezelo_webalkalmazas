@@ -228,34 +228,7 @@ img:first-child {
     text-decoration: underline;
 }
 
-.profile-container {
-    max-width: 80%;
-    margin: 0 auto;
-    margin-bottom: 5%;
-    padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    min-width: 50%;
-    min-height: 300px;
-    font-family: Montserrat, Tahoma;
-}
 
-.profile-heading {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-.profile-data {
-    margin-bottom: 10px;
-}
-
-.edit-profile-link {
-    text-decoration: none;
-    color: #007bff;
-}
 
 .message-form-container {
     max-width: 400px;
@@ -624,7 +597,6 @@ h1 {
     margin-left: 5%;
 }
 
-
 .month-container {
     margin-bottom: 20px; /* Add some space between month containers */
 }
@@ -715,6 +687,9 @@ h1 {
     margin: 5%;
 }
 .hr_segedlet{
+    margin: 5%;
+}
+.test_content{
     margin: 5%;
 }
 

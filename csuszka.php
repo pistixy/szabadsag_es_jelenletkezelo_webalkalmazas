@@ -21,7 +21,6 @@ if ($stmt) {
     if (!$result) {
         echo "User not found in the database.";
         exit;
-
     } 
 } else {
     echo "Error with the database query: " . $conn->errorInfo()[2];

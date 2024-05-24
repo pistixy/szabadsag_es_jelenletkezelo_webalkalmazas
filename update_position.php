@@ -26,8 +26,6 @@ if (isset($_POST['update_position'], $_POST['new_position'], $_POST['work_id']))
         $_SESSION['is_user']==true;
         $_SESSION['position']=='user';
     }
-
-    
     // Prepare the SQL statement
     $stmt = $conn->prepare("UPDATE users SET position = :new_position WHERE work_id = :work_id");
     $stmt->bindParam(':new_position', $newPosition);

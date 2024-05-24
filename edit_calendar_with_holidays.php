@@ -2,7 +2,6 @@
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
-
 include "connect.php";
 
 if (isset($_SESSION['work_id'])) {

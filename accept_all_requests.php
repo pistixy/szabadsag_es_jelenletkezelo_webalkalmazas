@@ -8,7 +8,6 @@ if (!isset($_SESSION['logged']) || !isset($_SESSION['work_id'])) {
     header("Location: login_form.php");
     exit;
 }
-
 // Check if request IDs have been passed to initiate responses
 if (isset($_POST['request_ids']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
     foreach ($_POST['request_ids'] as $requestId) {

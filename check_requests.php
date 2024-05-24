@@ -99,7 +99,6 @@ AND EXTRACT(MONTH FROM calendar.date) = :selectedMonth
                 }
             }
         }
-
         $conn->commit();
         echo "Megjegyzés: ", $i, " rekord változott. (új rekordok jöttek létre)";
 

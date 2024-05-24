@@ -3,6 +3,8 @@
 include "session_check.php";
 // Adatbázis kapcsolatfájl beillesztése
 include "connect.php";
+// getName fuggveny beillsztese
+include "function_get_name.php";
 
 // A keresési lekérdezés lekérdezése az URL-ből, alapértelmezetten üres stringgel
 $searchQuery = $_GET['search_query'] ?? '';
@@ -56,55 +58,57 @@ if ($userPosition == 'tanszekvezeto') {
 $stmt->execute();
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Keresési eredmények</title>
-    <link rel="stylesheet" href="styles.css"> <!-- CSS fájlhoz való hivatkozás -->
+    <link rel="stylesheet" href="styles4.css">
 </head>
 <body>
+<?php include "test_top-bar.php"; ?>
 <div class="body-container">
-    <div class="navbar">
-        <?php include "nav-bar.php"; ?>
+    <div class="navbar" id="sidebar">
+        <?php include "test_nav-bar.php"; ?>
     </div>
-    <div class="main-content">
-        <div class="search-results">
-            <h1>Keresési eredmények: "<?php echo htmlspecialchars($searchQuery); ?>"</h1>
+    <div class="main-content" id="main-content">
+        <div class="test_content">
+            <div class="search-results">
+                <h1>Keresési eredmények: "<?php echo htmlspecialchars($searchQuery); ?>"</h1>
 
-            <?php if (is_array($results) && count($results) > 0): ?>
-                <table>
-                    <tr>
-                        <th>Munka ID</th>
-                        <th>Név</th>
-                        <th>Email</th>
-                        <th>Kar</th>
-                        <th>Szervezetszám</th>
-                    </tr>
-                    <?php foreach ($results as $row): ?>
+                <?php if (is_array($results) && count($results) > 0): ?>
+                    <table>
                         <tr>
-                            <!-- Munka ID kattinthatóvá tétele -->
-                            <td><a href="profile.php?work_id=<?php echo $row['work_id']; ?>"><?php echo htmlspecialchars($row['work_id']); ?></a></td>
-                            <!-- Név kattinthatóvá tétele -->
-                            <td><a href="profile.php?work_id=<?php echo $row['work_id']; ?>"><?php echo htmlspecialchars($row['name']); ?></a></td>
-                            <!-- Email kattinthatóvá tétele -->
-                            <td><a href="profile.php?work_id=<?php echo $row['work_id']; ?>"><?php echo htmlspecialchars($row['email']); ?></a></td>
-                            <td><?php echo htmlspecialchars($row['kar']); ?></td>
-                            <td><?php echo htmlspecialchars($row['szervezetszam']); ?></td>
+                            <th>Munka ID</th>
+                            <th>Név</th>
+                            <th>Email</th>
+                            <th>Kar</th>
+                            <th>Szervezetszám</th>
                         </tr>
-                    <?php endforeach; ?>
-                </table>
-            <?php else: ?>
-                <p>Nincs találat erre a keresésre: "<?php echo htmlspecialchars($searchQuery); ?>".</p>
-            <?php endif; ?>
+                        <?php foreach ($results as $row): ?>
+                            <tr>
+                                <!-- Munka ID kattinthatóvá tétele -->
+                                <td><a href="profile.php?work_id=<?php echo $row['work_id']; ?>"><?php echo htmlspecialchars($row['work_id']); ?></a></td>
+                                <!-- Név kattinthatóvá tétele -->
+                                <td><a href="profile.php?work_id=<?php echo $row['work_id']; ?>"><?php echo htmlspecialchars($row['name']); ?></a></td>
+                                <!-- Email kattinthatóvá tétele -->
+                                <td><a href="profile.php?work_id=<?php echo $row['work_id']; ?>"><?php echo htmlspecialchars($row['email']); ?></a></td>
+                                <td><?php echo htmlspecialchars($row['kar']); ?></td>
+                                <td><?php echo htmlspecialchars($row['szervezetszam']); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
+                <?php else: ?>
+                    <p>Nincs találat erre a keresésre: "<?php echo htmlspecialchars($searchQuery); ?>".</p>
+                <?php endif; ?>
+            </div>
         </div>
         <div class="footer-div">
-            <?php
-            include "footer.php"
-            ?>
+            <?php include "footer.php"; ?>
         </div>
     </div>
 </div>
-
+<script src="collapse.js"></script>
 </body>
 </html>

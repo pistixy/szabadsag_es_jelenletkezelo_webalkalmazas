@@ -40,11 +40,6 @@ function getName($code) {
         "Car" => "Autó",
         "PublicTransport" => "Közösségi Közlekedés",
         "Oda_Vissza" => "Egy nap alatt oda-vissza"
-        
-
-
-        
-
     ];
     return $statusNames[$code] ?? "Ismeretlen"; //ha üres paraméterrel hívjuk, dobjon ismeretlent
 }

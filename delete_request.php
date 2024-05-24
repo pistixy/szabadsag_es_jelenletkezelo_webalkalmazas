@@ -6,7 +6,6 @@ if (!isset($_SESSION['logged']) || !isset($_SESSION['work_id'])) {
     header("Location: login_form.php");
     exit;
 }
-
 if (isset($_POST['request_id'])) {
     $requestId = $_POST['request_id'];
 

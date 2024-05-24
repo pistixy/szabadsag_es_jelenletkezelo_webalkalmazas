@@ -18,9 +18,7 @@
         <div class="day-box unpaid_sickness_taken"></div>
         <div>Fizetettlen betegszabadság</div>
     </div>
-
     </div>
-
     <div class="month-row">
         <div class="day-box weekend"></div>
         <div class="day-box weekend"></div>

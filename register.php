@@ -23,7 +23,6 @@ $paid_requested =0;
 $paid_planned =0;
 $paid_taken =0;
 
-
 // További validálás (például ellenőrizni, hogy az email cím érvényes-e)
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     echo "Érvénytelen e-mail cím. <a href='registration_form.php'>Próbálkozás újra</a>";

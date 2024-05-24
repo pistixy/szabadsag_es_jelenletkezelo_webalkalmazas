@@ -17,7 +17,6 @@ function sanitizeInput($data) {
     $data = htmlspecialchars($data);
     return $data;
 }
-
 $email = $_SESSION['email']; // Email már szerepel a munkamenetben, feltételezzük, hogy biztonságos
 $name = sanitizeInput($_POST['name']);
 $cim = sanitizeInput($_POST['cim']);

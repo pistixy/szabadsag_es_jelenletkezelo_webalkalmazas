@@ -8,8 +8,6 @@ if (isset($_SESSION['logged'])) {
 
     //session változók törlése
     session_destroy();
-
-
     header("Location: ../index.php");
     exit;
 } else {
@@ -17,5 +15,4 @@ if (isset($_SESSION['logged'])) {
     header("Location: includes/login_form.php");
     exit;
 }
-
 ?>

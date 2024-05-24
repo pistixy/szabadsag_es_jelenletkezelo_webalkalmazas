@@ -219,10 +219,6 @@ EOD;
     </tr>
 </table>
 EOD;
-
-
-
-
     // PDF-hez tartalom hozzáadása HTML formában
     $pdf->writeHTML($html, true, false, true, false, '');
 
@@ -259,9 +255,6 @@ EOD;
         // Output the PDF to the browser for download
         $pdf->Output($title . '.pdf', 'D');
     }
-
-// ... remaining code ...
-
 
 } else {
     // Ha az év és hónap paraméterek nincsenek beállítva, hibaüzenet kiírása

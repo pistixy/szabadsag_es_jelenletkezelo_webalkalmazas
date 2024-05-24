@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 } else {
-    // Ha valaki megpróbálja közvetlenül hozzáférni ehhez az oldalhoz, átirányítjuk a főoldalra
+    // Ha valaki megpróbálja közvetlenül hozzáférni ehhez az oldalhoz, átirányítjuk a főoldalra.
     header("Location: index.php");
     exit;
 }

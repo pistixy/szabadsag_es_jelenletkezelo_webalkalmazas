@@ -41,7 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['request_id'])) {
                 break;
             
         }
-
         // Commit the transaction
         $conn->commit();
         echo "A kérelem sikeresen elfogadva.";

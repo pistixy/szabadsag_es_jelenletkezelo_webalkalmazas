@@ -32,7 +32,6 @@ $updateUsersStmt->bindParam(':updatedRows', $updatedRows, PDO::PARAM_INT);
 $updateUsersStmt->bindParam(':work_id', $userWorkId);
 $updateUsersStmt->execute();
 }
-
 // Commit the transaction
 $conn->commit();
 } catch (Exception $e) {

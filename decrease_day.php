@@ -8,7 +8,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $status = $_POST['status'];
 
         include "connect.php";
-
         try {
             // Ellenőrizzük az állapot oszlop nevét, hogy megelőzzük az SQL injekciót
             $allowed_statuses = ['paid_free'];

@@ -19,7 +19,7 @@ if (isset($_SESSION['work_id'])) {
         echo "Hiba: " . $e->getMessage();
     }
 } else {
-    // A munka azonosító (work_id) nincs beállítva a munkamenetben
+    // A munka azonosító (work_id) nincs beállítva a munkamenetben.
     echo "Nincs munka azonosító a munkamenetben.";
 }
 ?>

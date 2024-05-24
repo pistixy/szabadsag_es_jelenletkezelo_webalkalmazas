@@ -1,1 +1,1 @@
-<?php phpinfo(); //phpinfo a sanity checkekhez?>
+<?php phpinfo(); // phpinfo a sanity checkekhez?>

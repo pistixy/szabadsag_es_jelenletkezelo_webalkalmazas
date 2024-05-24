@@ -15,8 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $toWhom = "";
     $day_status = $_POST['day_status'];
 
-
-
 // Prepare SQL to fetch kar and szervezetszam based on work_id
     $sql = "SELECT kar, szervezetszam FROM users WHERE work_id = :workId";
     $stmt = $conn->prepare($sql);

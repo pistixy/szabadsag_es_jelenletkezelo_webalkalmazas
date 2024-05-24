@@ -55,12 +55,12 @@ $currentDay = date('Y-m-d');
             ?>
         </tr>
     </table>
-    <div>
+    <div class="month-buttons">
         <form action="export_calendar_month_to_pdf.php" method="post">
             <input type="hidden" name="year" value="<?php echo $year; ?>">
             <input type="hidden" name="month" value="<?php echo $month; ?>">
             <input type="hidden" name="work_id" value="<?php echo $userWorkId; ?>">
-            <button type="submit" name="export_calendar_month_pdf" value="1"><?php echo translateMonthToHungarian($monthName);?>i beosztás </button>
+            <button  type="submit" name="export_calendar_month_pdf" value="1"><?php echo translateMonthToHungarian($monthName);?>i beosztás exportálása </button>
         </form>
     </div>
 </div>

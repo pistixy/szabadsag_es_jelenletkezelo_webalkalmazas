@@ -1,3 +1,3 @@
 <?php 
-echo "Munka folyamatban..."
+echo "Munka folyamatban...";
 ?>

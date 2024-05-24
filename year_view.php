@@ -43,7 +43,7 @@ $nextYear = $year + 1;
             echo translateMonthToHungarian($monthName);
             echo '</div>';
 
-            echo '<div class="month-button">';
+            echo '<div class="month-buttons">';
             echo '<form action="export_calendar_month_to_pdf.php" method="post">';
             echo '<input type="hidden" name="year" value="' . $year . '">';
             echo '<input type="hidden" name="month" value="' . $month . '">';

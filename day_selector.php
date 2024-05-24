@@ -28,9 +28,6 @@
                 }?>>
                 Home Office
             </label><br>
-
-            
-
             <label for="unpaid_sickness_taken">
                 <input type="radio" name="nap" id="unpaid_sickness_taken" value="unpaid_sickness_taken"<?php if($calendarResult['day_status']=="unpaid_sickness_taken"){
                     echo "checked";

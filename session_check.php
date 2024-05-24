@@ -16,7 +16,6 @@ if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 
     header("Location: session_expired.php");
     exit;
 }
-
 // Utolsó tevékenység időbélyeg frissítése
 $_SESSION['last_activity'] = time();
 

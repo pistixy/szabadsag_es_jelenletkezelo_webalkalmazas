@@ -1,7 +1,6 @@
 <?php
 include "session_check.php";
 include "connect.php";
-include "nav-bar.php";
 include "function_get_name.php";
 
 if (!isset($_SESSION['logged'])) {
@@ -27,7 +26,6 @@ if (isset($_SESSION['work_id'])) {
     echo "User session not found.";
     exit;
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -35,17 +33,16 @@ if (isset($_SESSION['work_id'])) {
 <head>
     <meta charset="UTF-8">
     <title>Kérelmeim</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles4.css">
 </head>
 <body>
+<?php include "test_top-bar.php"; ?>
 <div class="body-container">
-    <div class="navbar">
-        <?php
-        include "nav-bar.php"
-        ?>
+    <div class="navbar" id="sidebar">
+        <?php include "test_nav-bar.php"; ?>
     </div>
-    <div class="main-content">
-        <div class="my-requests">
+    <div class="main-content" id="main-content">
+        <div class="test_content">
             <h1>Kérelmeim</h1>
 
             <?php if (!empty($requests)): ?>
@@ -81,7 +78,7 @@ if (isset($_SESSION['work_id'])) {
                             <td><?php echo htmlspecialchars(getName($request['request_status'])); ?></td>
                             <td><?php echo htmlspecialchars($request['timestamp']); ?></td>
                             <td><?php echo htmlspecialchars($request['modified_date']); ?></td>
-                            
+
                             <td>
                                 <!-- Delete Button -->
                                 <?php if ($request['request_status'] == "pending" || $request['request_status'] == "messaged"): ?>
@@ -103,16 +100,12 @@ if (isset($_SESSION['work_id'])) {
             <?php endif; ?>
         </div>
         <p style="margin: 5%">
-
         </p>
         <div class="footer-div">
             <?php include "footer.php"; ?>
         </div>
     </div>
 </div>
-
-
-
-
+<script src="collapse.js"></script>
 </body>
 </html>

@@ -6,8 +6,7 @@ if (!isset($clickedDate)) {
 }
 
 // Adatbáziskapcsolat fájl beillesztése
-include "connect.php"; 
-
+include "connect.php";
 // Felhasználó munkaazonosítójának lekérése a munkamenetből
 $userWorkID = $_SESSION['work_id'];
 

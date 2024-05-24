@@ -1,29 +1,37 @@
 <?php
 include "session_check.php";
 include "connect.php";
+include "function_get_name.php";
 include "function_translate_month_to_Hungarian.php"; // Beillesztjük a magyar hónap nevek fordítását végző függvényt
 
+if (!isset($_SESSION['logged'])) {
+    header("Location: login_form.php");
+    exit;
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Keresési eredmények</title>
-    <link rel="stylesheet" href="styles.css"> <!-- A CSS fájlhoz való link -->
+    <link rel="stylesheet" href="styles4.css">
 </head>
 <body>
+<?php include "test_top-bar.php"; ?>
 <div class="body-container">
-    <div class="navbar">
-        <?php include "nav-bar.php"; ?> <!-- Beillesztjük a navigációs sávot -->
+    <div class="navbar" id="sidebar">
+        <?php include "test_nav-bar.php"; ?>
     </div>
-    <div class="main-content">
-        <div class="search-results">
-            <?php
+    <div class="main-content" id="main-content">
+        <div class="test_content">
+            <div class="search-results">
+                <?php
                 try {
                     // Ellenőrizzük, hogy be van-e állítva a szervezetszám a POST kérésben
                     if (isset($_POST['feltetel'])) {
                         $feltetel = $_POST['feltetel'];
-                            $isAll=FALSE;
+                        $isAll=FALSE;
                         if($feltetel == '' or $feltetel == '*'){
                             $isAll=TRUE;
                             $feltetel = '%' . '' . '%';
@@ -46,7 +54,7 @@ include "function_translate_month_to_Hungarian.php"; // Beillesztjük a magyar h
                         }else{
                             echo "<h2>Minden felhasználó listázva a következő számú szervezetből: $feltetel</h2>";
                         }
-                        
+
                         echo "<table border='1'>";
                         echo "<tr>";
                         echo "<th>Work ID</th>";
@@ -61,8 +69,8 @@ include "function_translate_month_to_Hungarian.php"; // Beillesztjük a magyar h
                         echo "</tr>";
 
                         $month = date('n'); // 'n' a hónap sorszáma levezetésére szolgál (1 és 12 között)
-                        $year = date('Y'); // 'Y' a négyjegyű év lekérésére szolgál (pl. 2024)  
-                        
+                        $year = date('Y'); // 'Y' a négyjegyű év lekérésére szolgál (pl. 2024)
+
                         //munkaazonosítókat tartalmazó tömb létrehozása
                         $workerIds = array();
                         foreach ($workers as $worker) {
@@ -78,16 +86,16 @@ include "function_translate_month_to_Hungarian.php"; // Beillesztjük a magyar h
                             echo "<td>" . htmlspecialchars($worker['alkalmazottikartya']) . "</td>";
                             echo "<td>" . htmlspecialchars($worker['position']) . "</td>";
                             echo "<td>";
-                                echo '<form action="export_calendar_month_to_pdf.php" method="post">';
-                                echo '<input type="hidden" name="year" value="' . $year . '">';
-                                echo '<input type="hidden" name="month" value="' . $month . '">';
-                                echo '<input type="hidden" name="work_id" value="' . $worker['work_id']  . '">';
-                                echo '<button type="submit" name="export_calendar_month_pdf" value="1">';
-                                echo translateMonthToHungarian($month) . 'i beosztás exportálása'; // Magyar hónapnév használata
-                                echo '</button>';
-                                echo '</form>';
+                            echo '<form action="export_calendar_month_to_pdf.php" method="post">';
+                            echo '<input type="hidden" name="year" value="' . $year . '">';
+                            echo '<input type="hidden" name="month" value="' . $month . '">';
+                            echo '<input type="hidden" name="work_id" value="' . $worker['work_id']  . '">';
+                            echo '<button type="submit" name="export_calendar_month_pdf" value="1">';
+                            echo translateMonthToHungarian($month) . 'i beosztás exportálása'; // Magyar hónapnév használata
+                            echo '</button>';
+                            echo '</form>';
 
-                                
+
                             echo "</td>";
                             echo "</tr>";
                         }
@@ -106,21 +114,18 @@ include "function_translate_month_to_Hungarian.php"; // Beillesztjük a magyar h
                         echo '</form>';
                     } else {
                         echo "Nem létezik ilyen szervezetszámű felhasználó: $feltetel";
-                    }  
-            } catch (PDOException $e) {
-                echo "Adatbázis hiba: " . $e->getMessage();
-            }
-        ?>
+                    }
+                } catch (PDOException $e) {
+                    echo "Adatbázis hiba: " . $e->getMessage();
+                }
+                ?>
+            </div>
         </div>
         <div class="footer-div">
-            <?php
-            include "footer.php"; // Beillesztjük a láblécet
-            ?>
+            <?php include "footer.php"; ?>
         </div>
     </div>
 </div>
-
-
-
+<script src="collapse.js"></script>
 </body>
 </html>

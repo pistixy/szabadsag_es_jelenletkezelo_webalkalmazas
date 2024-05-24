@@ -37,14 +37,12 @@ include "check_login.php";
         <div class="navbar_items">
             <a href="commutes.php?work_id=<?php echo $_SESSION['work_id']?>">Munkába járásaim</a>
         </div>
-    
         <div class="navbar_items">
             <a href="holidays.php?work_id=<?php echo $_SESSION['work_id']?>">Szabadnapjaim</a>
         </div>
         <div class="navbar_items">
             <a href="profile.php"><?php echo $_SESSION['email']; ?></a>
         </div>
-
         <div class="navbar_items">
             <a href="hr_segedlet.php">HR segédlet</a>
         </div>
@@ -62,11 +60,6 @@ include "check_login.php";
                 <a href="osszesito_logika.php">Összesítők</a>
             </div>
         <?php endif; ?>
-
-       
-       
-
-        
         <div class="navbar_items">
             <a href="logout.php">Kijelentkezés</a>
         </div>

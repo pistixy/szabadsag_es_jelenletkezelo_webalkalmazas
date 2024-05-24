@@ -264,7 +264,6 @@ $html .= <<<EOD
 </footer>
 EOD;
 
-
 // Print text using writeHTMLCell()
 $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 

@@ -6,7 +6,6 @@ include "connect.php";
 if (isset($_SESSION['work_id'])) {
     // A munka azonosító (work_id) lekérése a munkamenetből
     $workId = $_SESSION['work_id'];
-
     try {
         // SQL utasítás előkészítése a felhasználók táblában lévő adatok kiválasztására a munka azonosító (work_id) alapján
         $sql = "SELECT paid_free, paid_requested, paid_planned FROM users WHERE work_id = :work_id";

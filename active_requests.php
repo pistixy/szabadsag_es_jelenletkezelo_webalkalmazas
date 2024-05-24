@@ -100,7 +100,6 @@
 
                         }
                         ?>
-
                         <?php if (!empty($adminRequests)): ?>
                             <table>
                                 <tr>

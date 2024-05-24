@@ -60,8 +60,6 @@ if (isset($_POST['request_id']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
             }
 
             // Insert the rejection message into the messages table
-            
-
             // Commit the transaction
             $conn->commit();
 

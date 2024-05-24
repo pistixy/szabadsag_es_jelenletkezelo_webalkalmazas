@@ -21,7 +21,6 @@ include "check_login.php";
         
     </tr>
        <tr>
-        
         <?php
         if (isset($_SESSION['logged']) && $_SESSION['is_user'] == false) {
 

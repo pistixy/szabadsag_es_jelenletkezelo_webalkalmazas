@@ -11,11 +11,9 @@
                     <label>Adja meg a havi bérleten szerelplő értéket! (ft)</label>
                     <input type="text" id="price" name="price" >
                 </div>
-
                 <div >
                     <label>Töltse fel a havi bérletét:</label>
                     <input type="file" accept="image/gif, image/jpg, image/png, image/jpeg, application/pdf" name="receipt">
-
                 </div>
             </div>
             <input type="submit" name="upload_receipt" value="Feltöltés">

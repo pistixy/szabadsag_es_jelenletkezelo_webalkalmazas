@@ -25,13 +25,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Sajnáljuk, csak PDF fájlok engedélyezettek.";
             $uploadOk = 0;
         }
-
         // Ellenőrizzük a fájlméretet (5 MB-ra korlátozva)
         if ($_FILES["receipt"]["size"] > 5000000) {
             echo "Sajnáljuk, a fájl túl nagy.";
             $uploadOk = 0;
         }
-
         // Ellenőrizzük, hogy volt-e hiba a feltöltésnél
         if ($uploadOk == 0) {
             echo "Sajnáljuk, a fájlt nem sikerült feltölteni.";

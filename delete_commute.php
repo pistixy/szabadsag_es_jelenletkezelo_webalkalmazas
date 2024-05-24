@@ -7,14 +7,12 @@ if (!isset($_SESSION['logged']) || !isset($_SESSION['work_id'])) {
     header("Location: login_form.php");
     exit;
 }
-
 // Ellenőrizzük, hogy az útmutató azonosítója meg van-e adva
 if (!isset($_POST['commute_id'])) {
     // Átirányítás vagy kezeljük az hibát
     header("Location: commutes.php");
     exit;
 }
-
 // Az útmutató azonosítójának lekérése a POST adatokból
 $commute_id = $_POST['commute_id'];
 

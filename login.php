@@ -42,7 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 exit;
             }
         }
-
         // Ha helytelenül töltötte ki a falhasználó az adatait
         echo "Helytelen felhasználónév vagy jelszó! <a href='login_form.php'>Bejelentkezés újra</a>";
     } else {

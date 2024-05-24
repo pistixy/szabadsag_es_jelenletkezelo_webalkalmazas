@@ -101,7 +101,6 @@ if (isset($_POST['upload_receipt'])) {
             exit;
         }
     }
-
     try {
         $stmt = $conn->prepare("INSERT INTO commute (work_id, date, filename, price, how ) VALUES (?, ?, ?, ?, ?)");
         $stmt->bindParam(1, $work_id);
@@ -109,7 +108,6 @@ if (isset($_POST['upload_receipt'])) {
         $stmt->bindParam(3, $fileName);
         $stmt->bindParam(4, $price);
         $stmt->bindParam(5, $how);
-        
 
         $stmt->execute();
         echo '<script>alert("Data recorded successfully!");</script>';
@@ -123,3 +121,6 @@ if (isset($_POST['upload_receipt'])) {
     exit;
 }
 ?>
+
+
+

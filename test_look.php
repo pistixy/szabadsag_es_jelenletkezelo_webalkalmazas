@@ -13,9 +13,8 @@ if (!isset($_SESSION['logged'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Szabadságkezelő</title>
+    <title>Kérelmeim</title>
     <link rel="stylesheet" href="styles4.css">
-<!--    <link rel="stylesheet" href="styles.css">-->
 </head>
 <body>
 <?php include "test_top-bar.php"; ?>
@@ -25,9 +24,8 @@ if (!isset($_SESSION['logged'])) {
     </div>
     <div class="main-content" id="main-content">
         <div class="test_content">
-            <div class="csempek-div">
-            <?php include "csempek.php"; ?>
-            </div>
+            <h1>Cím</h1>
+            <p>tartalom</p>
         </div>
         <div class="footer-div">
             <?php include "footer.php"; ?>
