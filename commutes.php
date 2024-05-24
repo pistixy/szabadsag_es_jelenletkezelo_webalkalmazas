@@ -68,17 +68,20 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="test_content">
 
             <div class="my-commutes">
-                <h1><?php if($_SESSION['work_id']==$userWorkID){
+                <h1>
+                    <?php if($_SESSION['work_id']==$userWorkID){
                         echo "Munkába járásaim";
                     }
                     else{
                         echo '<a href="profile.php?work_id=' . $userWorkID . '">' . $users[0]['name'] . '</a> ' . $selectedYear . ' ' . translateMonthToHungarian($selectedMonth) . 'i munkába járásai';
-
                     }
                     ?>
-                    <div class="year-month-selector">
-                        <form action="" method="GET">
-                            <select id="month-select" name="year">
+                </h1>
+                <div class="year-month-selector-container">
+                    <form action="" method="GET" class="year-month-selector-form">
+                        <div class="form-group">
+                            <label for="year-select">Év:</label>
+                            <select id="year-select" name="year">
                                 <option value="2020" <?php if ($selectedYear == 2020) echo "selected"; ?>>2020</option>
                                 <option value="2021" <?php if ($selectedYear == 2021) echo "selected"; ?>>2021</option>
                                 <option value="2022" <?php if ($selectedYear == 2022) echo "selected"; ?>>2022</option>
@@ -92,6 +95,9 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <option value="2030" <?php if ($selectedYear == 2030) echo "selected"; ?>>2030</option>
                                 <option value="2031" <?php if ($selectedYear == 2031) echo "selected"; ?>>2031</option>
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="month-select">Hónap:</label>
                             <select id="month-select" name="month">
                                 <option value="1" <?php if ($selectedMonth == 1) echo "selected"; ?>>Január</option>
                                 <option value="2" <?php if ($selectedMonth == 2) echo "selected"; ?>>Február</option>
@@ -106,62 +112,59 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <option value="11" <?php if ($selectedMonth == 11) echo "selected"; ?>>November</option>
                                 <option value="12" <?php if ($selectedMonth == 12) echo "selected"; ?>>December</option>
                             </select>
-                            <input type="hidden" name="work_id" value="<?php echo $userWorkID; ?>">
-                            <input type="submit" value="Kiválaszt">
-                        </form>
-                    </div>
-                    hónapban</h1>
+                        </div>
+                        <input type="hidden" name="work_id" value="<?php echo $userWorkID; ?>">
+                        <button type="submit" class="action-button">
+                            <img src="icons/check_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Select">
+                            Kiválaszt
+                        </button>
+                    </form>
+                </div>
+                <h2>hónapban</h2>
                 <?php if (!empty($commutes)): ?>
-                    <table border="1">
-                        <tr>
-                            <th>Commute ID</th>
-                            <th>Work ID</th>
-                            <th>Dátum</th>
-                            <th>Hogyan?</th>
-                            <th>Fájlnév</th>
-                            <th>Ár</th>
-                            <th>Bérlet?</th>
-                            <th>Műveletek</th>
-                        </tr>
-                        <?php foreach ($commutes as $commute): ?>
+                    <div class="table-container">
+                        <table class="table">
                             <tr>
-                                <td><?php echo htmlspecialchars($commute['commute_id']); ?></td>
-                                <td><?php echo htmlspecialchars($commute['work_id']); ?></td>
-                                <td><?php echo htmlspecialchars($commute['date']); ?></td>
-                                <td><?php echo htmlspecialchars(getName($commute['how'])); ?></td>
-                                <td><?php echo htmlspecialchars($commute['filename']); ?></td>
-                                <td><?php echo htmlspecialchars($commute['price']); ?></td>
-
-                                <td><?php if($commute['how']=="Pass"){
-                                        echo "Igen";
-                                    }
-                                    else{
-                                        echo "Nem";
-                                    }
-                                    ?></td>
-
-                                <td>
-                                    <!-- Button for deletion -->
-                                    <form action="delete_commute.php" method="post">
-                                        <input type="hidden" name="commute_id" value="<?php echo $commute['commute_id']; ?>">
-                                        <button type="submit" name="delete_commute">Törlés</button>
-                                    </form>
-                                </td>
+                                <th>Commute ID</th>
+                                <th>Work ID</th>
+                                <th>Dátum</th>
+                                <th>Hogyan?</th>
+                                <th>Fájlnév</th>
+                                <th>Ár</th>
+                                <th>Bérlet?</th>
+                                <th>Műveletek</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </table>
+                            <?php foreach ($commutes as $commute): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($commute['commute_id']); ?></td>
+                                    <td><?php echo htmlspecialchars($commute['work_id']); ?></td>
+                                    <td><?php echo htmlspecialchars($commute['date']); ?></td>
+                                    <td><?php echo htmlspecialchars(getName($commute['how'])); ?></td>
+                                    <td><?php echo htmlspecialchars($commute['filename']); ?></td>
+                                    <td><?php echo htmlspecialchars($commute['price']); ?></td>
+                                    <td><?php echo ($commute['how'] == "Pass") ? "Igen" : "Nem"; ?></td>
+                                    <td class="center-content">
+                                        <!-- Button for deletion -->
+                                        <form action="delete_commute.php" method="post">
+                                            <input type="hidden" name="commute_id" value="<?php echo $commute['commute_id']; ?>">
+                                            <button class="action-button" type="submit" name="delete_commute">
+                                                <img src="icons/delete_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Delete">
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </table>
+                    </div>
                 <?php else: ?>
                     <p>Még nem rögzített munkábajárást.</p>
                 <?php endif; ?>
-                <p>
-
-                </p>
-
+                <p></p>
                 <form action="export_commutes_to_pdf.php" method="post">
                     <input type="hidden" name="year" value="<?php echo $selectedYear; ?>">
                     <input type="hidden" name="month" value="<?php echo $selectedMonth; ?>">
                     <input type="hidden" name="work_id" value="<?php echo $userWorkID; ?>">
-                    <button type="submit" name="export_commutes_to_pdf">PDF generálása</button>
+                    <button class="action-button" type="submit" name="export_commutes_to_pdf"><img src="icons/picture_as_pdf_20dp_FILL0_wght400_GRAD0_opsz20.png">PDF generálása</button>
                 </form>
             </div>
         </div>

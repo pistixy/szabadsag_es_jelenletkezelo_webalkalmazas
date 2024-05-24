@@ -71,10 +71,10 @@ $firstDayOfWeek = date("N", mktime(0, 0, 0, $month, 1, $year));
                         </h1>
                     </div>
                     <div class="calendar-view-selector">
-                        <form action="" method="get">
+                        <form action="" method="get" class="styled-form">
                             <input type="hidden" name="year" value="<?php echo $year; ?>">
                             <input type="hidden" name="work_id" value="<?php echo $userWorkId; ?>">
-                            <select name="view" onchange="this.form.submit()">
+                            <select name="view" class="styled-select" onchange="this.form.submit()">
                                 <option value="yearly" <?php echo (!isset($_GET['view']) || $_GET['view'] == 'yearly') ? 'selected' : ''; ?>>Éves Nézet</option>
                                 <option value="monthly" <?php echo (isset($_GET['view']) && $_GET['view'] == 'monthly') ? 'selected' : ''; ?>>Havi Nézet</option>
                             </select>

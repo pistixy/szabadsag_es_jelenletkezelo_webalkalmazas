@@ -26,9 +26,25 @@ $nextYear = $year + 1;
 ?>
 
 <div class="year-navigation">
-    <a href="calendar.php?year=<?php echo $previousYear; ?>&view=yearly" class="year-button">Előző év</a>
-    <a href="calendar.php?year=<?php echo $nextYear; ?>&view=yearly" class="year-button">Következő év</a>
+    <form action="calendar.php" method="get" style="display: inline;">
+        <input type="hidden" name="year" value="<?php echo $previousYear; ?>">
+        <input type="hidden" name="view" value="yearly">
+        <button class="action-button" type="submit">
+            <img src="icons/arrow_back_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Previous Year">
+            Előző év
+        </button>
+    </form>
+    <form action="calendar.php" method="get" style="display: inline;">
+        <input type="hidden" name="year" value="<?php echo $nextYear; ?>">
+        <input type="hidden" name="view" value="yearly">
+        <button class="action-button" type="submit">
+            Következő év
+            <img src="icons/arrow_forward_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Next Year">
+        </button>
+    </form>
 </div>
+
+
 <div class="year-view">
     <h2><?php echo $year; ?> Éves Nézet</h2>
     <?php
@@ -48,8 +64,9 @@ $nextYear = $year + 1;
             echo '<input type="hidden" name="year" value="' . $year . '">';
             echo '<input type="hidden" name="month" value="' . $month . '">';
             echo '<input type="hidden" name="work_id" value="' . $userWorkId . '">';
-            echo '<button type="submit" name="export_calendar_month_pdf" value="1">';
-            echo translateMonthToHungarian($monthName) . 'i beosztás exportálása';
+            echo '<button class="action-button" type="submit" name="export_calendar_month_pdf" value="1">';
+            echo '<img src="icons/picture_as_pdf_20dp_FILL0_wght400_GRAD0_opsz20.png">';
+            echo ' beosztás exportálása';
             echo '</button>';
             echo '</form>';
             echo "</div>";

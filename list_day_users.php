@@ -66,7 +66,7 @@ $dayUsers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // Ha vannak felhasználók az adott napon, listázzuk ki őket
 if (!empty($dayUsers)) {
     echo "<h3>Felhasználók a $clickedDate napon:</h3>";
-    echo "<table border='1'>";
+    echo "<table class='table'>";
     echo "<tr><th>Név</th><th>work_id</th><th>Email</th><th>Kar</th><th>Szervezetszám</th><th>Státusz</th></tr>";
     foreach ($dayUsers as $user) {
         $profileUrl = "profile.php?work_id=" . urlencode($user['work_id']);

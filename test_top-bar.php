@@ -7,6 +7,7 @@
     </div>
     <div class="top-bar-right">
         <?php if (isset($_SESSION['logged'])): ?>
+            <img style="height: 46px" src="icons/person_20dp_FILL0_wght400_GRAD0_opsz20.png">
             <div class="user-info">
                 <span class="user-email"><a href="profile.php"><?php echo $_SESSION['email']; ?></a></span>
                 <span class="user-position">(<?php echo getName($_SESSION['position']); ?>)</span>

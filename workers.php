@@ -43,7 +43,7 @@ if (!isset($_SESSION['logged'])) {
                     } else {
                         // Ha nincs beállítva a szervezetszám, akkor minden felhasználót lekérünk
                         $feltetel = "Nincs szervezetszáma!";
-                        $stmt = $conn->prepare("SELECT *     FROM users");
+                        $stmt = $conn->prepare("SELECT * FROM users");
                     }
 
                     $stmt->execute();
@@ -55,11 +55,13 @@ if (!isset($_SESSION['logged'])) {
                             echo "<h2>Minden felhasználó listázva a következő számú szervezetből: $feltetel</h2>";
                         }
 
-                        echo "<table border='1'>";
+                        echo '<div class="table-container">';
+                        echo "<table class='table'>";
+                        echo "<thead>";
                         echo "<tr>";
                         echo "<th>Work ID</th>";
                         echo "<th>Név</th>";
-                        echo "<th>Email</th>";
+                        echo "<th>E-mail</th>";
                         echo "<th>Cím</th>";
                         echo "<th>Kar</th>";
                         echo "<th>Szervezetszám</th>";
@@ -67,6 +69,8 @@ if (!isset($_SESSION['logged'])) {
                         echo "<th>Pozíció</th>";
                         echo "<th>Műveletek</th>";
                         echo "</tr>";
+                        echo "</thead>";
+                        echo "<tbody>";
 
                         $month = date('n'); // 'n' a hónap sorszáma levezetésére szolgál (1 és 12 között)
                         $year = date('Y'); // 'Y' a négyjegyű év lekérésére szolgál (pl. 2024)
@@ -84,23 +88,24 @@ if (!isset($_SESSION['logged'])) {
                             echo "<td>" . htmlspecialchars($worker['kar']) . "</td>";
                             echo "<td>" . htmlspecialchars($worker['szervezetszam']) . "</td>";
                             echo "<td>" . htmlspecialchars($worker['alkalmazottikartya']) . "</td>";
-                            echo "<td>" . htmlspecialchars($worker['position']) . "</td>";
+                            echo "<td>" .getName(htmlspecialchars($worker['position']))  . "</td>";
                             echo "<td>";
                             echo '<form action="export_calendar_month_to_pdf.php" method="post">';
                             echo '<input type="hidden" name="year" value="' . $year . '">';
                             echo '<input type="hidden" name="month" value="' . $month . '">';
                             echo '<input type="hidden" name="work_id" value="' . $worker['work_id']  . '">';
-                            echo '<button type="submit" name="export_calendar_month_pdf" value="1">';
-                            echo translateMonthToHungarian($month) . 'i beosztás exportálása'; // Magyar hónapnév használata
+                            echo '<button class="action-button" type="submit" name="export_calendar_month_pdf" value="1">';
+                            echo '<img src="icons/picture_as_pdf_20dp_FILL0_wght400_GRAD0_opsz20.png">';
                             echo '</button>';
                             echo '</form>';
-
-
                             echo "</td>";
                             echo "</tr>";
                         }
 
+                        echo "</tbody>";
                         echo "</table>";
+                        echo "</div>";
+
                         // Gomb hozzáadása a beosztások exportálásához
                         echo '<form action="export_workers_to_pdf.php" method="post">';
                         // A tömb tartalmának beállítása az input mező értékének
@@ -108,10 +113,12 @@ if (!isset($_SESSION['logged'])) {
                         echo '<input type="hidden" name="month" value="' . $month . '">';
                         echo '<input type="hidden" name="year" value="' . $year . '">';
                         echo '<input type="hidden" name="feltetel" value="' . $feltetel . '">';
-                        echo '<button type="submit" name="export_workers_pdf" value="1">';
-                        echo 'Beosztások exportálása';
+                        echo '<button class="action-button" type="submit" name="export_workers_pdf" value="1">';
+                        echo '<img src="icons/picture_as_pdf_20dp_FILL0_wght400_GRAD0_opsz20.png">';
+                        echo ' Összesített beosztások exportálása';
                         echo '</button>';
                         echo '</form>';
+                        echo '<p style="margin: 100px"></p>';
                     } else {
                         echo "Nem létezik ilyen szervezetszámű felhasználó: $feltetel";
                     }
@@ -129,3 +136,4 @@ if (!isset($_SESSION['logged'])) {
 <script src="collapse.js"></script>
 </body>
 </html>
+

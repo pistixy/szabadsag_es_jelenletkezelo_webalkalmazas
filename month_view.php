@@ -60,7 +60,7 @@ $currentDay = date('Y-m-d');
             <input type="hidden" name="year" value="<?php echo $year; ?>">
             <input type="hidden" name="month" value="<?php echo $month; ?>">
             <input type="hidden" name="work_id" value="<?php echo $userWorkId; ?>">
-            <button  type="submit" name="export_calendar_month_pdf" value="1"><?php echo translateMonthToHungarian($monthName);?>i beosztás exportálása </button>
+            <button class="action-button" type="submit" name="export_calendar_month_pdf" value="1"><img src="icons/picture_as_pdf_20dp_FILL0_wght400_GRAD0_opsz20.png"> <?php echo translateMonthToHungarian($monthName);?>i beosztás exportálása </button>
         </form>
     </div>
 </div>

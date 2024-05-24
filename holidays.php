@@ -45,7 +45,6 @@ if (isset($_GET['work_id'])) {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         ?>
 
-
         <div class="test_content">
             <div class="holidays">
                 <?php
@@ -59,41 +58,45 @@ if (isset($_GET['work_id'])) {
                         echo "<h2><a href='profile.php?work_id=" . $work_id . "'>" . $user['name'] . "</a> szabadnapjainak állása</h2>";
                     }
                     ?>
-                    <table border="1">
-                        <thead>
-                        <tr>
-                            <th>Típus</th>
-                            <th>Mennyiség</th>
-                            <th>Műveletek</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach ($user as $key => $value): ?>
-                            <?php if ($key !== 'work_id' && $key !== 'name' && $key !== 'email' && $key !== 'password' && $key !== 'cim' && $key !== 'adoazonosito' && $key !== 'szervezetszam' && $key !== 'alkalmazottikartya' && $key !== 'position' && $key !== 'profile_picture' && $key !== 'kar'): ?>
-                                <tr>
-                                    <!-- Státusz nevének lekérése és megjelenítése -->
-                                    <td><?php echo getName($key); ?></td>
-                                    <td><?php echo $value; ?></td>
-                                    <td style="display: flex">
-                                        <!-- Státusz növelése gomb -->
-                                        <?php if (in_array($key, ['paid_free']) && ($user['position'] === 'admin' )): ?>
-                                        <form action="increase_day.php" method="post">
-                                            <input type="hidden" name="work_id" value="<?php echo $work_id; ?>">
-                                            <input type="hidden" name="status" value="<?php echo $key; ?>">
-                                            <button type="submit">+1</button>
-                                            <form>
-                                                <form action="decrease_day.php" method="post">
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Típus</th>
+                                <th>Mennyiség</th>
+                                <th>Műveletek</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($user as $key => $value): ?>
+                                <?php if ($key !== 'work_id' && $key !== 'name' && $key !== 'email' && $key !== 'password' && $key !== 'cim' && $key !== 'adoazonosito' && $key !== 'szervezetszam' && $key !== 'alkalmazottikartya' && $key !== 'position' && $key !== 'profile_picture' && $key !== 'kar'): ?>
+                                    <tr>
+                                        <!-- Státusz nevének lekérése és megjelenítése -->
+                                        <td><?php echo getName($key); ?></td>
+                                        <td><?php echo $value; ?></td>
+                                        <td class="center-content">
+                                            <!-- Státusz növelése gomb -->
+                                            <?php if (in_array($key, ['paid_free']) && ($user['position'] === 'admin' )): ?>
+                                                <form action="increase_day.php" method="post" style="display: inline;">
                                                     <input type="hidden" name="work_id" value="<?php echo $work_id; ?>">
                                                     <input type="hidden" name="status" value="<?php echo $key; ?>">
-                                                    <button type="submit">-1</button>
+                                                    <button class="action-button" type="submit"><img src="icons/add_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Add"></button>
                                                 </form>
-                                                <?php endif; ?>
-                                    </td>
-                                </tr>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                                                <form action="decrease_day.php" method="post" style="display: inline;">
+                                                    <input type="hidden" name="work_id" value="<?php echo $work_id; ?>">
+                                                    <input type="hidden" name="status" value="<?php echo $key; ?>">
+                                                    <button class="action-button" type="submit"><img src="icons/remove_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Remove"></button>
+                                                </form>
+                                            <?php else: ?>
+                                                -
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 <?php else: ?>
                     <p>A felhasználó nem található</p>
                 <?php endif; ?>
@@ -107,4 +110,5 @@ if (isset($_GET['work_id'])) {
 <script src="collapse.js"></script>
 </body>
 </html>
+
 

@@ -97,8 +97,12 @@ if ($result) {
                                 </select>
                             </p>
                             <input type="hidden" name="work_id" value="<?php echo $result['work_id']; ?>">
-                            <input  type="submit" name="update_position" value="Beosztás frissítése">
+                            <button class="action-button" type="submit" name="update_position">
+                                <img src="icons/star_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Update">
+                                Beosztás frissítése
+                            </button>
                         </form>
+
                     <?php endif; ?>
 
 
@@ -106,8 +110,14 @@ if ($result) {
                     <?php
                     // Only show the edit link if viewing own profile
                     if ($work_id == $_SESSION['work_id']) {
-                        echo '<a class="edit-profile-link" href="edit_profile.php">Profil szerkesztése</a> <br>';
+                        echo '<form action="edit_profile.php" method="get" style="display: inline-block;">';
+                        echo '<button class="action-button" type="submit">';
+                        echo '<img src="icons/update_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Edit">';
+                        echo 'Profil szerkesztése';
+                        echo '</button>';
+                        echo '</form><br>';
                     }
+
 
                     ?>
                 </div>

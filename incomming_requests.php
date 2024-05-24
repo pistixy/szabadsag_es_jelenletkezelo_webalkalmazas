@@ -83,70 +83,66 @@ $requests = $requestsStmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="incomming-requests">
                 <h1>Bejövő kérelmek</h1>
                 <!-- Status Filter Form -->
-                <form method="post">
-                    <label for="statusFilter">Szűrés állapot szerint:</label>
-                    <select name="statusFilter" id="statusFilter" onchange="this.form.submit()">
-                        <option value="pending" <?php echo (!isset($statusFilter) || $statusFilter == 'pending') ? 'selected' : ''; ?>>Függőben lévő</option>
-                        <!--<option value="all" <?php echo (isset($statusFilter) && $statusFilter == 'all') ? 'selected' : ''; ?>>Összes</option>-->
-                        <option value="rejected" <?php echo (isset($statusFilter) && $statusFilter == 'rejected') ? 'selected' : ''; ?>>Elutasított</option>
-                        <option value="accepted" <?php echo (isset($statusFilter) && $statusFilter == 'accepted') ? 'selected' : ''; ?>>Elfogadott</option>
-                    </select>
+                <form method="post" class="status-filter-form">
+                    <div class="form-group">
+                        <label for="statusFilter">Szűrés állapot szerint:</label>
+                        <select name="statusFilter" id="statusFilter" onchange="this.form.submit()">
+                            <option value="pending" <?php echo (!isset($statusFilter) || $statusFilter == 'pending') ? 'selected' : ''; ?>>Függőben lévő</option>
+                            <!--<option value="all" <?php echo (isset($statusFilter) && $statusFilter == 'all') ? 'selected' : ''; ?>>Összes</option>-->
+                            <option value="rejected" <?php echo (isset($statusFilter) && $statusFilter == 'rejected') ? 'selected' : ''; ?>>Elutasított</option>
+                            <option value="accepted" <?php echo (isset($statusFilter) && $statusFilter == 'accepted') ? 'selected' : ''; ?>>Elfogadott</option>
+                        </select>
+                    </div>
                 </form>
                 <?php if (!empty($requests)): ?>
                     <form id="requestsForm" method="post">
-                        <table border="1">
-                            <tr>
-                                <th><input type="checkbox" id="selectAll" onclick="toggleCheckboxes(this)"></th>
-                                <th>Kérelem ID</th>
-                                <th>Work ID</th>
-                                <th>Név</th> <!-- Added Name column -->
-                                <th>Naptár ID</th>
-                                <th>Szabadnap típusa</th>
-                                <th>Kinek</th>
-                                <th>Kérvény státusza</th>
-                                <!--                            <th>Időbélyegző</th>-->
-                                <!--                            <th>Utolsó módósítás ekkor</th>-->
-                                <th>Műveletek</th> <!-- Operations column -->
-                            </tr>
-                            <?php foreach ($requests as $request): ?>
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
                                 <tr>
-                                    <td><input type="checkbox" name="request_ids[]" value="<?php echo htmlspecialchars($request['request_id']); ?>"></td>
-                                    <td><?php echo htmlspecialchars($request['request_id']); ?></td>
-                                    <td><a href="profile.php?work_id=<?php echo htmlspecialchars($request['work_id']); ?>"><?php echo htmlspecialchars($request['work_id']); ?></a></td>
-                                    <td><a href="profile.php?work_id=<?php echo htmlspecialchars($request['work_id']); ?>"><?php echo htmlspecialchars($request['name']); ?></a></td>
-                                    <td><?php echo htmlspecialchars($request['calendar_id']); ?></td>
-                                    <td><?php echo htmlspecialchars(getName($request['requested_status'])); ?></td>
-                                    <td><?php echo htmlspecialchars($request['to_whom']); ?></td>
-                                    <td><?php echo htmlspecialchars(getName($request['request_status'])); ?></td>
-                                    <!--                                <td>--><?php //echo htmlspecialchars($request['timestamp']); ?><!--</td>-->
-                                    <!--                                <td>--><?php //echo htmlspecialchars($request['modified_date']); ?><!--</td>-->
-                                    <td>
-                                        <!-- Accept Button -->
-                                        <?php /*if ($request['request_status'] == "pending" || $request['request_status'] == "messaged"): ?>
-                    <form action="accept_request.php" method="post">
-                        <input type="hidden" name="request_id" value="<?php echo htmlspecialchars($request['request_id']); ?>">
-                        <input type="submit" value="Elfogad">
-                    </form>
-                <?php endif; ?>
-
-                <!-- Reject Button -->
-                <?php if ($request['request_status'] == "pending" || $request['request_status'] == "messaged"): ?>
-                    <form action="reject_request.php" method="post">
-                        <input type="hidden" name="request_id" value="<?php echo htmlspecialchars($request['request_id']); ?>">
-                        <input type="submit" value="Elutasít">
-                    </form>
-                <?php endif; ?>
-
-                <!-- Respond Button -->
-                <form action="respond_request_form.php" method="get">
-                    <input type="hidden" name="request_id" value="<?php echo $request['request_id']; ?>">
-                    <input type="submit" value="Válaszol">
-                </form>
-                   */?>
-                                    </td>
+                                    <th><input type="checkbox" id="selectAll" onclick="toggleCheckboxes(this)"></th>
+                                    <th>Kérelem ID</th>
+                                    <th>Work ID</th>
+                                    <th>Név</th> <!-- Added Name column -->
+                                    <th>Naptár ID</th>
+                                    <th>Szabadnap típusa</th>
+                                    <th>Kinek</th>
+                                    <th>Kérvény státusza</th>
+                                    <!-- <th>Időbélyegző</th> -->
+                                    <!-- <th>Utolsó módósítás ekkor</th> -->
+                                    <th>Műveletek</th> <!-- Operations column -->
                                 </tr>
-                            <?php endforeach; ?>
-                        </table>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($requests as $request): ?>
+                                    <tr>
+                                        <td><input type="checkbox" name="request_ids[]" value="<?php echo htmlspecialchars($request['request_id']); ?>"></td>
+                                        <td><?php echo htmlspecialchars($request['request_id']); ?></td>
+                                        <td><a href="profile.php?work_id=<?php echo htmlspecialchars($request['work_id']); ?>"><?php echo htmlspecialchars($request['work_id']); ?></a></td>
+                                        <td><a href="profile.php?work_id=<?php echo htmlspecialchars($request['work_id']); ?>"><?php echo htmlspecialchars($request['name']); ?></a></td>
+                                        <td><?php echo htmlspecialchars($request['calendar_id']); ?></td>
+                                        <td><?php echo htmlspecialchars(getName($request['requested_status'])); ?></td>
+                                        <td><?php echo htmlspecialchars($request['to_whom']); ?></td>
+                                        <td><?php echo htmlspecialchars(getName($request['request_status'])); ?></td>
+                                        <td class="center-content">
+                                            <!-- Delete Button -->
+                                            <?php if ($request['request_status'] == "pending" || $request['request_status'] == "messaged"): ?>
+                                                <form action="delete_request.php" method="post" onsubmit="return confirm('Biztosan törölni szeretné ezt a kérelmet?');" style="display: inline;">
+                                                    <input type="hidden" name="request_id" value="<?php echo $request['request_id']; ?>">
+                                                    <button class="action-button" type="submit">
+                                                        <img src="icons/delete_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Delete">
+                                                    </button>
+                                                </form>
+                                            <?php endif; ?>
+                                            <?php if ($request['request_status'] == "rejected" || $request['request_status'] == "accepted"): ?>
+                                                -
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
                         <button class="action-button" type="submit" onclick="setFormAction('accept_all_requests.php')">
                             <img src="icons/check_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Accept">
                             Kijelölt kérelmek elfogadása
@@ -182,5 +178,6 @@ $requests = $requestsStmt->fetchAll(PDO::FETCH_ASSOC);
 </script>
 </body>
 </html>
+
 
 

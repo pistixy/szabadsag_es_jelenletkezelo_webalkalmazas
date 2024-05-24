@@ -59,8 +59,12 @@ if (count($result) > 0) {
                     <label for="alkalmazottikartyaszama">Alkalmazotti kártyaszám:</label>
                     <input type="text" id="alkalmazottikartyaszama" name="alkalmazottikartyaszama" value="<?php echo $row['alkalmazottikartya']; ?>" required>
 
-                    <input type="submit" value="Mentés">
+                    <button class="action-button" type="submit">
+                        <img src="icons/save_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Mentés">
+                        Mentés
+                    </button>
                 </form>
+
             </div>
         </div>
         <div class="footer-div">
