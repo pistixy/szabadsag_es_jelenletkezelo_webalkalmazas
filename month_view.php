@@ -55,6 +55,7 @@ $currentDay = date('Y-m-d');
             ?>
         </tr>
     </table>
+    <br>
     <div class="month-buttons">
         <form action="export_calendar_month_to_pdf.php" method="post">
             <input type="hidden" name="year" value="<?php echo $year; ?>">

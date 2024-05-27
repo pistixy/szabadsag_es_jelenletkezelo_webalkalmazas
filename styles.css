@@ -208,7 +208,7 @@ body {
 
 .search-label {
     display: flex;
-    align-items: center;
+    /*align-items: center;*/
     font-size: 16px;
     margin-right: 10px;
     color: #333;
@@ -219,7 +219,7 @@ body {
 }
 
 .search-bar {
-    width: 300px;
+    width: 80%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 25px;
