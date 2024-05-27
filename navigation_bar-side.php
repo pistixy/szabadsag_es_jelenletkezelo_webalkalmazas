@@ -9,9 +9,9 @@ include "check_login.php";
             <?php if (isset($_SESSION['is_user']) && !$_SESSION['is_user']): ?>
                 <div class="navbar_items">
                     <form action="search_results.php" method="get" class="search-form">
-                        <label name="search_query" class="search-label">
-                            <img src="icons/search_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Search Icon"> Keresés
-                        </label>
+
+                            <img src="icons/search_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Search Icon">
+
                         <input class="search-bar" type="text" name="search_query" placeholder="work_id, név vagy email">
                         <!-- Enter gomb lenyomásával már kereshetünk is -->
                     </form>

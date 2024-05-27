@@ -206,18 +206,6 @@ body {
     align-items: center;
 }
 
-.search-label {
-    display: flex;
-    /*align-items: center;*/
-    font-size: 16px;
-    margin-right: 10px;
-    color: #333;
-}
-
-.search-label img {
-    margin-right: 5px;
-}
-
 .search-bar {
     width: 80%;
     padding: 10px;
