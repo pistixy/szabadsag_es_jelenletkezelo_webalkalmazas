@@ -33,14 +33,14 @@ if ($result) {
 <head>
     <meta charset="UTF-8">
     <title>Profil</title>
-    <link rel="stylesheet" href="styles4.css">
+    <link rel="stylesheet" href="styles.css">
 
 </head>
 <body>
-<?php include "test_top-bar.php"; ?>
+<?php include "navigation_bar-top.php"; ?>
 <div class="body-container">
     <div class="navbar" id="sidebar">
-        <?php include "test_nav-bar.php"; ?>
+        <?php include "navigation_bar-side.php"; ?>
     </div>
     <div class="main-content" id="main-content">
         <div class="test_content">
