@@ -14,7 +14,7 @@ if (!isset($_SESSION['logged'])) {
 <head>
     <meta charset="UTF-8">
     <title>Letolthetö fájlok</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="public/css/styles.css">
     <style>
         /* Custom Styles */
         .content-container {
@@ -78,7 +78,7 @@ if (!isset($_SESSION['logged'])) {
                 <h1>Elérhető Beosztások</h1>
                 <div class="current-folder">
                     <?php
-                    $dirPath = __DIR__ . '/Beosztasok'; // Base directory
+                    $dirPath = __DIR__ . '/storage/Beosztasok'; // Base directory
                     $currentDir = isset($_GET['dir']) ? $_GET['dir'] : $dirPath;
                     $relativePath = str_replace(realpath($dirPath), 'Beosztasok', realpath($currentDir));
                     echo "Jelenlegi mappa: ", htmlspecialchars($relativePath);
@@ -123,6 +123,6 @@ if (!isset($_SESSION['logged'])) {
         </div>
     </div>
 </div>
-<script src="collapse.js"></script>
+<script src="public/js/collapse.js"></script>
 </body>
 </html>

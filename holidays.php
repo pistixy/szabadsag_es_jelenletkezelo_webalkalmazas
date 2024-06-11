@@ -27,7 +27,7 @@ if (isset($_GET['work_id'])) {
 <head>
     <meta charset="UTF-8">
     <title>Szabadnapjaim</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="public/css/styles.css">
 </head>
 <body>
 <?php include "navigation_bar-top.php"; ?>
@@ -80,12 +80,12 @@ if (isset($_GET['work_id'])) {
                                                 <form action="increase_day.php" method="post" style="display: inline;">
                                                     <input type="hidden" name="work_id" value="<?php echo $work_id; ?>">
                                                     <input type="hidden" name="status" value="<?php echo $key; ?>">
-                                                    <button class="action-button" type="submit"><img src="icons/add_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Add"></button>
+                                                    <button class="action-button" type="submit"><img src="public/images/icons/add_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Add"></button>
                                                 </form>
                                                 <form action="decrease_day.php" method="post" style="display: inline;">
                                                     <input type="hidden" name="work_id" value="<?php echo $work_id; ?>">
                                                     <input type="hidden" name="status" value="<?php echo $key; ?>">
-                                                    <button class="action-button" type="submit"><img src="icons/remove_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Remove"></button>
+                                                    <button class="action-button" type="submit"><img src="public/images/icons/remove_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Remove"></button>
                                                 </form>
                                             <?php else: ?>
                                                 -
@@ -107,7 +107,7 @@ if (isset($_GET['work_id'])) {
         </div>
     </div>
 </div>
-<script src="collapse.js"></script>
+<script src="public/js/collapse.js"></script>
 </body>
 </html>
 

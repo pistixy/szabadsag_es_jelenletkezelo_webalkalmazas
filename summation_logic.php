@@ -14,7 +14,7 @@ if (!isset($_SESSION['logged'])) {
 <head>
     <meta charset="UTF-8">
     <title>Összesítő</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="public/css/styles.css">
 </head>
 <body>
 <?php include "navigation_bar-top.php"; ?>
@@ -96,7 +96,7 @@ if (!isset($_SESSION['logged'])) {
                     echo '</div>';
 
                     echo '<button type="submit" name="check_requests" class="action-button">';
-                    echo '<img src="icons/done_all_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Check">Ellenőrizze a kérelmeket';
+                    echo '<img src="public/images/icons/done_all_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Check">Ellenőrizze a kérelmeket';
                     echo '</button>';
                     echo '</form>';
 
@@ -121,7 +121,7 @@ if (!isset($_SESSION['logged'])) {
         </div>
     </div>
 </div>
-<script src="collapse.js"></script>
+<script src="public/js/collapse.js"></script>
 </body>
 </html>
 

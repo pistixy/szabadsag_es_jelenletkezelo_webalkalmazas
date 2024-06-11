@@ -33,7 +33,7 @@ if (isset($_SESSION['work_id'])) {
 <head>
     <meta charset="UTF-8">
     <title>Kérelmeim</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="public/css/styles.css">
 </head>
 <body>
 <?php include "navigation_bar-top.php"; ?>
@@ -86,7 +86,7 @@ if (isset($_SESSION['work_id'])) {
                                         <form action="delete_request.php" method="post" onsubmit="return confirm('Biztosan törölni szeretné ezt a kérelmet?');" style="display: inline;">
                                             <input type="hidden" name="request_id" value="<?php echo $request['request_id']; ?>">
                                             <button class="action-button" type="submit">
-                                                <img src="icons/delete_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Delete">
+                                                <img src="public/images/icons/delete_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Delete">
                                             </button>
                                         </form>
                                     <?php endif; ?>
@@ -109,7 +109,7 @@ if (isset($_SESSION['work_id'])) {
         </div>
     </div>
 </div>
-<script src="collapse.js"></script>
+<script src="public/js/collapse.js"></script>
 </body>
 </html>
 

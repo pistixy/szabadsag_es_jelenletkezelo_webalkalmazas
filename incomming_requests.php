@@ -70,7 +70,7 @@ $requests = $requestsStmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <title>Bejövő kérelmek</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="public/css/styles.css">
 </head>
 <body>
 <?php include "navigation_bar-top.php"; ?>
@@ -130,7 +130,7 @@ $requests = $requestsStmt->fetchAll(PDO::FETCH_ASSOC);
                                                 <form action="delete_request.php" method="post" onsubmit="return confirm('Biztosan törölni szeretné ezt a kérelmet?');" style="display: inline;">
                                                     <input type="hidden" name="request_id" value="<?php echo $request['request_id']; ?>">
                                                     <button class="action-button" type="submit">
-                                                        <img src="icons/delete_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Delete">
+                                                        <img src="public/images/icons/delete_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Delete">
                                                     </button>
                                                 </form>
                                             <?php endif; ?>
@@ -144,12 +144,12 @@ $requests = $requestsStmt->fetchAll(PDO::FETCH_ASSOC);
                             </table>
                         </div>
                         <button class="action-button" type="submit" onclick="setFormAction('accept_all_requests.php')">
-                            <img src="icons/check_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Accept">
+                            <img src="public/images/icons/check_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Accept">
                             Kijelölt kérelmek elfogadása
                         </button>
 
                         <button class="action-button" type="submit" onclick="setFormAction('reject_all_requests.php')">
-                            <img src="icons/close_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Deny">
+                            <img src="public/images/icons/close_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Deny">
                             Kijelölt kérelmek elutasítása
                         </button>
                     </form>
@@ -165,7 +165,7 @@ $requests = $requestsStmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 </div>
-<script src="collapse.js"></script>
+<script src="public/js/collapse.js"></script>
 <script>
     function setFormAction(action) {
         document.getElementById('requestsForm').action = action;

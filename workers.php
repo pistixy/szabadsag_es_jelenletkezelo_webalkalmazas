@@ -15,7 +15,7 @@ if (!isset($_SESSION['logged'])) {
 <head>
     <meta charset="UTF-8">
     <title>Keresési eredmények</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="public/css/styles.css">
 </head>
 <body>
 <?php include "navigation_bar-top.php"; ?>
@@ -95,7 +95,7 @@ if (!isset($_SESSION['logged'])) {
                             echo '<input type="hidden" name="month" value="' . $month . '">';
                             echo '<input type="hidden" name="work_id" value="' . $worker['work_id']  . '">';
                             echo '<button class="action-button" type="submit" name="export_calendar_month_pdf" value="1">';
-                            echo '<img src="icons/picture_as_pdf_20dp_FILL0_wght400_GRAD0_opsz20.png">';
+                            echo '<img src="public/images/icons/picture_as_pdf_20dp_FILL0_wght400_GRAD0_opsz20.png">';
                             echo '</button>';
                             echo '</form>';
                             echo "</td>";
@@ -114,7 +114,7 @@ if (!isset($_SESSION['logged'])) {
                         echo '<input type="hidden" name="year" value="' . $year . '">';
                         echo '<input type="hidden" name="feltetel" value="' . $feltetel . '">';
                         echo '<button class="action-button" type="submit" name="export_workers_pdf" value="1">';
-                        echo '<img src="icons/picture_as_pdf_20dp_FILL0_wght400_GRAD0_opsz20.png">';
+                        echo '<img src="public/images/icons/picture_as_pdf_20dp_FILL0_wght400_GRAD0_opsz20.png">';
                         echo ' Összesített beosztások exportálása';
                         echo '</button>';
                         echo '</form>';
@@ -133,7 +133,7 @@ if (!isset($_SESSION['logged'])) {
         </div>
     </div>
 </div>
-<script src="collapse.js"></script>
+<script src="public/js/collapse.js"></script>
 </body>
 </html>
 

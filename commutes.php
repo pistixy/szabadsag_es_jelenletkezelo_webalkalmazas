@@ -56,7 +56,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <title>Munkába járások</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="public/css/styles.css">
 </head>
 <body>
 <?php include "navigation_bar-top.php"; ?>
@@ -115,7 +115,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                         <input type="hidden" name="work_id" value="<?php echo $userWorkID; ?>">
                         <button type="submit" class="action-button">
-                            <img src="icons/check_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Select">
+                            <img src="public/images/icons/check_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Select">
                             Kiválaszt
                         </button>
                     </form>
@@ -148,7 +148,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <form action="delete_commute.php" method="post">
                                             <input type="hidden" name="commute_id" value="<?php echo $commute['commute_id']; ?>">
                                             <button class="action-button" type="submit" name="delete_commute">
-                                                <img src="icons/delete_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Delete">
+                                                <img src="public/images/icons/delete_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Delete">
                                             </button>
                                         </form>
                                     </td>
@@ -164,7 +164,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <input type="hidden" name="year" value="<?php echo $selectedYear; ?>">
                     <input type="hidden" name="month" value="<?php echo $selectedMonth; ?>">
                     <input type="hidden" name="work_id" value="<?php echo $userWorkID; ?>">
-                    <button class="action-button" type="submit" name="export_commutes_to_pdf"><img src="icons/picture_as_pdf_20dp_FILL0_wght400_GRAD0_opsz20.png">PDF generálása</button>
+                    <button class="action-button" type="submit" name="export_commutes_to_pdf"><img src="public/images/icons/picture_as_pdf_20dp_FILL0_wght400_GRAD0_opsz20.png">PDF generálása</button>
                 </form>
             </div>
         </div>
@@ -173,6 +173,6 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 </div>
-<script src="collapse.js"></script>
+<script src="public/js/collapse.js"></script>
 </body>
 </html>

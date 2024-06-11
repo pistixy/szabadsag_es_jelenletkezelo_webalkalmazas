@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Kérelmeim</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="public/css/styles.css">
 </head>
 <body>
 <?php
@@ -60,7 +60,7 @@ if (count($result) > 0) {
                     <input type="text" id="alkalmazottikartyaszama" name="alkalmazottikartyaszama" value="<?php echo $row['alkalmazottikartya']; ?>" required>
 
                     <button class="action-button" type="submit">
-                        <img src="icons/save_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Mentés">
+                        <img src="public/images/icons/save_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Mentés">
                         Mentés
                     </button>
                 </form>
@@ -72,6 +72,6 @@ if (count($result) > 0) {
         </div>
     </div>
 </div>
-<script src="collapse.js"></script>
+<script src="public/js/collapse.js"></script>
 </body>
 </html>

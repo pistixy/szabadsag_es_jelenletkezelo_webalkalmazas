@@ -33,7 +33,7 @@ if ($result) {
 <head>
     <meta charset="UTF-8">
     <title>Profil</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="public/css/styles.css">
 
 </head>
 <body>
@@ -98,7 +98,7 @@ if ($result) {
                             </p>
                             <input type="hidden" name="work_id" value="<?php echo $result['work_id']; ?>">
                             <button class="action-button" type="submit" name="update_position">
-                                <img src="icons/star_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Update">
+                                <img src="public/images/icons/star_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Update">
                                 Beosztás frissítése
                             </button>
                         </form>
@@ -112,7 +112,7 @@ if ($result) {
                     if ($work_id == $_SESSION['work_id']) {
                         echo '<form action="edit_profile.php" method="get" style="display: inline-block;">';
                         echo '<button class="action-button" type="submit">';
-                        echo '<img src="icons/update_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Edit">';
+                        echo '<img src="public/images/icons/update_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Edit">';
                         echo 'Profil szerkesztése';
                         echo '</button>';
                         echo '</form><br>';
@@ -142,6 +142,6 @@ if ($result) {
     </div>
     </div>
 </div>
-<script src="collapse.js"></script>
+<script src="public/js/collapse.js"></script>
 </body>
 </html>

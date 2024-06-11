@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $price = $_POST['price'];
 
         // Fájlfeltöltés kezelése
-        $targetDir = "passes/";
+        $targetDir = "storage/passes/";
         $targetFile = $targetDir . basename($_FILES["receipt"]["name"]);
         $uploadOk = 1;
         $fileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));

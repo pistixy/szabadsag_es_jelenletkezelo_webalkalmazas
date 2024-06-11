@@ -19,7 +19,7 @@
                             <form action='delete_request.php' method='post'>
                                 <input type="hidden" name="request_id" value='<?php echo $request["request_id"]; ?>'>
                                 <button class="action-button" type="submit">
-                                    <img src="icons/delete_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Delete">
+                                    <img src="public/images/icons/delete_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Delete">
                                     Töröl
                                 </button>
                             </form>
@@ -142,7 +142,7 @@
                             <form action="accept_request.php" method="post">
                                 <input type="hidden" name="request_id" value="<?php echo $adminRequest['request_id']; ?>">
                                 <button class="action-button" type="submit">
-                                    <img src="icons/check_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Accept">
+                                    <img src="public/images/icons/check_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Accept">
                                 </button>
                             </form>
 
@@ -150,7 +150,7 @@
                             <form action="reject_request.php" method="post">
                                 <input type="hidden" name="request_id" value="<?php echo $adminRequest['request_id']; ?>">
                                 <button class="action-button" type="submit">
-                                    <img src="icons/close_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Deny">
+                                    <img src="public/images/icons/close_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Deny">
                                 </button>
                             </form>
                         </td>

@@ -84,7 +84,7 @@ if (isset($_POST['upload_receipt'])) {
         $fileType = mime_content_type($fileTmpName);
 
         if ($fileType === "application/pdf") {
-            $uploadPath = "tickets/";
+            $uploadPath = "storage/tickets/";
             $fileName = $work_id . "_" . basename($_FILES['receipt']['name']);
             $destination = $uploadPath . $fileName;
 

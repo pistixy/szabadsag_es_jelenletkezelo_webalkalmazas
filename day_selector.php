@@ -39,7 +39,7 @@
             <input type="hidden" name="day_status" value="<?php echo $calendarResult['day_status']; ?>">
             <br>
             <button class="action-button" type="submit" name="submit">
-                <img src="icons/publish_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Publish">
+                <img src="public/images/icons/publish_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Publish">
                 Kérelem elküldése
             </button>
     </fieldset>

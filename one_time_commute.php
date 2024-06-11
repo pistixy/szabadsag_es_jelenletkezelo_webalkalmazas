@@ -36,7 +36,7 @@
             </div>
 
             <button class="action-button" type="submit" name="upload_receipt">
-                <img src="icons/upload_2_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Upload">
+                <img src="public/images/icons/upload_2_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Upload">
                 Feltöltés
             </button>
         </fieldset>

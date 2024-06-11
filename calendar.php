@@ -52,8 +52,8 @@ $firstDayOfWeek = date("N", mktime(0, 0, 0, $month, 1, $year));
 <head>
     <meta charset="UTF-8">
     <title><?php echo $isOwnCalendar ? "Naptárad" : "{$calendarOwnerName} Naptára"; ?></title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="calendar_colours.css">
+    <link rel="stylesheet" href="public/css/styles.css">
+    <link rel="stylesheet" href="public/css/calendar_colours.css">
 </head>
 <body>
 <?php include "navigation_bar-top.php"; ?>
@@ -105,7 +105,7 @@ $firstDayOfWeek = date("N", mktime(0, 0, 0, $month, 1, $year));
         </div>
     </div>
 </div>
-<script src="collapse.js"></script>
+<script src="public/js/collapse.js"></script>
 </body>
 </html>
 

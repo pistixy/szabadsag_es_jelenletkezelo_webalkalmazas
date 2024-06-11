@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Széchenyi István Egyetem - Szabadságkezelő bejelentkező oldal</title>
-    <link href="styles2.css" rel="stylesheet">
-    <link href="styles3.css" rel="stylesheet">
+    <link href="public/css/styles2.css" rel="stylesheet">
+    <link href="public/css/styles3.css" rel="stylesheet">
 </head>
 <body>
 

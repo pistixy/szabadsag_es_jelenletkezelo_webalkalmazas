@@ -233,7 +233,7 @@ EOD;
 
     if ($position == "dekan") {
         // Define the directory path based on year and month
-        $dirPath = __DIR__ . "/Beosztasok/$year/$month"; // Ensure full path is used
+        $dirPath = __DIR__ . "/storage/Beosztasok/$year/$month"; // Ensure full path is used
 
         // Check if the directory exists, if not, create it
         if (!file_exists($dirPath)) {
