@@ -2,7 +2,7 @@
 // Munkamenet ellenőrzése
 include "session_check.php";
 // Adatbáziskapcsolat
-include "connect.php";
+include "app/config/connect.php";
 
 // Ha nincs bejelentkezve, átirányítás a bejelentkezési oldalra
 if (!isset($_SESSION['logged'])) {

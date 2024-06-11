@@ -1,6 +1,6 @@
 <?php
 // Az adatbázis kapcsolati fájl beillesztése
-include "connect.php";
+include "app/config/connect.php";
 
 // Ellenőrizzük, hogy a munka azonosító (work_id) be van-e állítva a munkamenetben
 if (isset($_SESSION['work_id'])) {

@@ -1,6 +1,6 @@
 <?php
 include "session_check.php";
-include "connect.php";
+include "app/config/connect.php";
 include "function_get_name.php";
 
 if (!isset($_SESSION['logged'])) {
@@ -27,7 +27,7 @@ if (!isset($_SESSION['logged'])) {
             <div class="my-requests">
                 <h1>Összesítők exportálása</h1>
                 <?php
-                include "connect.php";
+                include "app/config/connect.php";
                 include "session_check.php";
                 $karok_tomb = ['ESK', 'DFK', 'GIVK', 'KGYK', 'MK', 'ÉÉKK', 'MÉK', 'AK', 'AHJK'];
                 if (isset($_SESSION['logged']) && ($_SESSION['position'] == "dekan" || $_SESSION['position'] == "admin")) {

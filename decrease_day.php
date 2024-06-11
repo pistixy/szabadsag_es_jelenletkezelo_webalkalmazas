@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $work_id = $_POST['work_id'];
         $status = $_POST['status'];
 
-        include "connect.php";
+        include "app/config/connect.php";
         try {
             // Ellenőrizzük az állapot oszlop nevét, hogy megelőzzük az SQL injekciót
             $allowed_statuses = ['paid_free'];

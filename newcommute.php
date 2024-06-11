@@ -1,6 +1,6 @@
 <?php
 include "session_check.php";
-include "connect.php";
+include "app/config/connect.php";
 
 
 $minkm = 5;

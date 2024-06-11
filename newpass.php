@@ -1,6 +1,6 @@
 <?php
 // Adatbázis kapcsolatfájl beillesztése
-include "connect.php";
+include "app/config/connect.php";
 include "check_login.php";
 include "session_check.php";
 

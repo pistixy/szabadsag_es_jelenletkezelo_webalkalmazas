@@ -1,6 +1,6 @@
 <?php
 include "session_check.php";
-include "connect.php";
+include "app/config/connect.php";
 
 if (!isset($_SESSION['logged']) || !isset($_SESSION['work_id'])) {
     header("Location: login_form.php");

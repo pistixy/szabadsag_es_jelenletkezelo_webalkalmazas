@@ -10,7 +10,7 @@
 // Session ellenőrzése
 include "session_check.php";
 include "function_get_name.php";
-include "connect.php";
+include "app/config/connect.php";
 
 // Ha nincs bejelentkezve, átirányítás a bejelentkezési oldalra
 if (!isset($_SESSION['logged'])) {

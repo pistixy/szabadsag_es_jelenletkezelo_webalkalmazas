@@ -1,6 +1,6 @@
 <?php
 include "session_check.php";
-include "connect.php";
+include "app/config/connect.php";
 include "function_get_name.php";
 include "function_translate_month_to_Hungarian.php"; // Beillesztjük a magyar hónap nevek fordítását végző függvényt
 

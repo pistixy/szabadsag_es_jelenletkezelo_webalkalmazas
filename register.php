@@ -1,6 +1,6 @@
 <?php
 include "session_check.php"; // Session ellenőrzése
-include "connect.php"; // Adatbázis csatlakozás
+include "app/config/connect.php"; // Adatbázis csatlakozás
 
 //Változók inicializálása
 $name = $email = $password = $passwordRepeat = $cim = '';

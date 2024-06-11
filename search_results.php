@@ -2,7 +2,7 @@
 // Munkamenet ellenőrző fájl beillesztése
 include "session_check.php";
 // Adatbázis kapcsolatfájl beillesztése
-include "connect.php";
+include "app/config/connect.php";
 // getName fuggveny beillsztese
 include "function_get_name.php";
 

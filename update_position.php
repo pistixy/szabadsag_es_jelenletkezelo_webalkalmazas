@@ -2,7 +2,7 @@
 // update_position.php
 
 session_start();
-include "connect.php";
+include "app/config/connect.php";
 
 // Check if the form has been submitted
 if (isset($_POST['update_position'], $_POST['new_position'], $_POST['work_id'])) {

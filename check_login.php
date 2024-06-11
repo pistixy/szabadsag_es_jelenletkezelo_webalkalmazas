@@ -8,7 +8,7 @@ if (isset($_SESSION['logged']) && $_SESSION['logged'] === true) {
     $email = $_SESSION['email'];
 
     // Adatbázis kapcsolat létrehozása
-    include "connect.php";
+    include "app/config/connect.php";
     try {
         // Felhasználó pozíciójának lekérdezése az email alapján
         $stmt = $conn->prepare("SELECT position FROM users WHERE email = :email");

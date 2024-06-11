@@ -1,6 +1,6 @@
 <?php
 include "session_check.php";
-include "connect.php";
+include "app/config/connect.php";
 include "function_get_name.php";
 
 // Check if the user is logged in

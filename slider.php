@@ -1,5 +1,5 @@
 <?php
-include "connect.php";
+include "app/config/connect.php";
 include "session_check.php";
 
 // ellenörizzik le, hogy kinek a adatai mutassuk, ha van továbbitott work_id akkor az ahhoz tartozo felhasználót, különben sajátot

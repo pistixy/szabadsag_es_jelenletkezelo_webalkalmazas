@@ -2,7 +2,7 @@
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
-include "connect.php";
+include "app/config/connect.php";
 
 if (isset($_SESSION['work_id'])) {
     $userWorkId = $_SESSION['work_id'];

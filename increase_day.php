@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $work_id = $_POST['work_id'];
         $status = $_POST['status'];
 
-        include "connect.php";
+        include "app/config/connect.php";
 
         // Adatbázis frissítése, hogy növelje a státusz értékét
         $stmt = $conn->prepare("UPDATE users SET $status = $status + 1 WHERE work_id = :work_id");

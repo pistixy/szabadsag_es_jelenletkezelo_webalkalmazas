@@ -1,7 +1,7 @@
 <?php
 require_once 'vendor/TCPDF-main/tcpdf.php';
 include "session_check.php";
-include "connect.php";
+include "app/config/connect.php";
 include "function_translate_month_to_Hungarian.php";
 $Egy_ut_terites=1500;
 $Oda_Vissza_terites=3000;

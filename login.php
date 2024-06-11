@@ -1,6 +1,6 @@
 <?php
 include "session_check.php";
-include "connect.php";
+include "app/config/connect.php";
 
 // Ellenörizzök, hogy az ürlap el lett-e küldve
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

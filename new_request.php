@@ -1,6 +1,6 @@
 <?php
 include "session_check.php";
-include "connect.php";
+include "app/config/connect.php";
 include "function_get_name.php";
 
 if (!isset($_SESSION['logged'])) {
@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     function fetchCalendar($date, $userWorkID)
     {
-        include "connect.php";
+        include "app/config/connect.php";
         // Fetch the calendar_id for the given date and work_id
         $sql = "SELECT calendar_id, day_status FROM calendar WHERE date = :date AND work_id = :userWorkID";
         $stmt = $conn->prepare($sql);
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         return $calendarResult;
     }
     }function updateStatus($calendarID,$requestedStatus){
-        include "connect.php";
+        include "app/config/connect.php";
         //update status
 
         $updateCalendarSql = "UPDATE calendar SET day_status = :requestedStatus WHERE calendar_id = :calendar_id";
@@ -98,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         return 0;
     }
     function updateStatusAndInsertRequest($userWorkID,$calendarID,$requestedStatus,$toWhom,$currentTimestamp){
-        include "connect.php";
+        include "app/config/connect.php";
         //update status
         $updateCalendarSql = "UPDATE calendar SET day_status = :requestedStatus WHERE calendar_id = :calendar_id";
         $updateCalendarStmt = $conn->prepare($updateCalendarSql);

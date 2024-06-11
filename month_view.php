@@ -21,7 +21,7 @@ $currentDay = date('Y-m-d');
         </tr>
         <tr>
             <?php
-            include "connect.php";
+            include "app/config/connect.php";
 
             for ($i = 1; $i < $firstDayOfWeek; $i++) {
                 echo "<td class='calendar-cell'></td>";

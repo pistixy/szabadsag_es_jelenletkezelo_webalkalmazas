@@ -1,5 +1,5 @@
 <?php
-include "connect.php";
+include "app/config/connect.php";
 include "check_login.php";
 ?>
 

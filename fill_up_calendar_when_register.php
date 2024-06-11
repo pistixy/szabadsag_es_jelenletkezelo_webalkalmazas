@@ -1,6 +1,6 @@
 <?php
 include "session_check.php"; // Ellenőrizze, hogy a munkamenet aktív-e
-include "connect.php"; // Adatbáziskapcsolat fájl beillesztése
+include "app/config/connect.php"; // Adatbáziskapcsolat fájl beillesztése
 
 if (isset($_SESSION['email'])) {
     $email = $_SESSION['email'];
