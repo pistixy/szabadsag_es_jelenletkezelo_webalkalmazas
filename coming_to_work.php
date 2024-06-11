@@ -79,14 +79,14 @@ if (!isset($_SESSION['logged'])) {
                 if (isset($_GET['option'])) {
                     $selectedOption = $_GET['option'];
                     if ($selectedOption === "egyszeri") {
-                        include "egyszeri.php"; // 'Egyszeri munkábajárás' tartalmának beillesztése
+                        include "one_time_commute.php"; // 'Egyszeri munkábajárás' tartalmának beillesztése
                     } elseif ($selectedOption === "berlet") {
-                        include "berlethozzaadasa.php"; // 'Bérlet hozzáadása' tartalmának beillesztése
+                        include "add_pass.php"; // 'Bérlet hozzáadása' tartalmának beillesztése
                     }
                 }
                 else{
                     $selectedOption ="egyszeri";
-                    include "egyszeri.php"; // Alapértelmezett tartalom beillesztése
+                    include "one_time_commute.php"; // Alapértelmezett tartalom beillesztése
                 }
                 ?>
             </div>

@@ -96,7 +96,7 @@ $firstDayOfWeek = date("N", mktime(0, 0, 0, $month, 1, $year));
                     ?>
                 </div>
                 <?php
-                include "csuszka.php";
+                include "slider.php";
                 ?>
             </div>
         </div>

@@ -108,7 +108,7 @@ if (!isset($_SESSION['logged'])) {
 
                 // Check if a specific directory is selected, if not list base directory
                 if ($currentDir && file_exists($currentDir)) {
-                    echo "<a href='letoltheto_fajlok.php' class='back-link'>Vissza</a><br>";
+                    echo "<a href='downloadable_files.php' class='back-link'>Vissza</a><br>";
                     listFolderFiles($currentDir);
                 } elseif (file_exists($dirPath)) {
                     listFolderFiles($dirPath);

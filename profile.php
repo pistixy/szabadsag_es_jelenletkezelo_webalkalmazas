@@ -124,7 +124,7 @@ if ($result) {
 
                 <?php
 
-                include "csuszka.php";
+                include "slider.php";
             } else {
                 echo "User data not found.";
             }

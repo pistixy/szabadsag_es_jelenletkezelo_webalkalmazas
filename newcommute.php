@@ -117,7 +117,7 @@ if (isset($_POST['upload_receipt'])) {
     }
 
 } else {
-    header("Location: comingtowork.php");
+    header("Location: coming_to_work.php");
     exit;
 }
 ?>

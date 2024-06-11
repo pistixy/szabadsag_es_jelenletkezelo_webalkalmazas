@@ -26,7 +26,7 @@ if (!isset($_SESSION['logged'])) {
     <div class="main-content" id="main-content">
         <div class="test_content">
             <div class="csempek-div">
-            <?php include "csempek.php"; ?>
+            <?php include "tiles.php"; ?>
             </div>
         </div>
         <div class="footer-div">

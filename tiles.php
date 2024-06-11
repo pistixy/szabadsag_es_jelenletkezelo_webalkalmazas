@@ -14,7 +14,7 @@ include "check_login.php";
         <a href="calendar.php">Naptáram</a>
     </div>
     <div class="csempe-item">
-        <a href="comingtowork.php">Munkába járás</a>
+        <a href="coming_to_work.php">Munkába járás</a>
     </div>
     <?php
     if (isset($_SESSION['logged']) && $_SESSION['is_user'] == false) {
@@ -124,14 +124,14 @@ include "check_login.php";
     <?php
     if (isset($_SESSION['logged']) && ($_SESSION['position'] == "dekan" or $_SESSION['position'] == "admin")) {
         echo "<div class='csempe-item'>";
-        echo "<a href='osszesito_logika.php'>Összesítők</a>";
+        echo "<a href='summation_logic.php'>Összesítők</a>";
         echo "</div>";
     }
     ?>
     <?php
     if (isset($_SESSION['logged']) && $_SESSION['position'] == "admin") {
         echo "<div class='csempe-item'>";
-        echo "<a href='letoltheto_fajlok.php'>Letölthető beosztások</a>";
+        echo "<a href='downloadable_files.php'>Letölthető beosztások</a>";
         echo "</div>";
     }
     ?>

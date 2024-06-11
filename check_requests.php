@@ -58,7 +58,7 @@ AND EXTRACT(MONTH FROM calendar.date) = :selectedMonth
 //foreach ($workerIds as $workID){
 //    echo $workID, " ";
 //}
-    include 'holidayarray.php'; // Include the array with public holidays
+    include 'holiday_array.php'; // Include the array with public holidays
 
     $conn->beginTransaction();
 
