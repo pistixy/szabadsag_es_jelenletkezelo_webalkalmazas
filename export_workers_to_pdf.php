@@ -1,7 +1,7 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-require_once 'TCPDF-main/tcpdf.php';
+require_once 'vendor/TCPDF-main/tcpdf.php';
 include "connect.php"; // Adatbázis kapcsolatot biztosító fájl include-olása
 include "function_translate_month_to_Hungarian.php";
 //var_dump($_POST); //debug

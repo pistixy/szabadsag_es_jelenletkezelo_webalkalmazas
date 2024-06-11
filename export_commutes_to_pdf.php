@@ -1,5 +1,5 @@
 <?php
-require_once 'TCPDF-main/tcpdf.php';
+require_once 'vendor/TCPDF-main/tcpdf.php';
 include "session_check.php";
 include "connect.php";
 include "function_translate_month_to_Hungarian.php";
