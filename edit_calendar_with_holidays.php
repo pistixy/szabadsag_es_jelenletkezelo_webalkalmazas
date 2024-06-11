@@ -9,7 +9,7 @@ if (isset($_SESSION['work_id'])) {
     $comment = 'Ünnep';  // Komment definiáása
 
     // ünnepek tömb "MM-DD"
-    include "holiday_array.php";
+    include "app/config/holiday_array.php";
 
     // Prepare SQL to update comment for matching month and day, regardless of year
     $sql = "UPDATE calendar SET comment = ?
