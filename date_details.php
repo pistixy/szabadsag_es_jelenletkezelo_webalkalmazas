@@ -2,7 +2,7 @@
 include "session_check.php";
 include "app/config/connect.php";
 include "check_login.php";
-include "function_get_name.php";
+include "app/helpers/function_get_name.php";
 
 if (isset($_GET['view'])) {
     $currentView = $_GET['view'];

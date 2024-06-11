@@ -1,7 +1,7 @@
 <?php
 include "session_check.php";
 include "app/config/connect.php";
-include "function_get_name.php";
+include "app/helpers/function_get_name.php";
 
 if (!isset($_SESSION['logged'])) {
     header("Location: login_form.php");

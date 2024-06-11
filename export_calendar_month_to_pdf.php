@@ -2,7 +2,7 @@
 require_once 'vendor/TCPDF-main/tcpdf.php';
 include "session_check.php";
 include "app/config/connect.php";
-include "function_translate_month_to_Hungarian.php";
+include "app/helpers/function_translate_month_to_Hungarian.php";
 
 
 // Check if the user is logged in

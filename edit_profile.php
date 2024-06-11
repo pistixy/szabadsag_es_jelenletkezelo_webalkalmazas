@@ -9,7 +9,7 @@
 <?php
 // Session ellenőrzése
 include "session_check.php";
-include "function_get_name.php";
+include "app/helpers/function_get_name.php";
 include "app/config/connect.php";
 
 // Ha nincs bejelentkezve, átirányítás a bejelentkezési oldalra

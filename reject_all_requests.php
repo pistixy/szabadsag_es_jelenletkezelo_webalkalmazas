@@ -1,7 +1,7 @@
 <?php
 include "session_check.php";
 include "app/config/connect.php";
-include "function_get_name.php";
+include "app/helpers/function_get_name.php";
 
 // Check if the user is logged in
 if (!isset($_SESSION['logged']) || !isset($_SESSION['work_id'])) {

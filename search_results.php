@@ -4,7 +4,7 @@ include "session_check.php";
 // Adatbázis kapcsolatfájl beillesztése
 include "app/config/connect.php";
 // getName fuggveny beillsztese
-include "function_get_name.php";
+include "app/helpers/function_get_name.php";
 
 // A keresési lekérdezés lekérdezése az URL-ből, alapértelmezetten üres stringgel
 $searchQuery = $_GET['search_query'] ?? '';

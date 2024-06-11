@@ -3,7 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 require_once 'vendor/TCPDF-main/tcpdf.php';
 include "app/config/connect.php"; // Adatbázis kapcsolatot biztosító fájl include-olása
-include "function_translate_month_to_Hungarian.php";
+include "app/helpers/function_translate_month_to_Hungarian.php";
 //var_dump($_POST); //debug
 // Ellenőrizzük, hogy az év és hónap paraméterek be vannak-e állítva
 if (isset($_POST['year']) && isset($_POST['month'])&& isset($_POST['feltetel'])&& isset($_POST['work_ids'])) {
