@@ -17,7 +17,7 @@
             <p>A munkameneted lejárt inaktivitás miatt. Kérlek <a href="login.php">jelentkezz be újra</a>.</p>
         </div>
         <div class="footer-div">
-            <?php include "footer.php"; ?>
+            <?php include "app/views/partials/footer.php"; ?>
         </div>
     </div>
 </div>

@@ -69,7 +69,7 @@ if (isset($_GET['work_id'])) {
                             </thead>
                             <tbody>
                             <?php foreach ($user as $key => $value): ?>
-                                <?php if ($key !== 'work_id' && $key !== 'name' && $key !== 'email' && $key !== 'password' && $key !== 'cim' && $key !== 'adoazonosito' && $key !== 'szervezetszam' && $key !== 'alkalmazottikartya' && $key !== 'position' && $key !== 'profile_picture' && $key !== 'kar'): ?>
+                                <?php if ($key !== 'work_id' && $key !== 'name' && $key !== 'email' && $key !== 'password' && $key !== 'cim' && $key !== 'tax_number' && $key !== 'entity_id' && $key !== 'employee_card_number' && $key !== 'position' && $key !== 'profile_picture' && $key !== 'faculty'): ?>
                                     <tr>
                                         <!-- Státusz nevének lekérése és megjelenítése -->
                                         <td><?php echo getName($key); ?></td>
@@ -103,7 +103,7 @@ if (isset($_GET['work_id'])) {
             </div>
         </div>
         <div class="footer-div">
-            <?php include "footer.php"; ?>
+            <?php include "app/views/partials/footer.php"; ?>
         </div>
     </div>
 </div>

@@ -20,18 +20,18 @@ function sanitizeInput($data) {
 $email = $_SESSION['email']; // Email már szerepel a munkamenetben, feltételezzük, hogy biztonságos
 $name = sanitizeInput($_POST['name']);
 $cim = sanitizeInput($_POST['cim']);
-$adoazonosito = sanitizeInput($_POST['adoazonosito']);
-$szervezetszam = sanitizeInput($_POST['szervezetszam']);
-$alkalmazottikartyaszama = sanitizeInput($_POST['alkalmazottikartyaszama']);
+$tax_number = sanitizeInput($_POST['tax_number']);
+$entity_id = sanitizeInput($_POST['entity_id']);
+$employee_card_number = sanitizeInput($_POST['employee_card_number']);
 
 // Felhasználó adatainak frissítése az adatbázisban
-$stmt = $conn->prepare("UPDATE users SET name = :name, cim = :cim, adoazonosito = :adoazonosito, szervezetszam = :szervezetszam, alkalmazottikartya = :alkalmazottikartyaszama WHERE email = :email");
+$stmt = $conn->prepare("UPDATE users SET name = :name, cim = :cim, tax_number = :tax_number, entity_id = :entity_id, employee_card_number = :employee_card_number WHERE email = :email");
 
 $stmt->bindParam(':name', $name);
 $stmt->bindParam(':cim', $cim);
-$stmt->bindParam(':adoazonosito', $adoazonosito);
-$stmt->bindParam(':szervezetszam', $szervezetszam);
-$stmt->bindParam(':alkalmazottikartyaszama', $alkalmazottikartyaszama);
+$stmt->bindParam(':tax_number', $tax_number);
+$stmt->bindParam(':entity_id', $entity_id);
+$stmt->bindParam(':employee_card_number', $employee_card_number);
 $stmt->bindParam(':email', $email);
 
 // Adatbázis frissítése és átirányítás a profil oldalra

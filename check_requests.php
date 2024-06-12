@@ -6,12 +6,12 @@ SELECT COUNT(*) AS pending_count
 FROM requests
 INNER JOIN users ON requests.work_id = users.work_id
 INNER JOIN calendar ON requests.calendar_id = calendar.calendar_id
-WHERE users.kar = :kar
+WHERE users.faculty = :faculty
 AND requests.request_status = 'pending'
 AND EXTRACT(YEAR FROM calendar.date) = :selectedYear
 AND EXTRACT(MONTH FROM calendar.date) = :selectedMonth
 ");
-    $stmt->bindParam(':kar', $kar);
+    $stmt->bindParam(':faculty', $faculty);
     $stmt->bindParam(':selectedYear', $selectedYear, PDO::PARAM_INT);
     $stmt->bindParam(':selectedMonth', $selectedMonth, PDO::PARAM_INT);
     $stmt->execute();
@@ -23,7 +23,7 @@ AND EXTRACT(MONTH FROM calendar.date) = :selectedMonth
         echo "Előnézet: ";
         echo '<form action="download_preview.php" method="post">';
         echo '<input type="hidden" name="work_ids" value="' . implode(',', $workerIds) . '">';
-        echo '<input type="hidden" name="feltetel" value="' . $kar . '">';
+        echo '<input type="hidden" name="feltetel" value="' . $faculty . '">';
         echo '<input type="hidden" name="month" value="' . $selectedMonth . '">';
         echo '<input type="hidden" name="year" value="' . $selectedYear . '">';
         echo '<input type="hidden" name="position" value="dekan">';
@@ -34,7 +34,7 @@ AND EXTRACT(MONTH FROM calendar.date) = :selectedMonth
         echo "<br>";
         echo '<form action="export_workers_to_pdf.php" method="post">';
         echo '<input type="hidden" name="work_ids" value="' . implode(',', $workerIds) . '">';
-        echo '<input type="hidden" name="feltetel" value="' . $kar . '">';
+        echo '<input type="hidden" name="feltetel" value="' . $faculty . '">';
         echo '<input type="hidden" name="month" value="' . $selectedMonth . '">';
         echo '<input type="hidden" name="year" value="' . $selectedYear . '">';
         echo '<input type="hidden" name="position" value="dekan">';

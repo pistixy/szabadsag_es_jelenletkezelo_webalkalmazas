@@ -43,7 +43,7 @@ if (isset($_SESSION['work_id'])) {
     </div>
     <div class="main-content" id="main-content">
         <div class="test_content">
-            <h1>Kérelmeim</h1>
+            <h1>Korábbi szabadságkérelmek</h1>
 
             <?php if (!empty($requests)): ?>
                 <div class="table-container">
@@ -105,7 +105,7 @@ if (isset($_SESSION['work_id'])) {
         </div>
         <p style="margin: 5%"></p>
         <div class="footer-div">
-            <?php include "footer.php"; ?>
+            <?php include "app/views/partials/footer.php"; ?>
         </div>
     </div>
 </div>

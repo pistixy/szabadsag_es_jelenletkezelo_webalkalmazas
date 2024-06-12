@@ -86,19 +86,19 @@ EOD;
 
     // Adatok bejárása és táblázatba írása
     foreach ($workIds as $workId) {
-        $sql ="SELECT * from users where work_id= :workId order by szervezetszam";
+        $sql ="SELECT * from users where work_id= :workId order by entity_id";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':workId', $workId, PDO::PARAM_INT); // Corrected the case to match the placeholder
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         $name=$user["name"];
-        $adoazonosito=$user["adoazonosito"];
-        $szervezetszam=$user["szervezetszam"];
+        $tax_number=$user["tax_number"];
+        $entity_id=$user["entity_id"];
 
         $html .= '<tr>';
-        $html .= '<td>' . $adoazonosito . '</td>'; // adoazonosito
+        $html .= '<td>' . $tax_number . '</td>'; // tax_number
         $html .= '<td>' . $name . '</td>'; // név
-        $html .= '<td>' . $szervezetszam . '</td>'; // tanszek
+        $html .= '<td>' . $entity_id . '</td>'; // tanszek
 
         // Get the first day of the month
         $mindate = $year . '-' . $month . '-01';

@@ -28,7 +28,7 @@ if (isset($_GET['date'])) {
         $calendarResult = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$calendarResult) {
             echo "Nincsenek rekordok erre a napra.";
-            include "footer.php";
+            include "app/views/partials/footer.php";
             exit;
         }
 
@@ -90,7 +90,7 @@ if (isset($_GET['date'])) {
             </div>
         </div>
         <div class="footer-div">
-            <?php include "footer.php"; ?>
+            <?php include "app/views/partials/footer.php"; ?>
         </div>
     </div>
 </div>

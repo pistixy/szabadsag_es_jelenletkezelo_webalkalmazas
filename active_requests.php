@@ -43,16 +43,16 @@
     $calendarIds = $calendarStmt->fetchAll(PDO::FETCH_COLUMN, 0);
     //fetch user
     $workId = $_SESSION['work_id'];
-    $stmt = $conn->prepare("SELECT position,kar,szervezetszam FROM users WHERE work_id = :work_id");
+    $stmt = $conn->prepare("SELECT position,faculty,entity_id FROM users WHERE work_id = :work_id");
     $stmt->bindParam(':work_id', $workId, PDO::PARAM_INT);
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
     $position = $result['position']; // User's position
-    $kar = $result['kar']; // User's kar
-    $szervezetszam = $result['szervezetszam']; // User's szervezetszam
-    $karPattern = '%' . $kar . '%';
-    $szevezetszamPattern = '%' . $szervezetszam . '%';
+    $faculty = $result['faculty']; // User's faculty
+    $entity_id = $result['entity_id']; // User's entity_id
+    $facultyPattern = '%' . $faculty . '%';
+    $szevezetszamPattern = '%' . $entity_id . '%';
     //echo $position; //for debug
 
     // Fetch requests for all calendar_ids
@@ -79,8 +79,8 @@
                     $adminStmt->bindValue($k + 1, $id, PDO::PARAM_INT);
                 }
                 // Bind parameter for the LIKE clause
-                $karPattern = '%' . $kar . '%'; // Make sure $kar is defined and holds the correct value
-                $adminStmt->bindValue(count($calendarIds) + 1, $karPattern, PDO::PARAM_STR);
+                $facultyPattern = '%' . $faculty . '%'; // Make sure $faculty is defined and holds the correct value
+                $adminStmt->bindValue(count($calendarIds) + 1, $facultyPattern, PDO::PARAM_STR);
 
                 // Execute the prepared statement
                 $adminStmt->execute();
@@ -99,9 +99,9 @@
                 }
 
                 // Bind parameters for the LIKE clauses
-                $karPattern = '%' . $kar . '%'; // Make sure $kar is defined and holds the correct value
-                $szevezetszamPattern = '%' . $szervezetszam . '%';
-                $adminStmt->bindValue(count($calendarIds) + 1, $karPattern, PDO::PARAM_STR);
+                $facultyPattern = '%' . $faculty . '%'; // Make sure $faculty is defined and holds the correct value
+                $szevezetszamPattern = '%' . $entity_id . '%';
+                $adminStmt->bindValue(count($calendarIds) + 1, $facultyPattern, PDO::PARAM_STR);
                 $adminStmt->bindValue(count($calendarIds) + 2, $szevezetszamPattern, PDO::PARAM_STR);
 
                 // Execute the prepared statement

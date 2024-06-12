@@ -12,7 +12,7 @@ body {
 .body-container {
     display: flex; /* Use flexbox layout */
     min-height: 100vh; /* Full viewport height */
-    background-color: lightgray;
+    background-color: #fafafa;
     margin: 0;
     padding: 60px 0 0 0; /* Add top padding to avoid overlap with the top bar */
     font-family: Montserrat, Tahoma;
@@ -49,7 +49,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #242943;
+    background-color: rgba(36, 41, 67, .8666666667);
     color: white;
     padding: 7px 20px;
     position: fixed;
@@ -133,77 +133,86 @@ body {
     display: block;
     font-size: 12px;
     color: white;
+    text-align: center;
 }
 
+/* Sidebar styling */
 /* Sidebar styling */
 .navbar {
     background-color: #242943;
     color: white;
     display: flex;
-    flex-direction: column; /* Align navbar items vertically */
-    align-items: flex-start; /* Align items to the start of the flex container */
+    flex-direction: column;
+    align-items: flex-start;
     justify-content: flex-start;
-    padding: 10px; /* Add padding to the navbar */
-    height: 100vh; /* Full height */
-    position: fixed; /* Fixed position */
-    left: 0; /* Stick to the left side */
-    top: 60px; /* Adjust for the top bar height */
-    width: 15%; /* Width of the sidebar */
-    overflow-x: hidden; /* Prevent horizontal scroll */
-    transition: width 0.3s, transform 0.3s ease, opacity 0.3s ease; /* Smooth transition for width and sliding */
-    overflow-y: hidden; /* Prevent vertical scroll during transition */
+    padding: 10px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 60px;
+    width: 15%;
+    overflow-x: hidden;
+    transition: width 0.3s, transform 0.3s ease, opacity 0.3s ease;
+    overflow-y: hidden;
 }
 
 .navbar.collapsed {
-    width: 0; /* Completely collapse the sidebar */
-    transform: translateX(-100%); /* Slide out of view */
-    opacity: 0; /* Make invisible */
+    width: 0;
+    transform: translateX(-100%);
+    opacity: 0;
 }
 
 .main-content.collapsed {
-    margin-left: 0; /* Adjust main content margin when navbar is collapsed */
+    margin-left: 0;
 }
 
 /* Hide navbar items when collapsed */
 .navbar_items {
-    width: 100%; /* Full width of the sidebar */
-    transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth transition for sliding and opacity */
+    width: 100%;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
-.navbar_items img{
+
+.navbar_items img {
     height: 20px;
 }
 
 .navbar_items a {
     color: white;
     text-decoration: none;
-    padding: 10px 15px; /* More padding for a better touch area */
-    display: block; /* Make links block level for full width touch area */
-    transition: background-color 0.3s ease;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
     width: 100%; /* Full width of the sidebar */
-    box-sizing: border-box; /* Include padding in width calculation */
+    box-sizing: border-box;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
 }
 
 .navbar.collapsed .navbar_items {
-    transform: translateX(-100%); /* Slide out of view */
-    opacity: 0; /* Make invisible */
+    transform: translateX(-100%);
+    opacity: 0;
 }
 
 /* Hover effect for links */
 .navbar_items a:hover {
-    background-color: #5a5c9a; /* Lighten on hover, adjust color as needed */
+    background-color: #5a5c9a;
 }
 
 /* Input field styling */
 .navbar input[type="text"] {
-    width: calc(100% - 20px); /* Full width minus padding */
+    width: calc(100% - 20px);
     padding: 5px;
-    margin-bottom: 10px; /* Space below the search box */
+    margin-bottom: 10px;
     border-radius: 5px;
-    border: 1px solid #333333; /* Slight border for the input */
+    border: 1px solid #333333;
 }
+
 .search-form {
     display: flex;
     align-items: center;
+    width: 100%;
 }
 
 .search-bar {
@@ -225,7 +234,12 @@ body {
     color: #888;
     font-style: italic;
 }
-
+hr {
+    border: none !important;
+    height: 1px !important;
+    background-color: #ccc !important;
+    margin: 20px 0 !important;
+}
 /* Content styling */
 .test_content {
     margin: 1%;
@@ -284,7 +298,7 @@ body {
 
 .profile-container input[type="submit"] {
     background-color: #4CAF50;
-    color: white;
+    color: #242943;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -295,6 +309,14 @@ body {
 }
 
 /*csempe  */
+.title-index{
+    font-family: Montserrat, Tahoma;
+    color: #242943;
+    font-size: 1.625rem;
+    margin-left: 180px;
+
+
+}
 
 .csempek-container {
     display: flex;
@@ -315,10 +337,10 @@ body {
     align-items: center;
     width: 180px;
     height: 150px;
-    background-color: #48a9c9;
-    color: #fff;
+    background-color: #ffffff;
+    color: #242943;
     text-align: center;
-    border-radius: 1px;
+    border-radius: 5px;
     margin: 10px;
     padding: 10px;
     transition: background-color 0.3s, transform 0.3s;
@@ -327,40 +349,43 @@ body {
 }
 
 .csempe-item:hover {
-    background-color: #4098b5;
+    background-color: #ececec;
     transform: translateY(-5px);
     cursor: pointer;
 }
 
 .csempe-item a {
-    color: #fff;
+    color: #242943;
     text-decoration: none;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: normal;
 }
 
 .csempe-heading {
     margin-bottom: 10px;
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 16px;
+    font-weight: normal;
 }
 
 .csempe-form {
     display: flex;
     flex-direction: column;
     width: 100%;
+    border: 1px;
+    border-color: #242943;
 }
 
 .csempe-form input[type="text"] {
     padding: 8px;
-    border: none;
+    border: 1px;
+    border-color: #242943;
     border-radius: 5px;
     margin-bottom: 10px;
     font-size: 14px;
 }
 
 .csempe-button {
-    background-color: #242943;
+    background-color: #656565;
     color: #fff;
     border: none;
     border-radius: 5px;

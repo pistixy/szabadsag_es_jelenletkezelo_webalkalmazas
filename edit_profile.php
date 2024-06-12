@@ -50,14 +50,14 @@ if (count($result) > 0) {
                     <label for="cim">Lakcím:</label>
                     <input type="text" id="cim" name="cim" value="<?php echo $row['cim']; ?>" required>
 
-                    <label for="adoazonosito">Adóazonosító:</label>
-                    <input type="text" id="adoazonosito" name="adoazonosito" value="<?php echo $row['adoazonosito']; ?>" required>
+                    <label for="tax_number">Adóazonosító:</label>
+                    <input type="text" id="tax_number" name="tax_number" value="<?php echo $row['tax_number']; ?>" required>
 
-                    <label for="szervezetszam">Szervezetszám:</label>
-                    <input type="text" id="szervezetszam" name="szervezetszam" value="<?php echo $row['szervezetszam']; ?>" required>
+                    <label for="entity_id">Szervezetszám:</label>
+                    <input type="text" id="entity_id" name="entity_id" value="<?php echo $row['entity_id']; ?>" required>
 
-                    <label for="alkalmazottikartyaszama">Alkalmazotti kártyaszám:</label>
-                    <input type="text" id="alkalmazottikartyaszama" name="alkalmazottikartyaszama" value="<?php echo $row['alkalmazottikartya']; ?>" required>
+                    <label for="employee_card_number">Alkalmazotti kártyaszám:</label>
+                    <input type="text" id="employee_card_number" name="employee_card_number" value="<?php echo $row['employee_card_number']; ?>" required>
 
                     <button class="action-button" type="submit">
                         <img src="public/images/icons/save_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Mentés">
@@ -68,7 +68,7 @@ if (count($result) > 0) {
             </div>
         </div>
         <div class="footer-div">
-            <?php include "footer.php"; ?>
+            <?php include "app/views/partials/footer.php"; ?>
         </div>
     </div>
 </div>

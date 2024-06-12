@@ -32,11 +32,11 @@ if (!isset($_SESSION['logged'])) {
                 $karok_tomb = ['ESK', 'DFK', 'GIVK', 'KGYK', 'MK', 'ÉÉKK', 'MÉK', 'AK', 'AHJK'];
                 if (isset($_SESSION['logged']) && ($_SESSION['position'] == "dekan" || $_SESSION['position'] == "admin")) {
                     $work_id = $_SESSION['work_id'];
-                    $stmt = $conn->prepare("SELECT kar FROM users WHERE work_id = :work_id");
+                    $stmt = $conn->prepare("SELECT faculty FROM users WHERE work_id = :work_id");
                     $stmt->bindParam(':work_id', $work_id);
                     $stmt->execute();
                     $result = $stmt->fetch(PDO::FETCH_ASSOC);
-                    $kar = $result['kar'];
+                    $faculty = $result['faculty'];
 
                     $selectedYear = isset($_POST['year']) ? $_POST['year'] : date('Y');
                     $selectedMonth = isset($_POST['month']) ? $_POST['month'] : date('m');
@@ -46,12 +46,12 @@ if (!isset($_SESSION['logged'])) {
                     FROM requests 
                     INNER JOIN users ON requests.work_id = users.work_id 
                     INNER JOIN calendar ON requests.calendar_id = calendar.calendar_id 
-                    WHERE users.kar = :kar 
+                    WHERE users.faculty = :faculty 
                     AND requests.request_status = 'pending' 
                     AND EXTRACT(YEAR FROM calendar.date) = :selectedYear 
                     AND EXTRACT(MONTH FROM calendar.date) = :selectedMonth
                 ");
-                    $stmt->bindParam(':kar', $kar);
+                    $stmt->bindParam(':faculty', $faculty);
                     $stmt->bindParam(':selectedYear', $selectedYear, PDO::PARAM_INT);
                     $stmt->bindParam(':selectedMonth', $selectedMonth, PDO::PARAM_INT);
                     $stmt->execute();
@@ -60,18 +60,18 @@ if (!isset($_SESSION['logged'])) {
                     echo '<form action="" method="post" class="filter-form">';
 
                     if ($_SESSION['position'] == "admin") {
-                        $kar = isset($_POST['kar']) ? $_POST['kar'] : $kar;
+                        $faculty = isset($_POST['faculty']) ? $_POST['faculty'] : $faculty;
                         echo '<div class="form-group">';
-                        echo '<label for="kar">Válasszon kart:</label>';
-                        echo '<select name="kar" id="kar">';
+                        echo '<label for="faculty">Válasszon kart:</label>';
+                        echo '<select name="faculty" id="faculty">';
                         foreach ($karok_tomb as $karok) {
-                            $selected = ($karok == $kar) ? 'selected' : '';
+                            $selected = ($karok == $faculty) ? 'selected' : '';
                             echo "<option value=\"$karok\" $selected>$karok</option>";
                         }
                         echo '</select>';
                         echo '</div>';
                     } else {
-                        echo '<input type="hidden" name="kar" value="' . htmlspecialchars($kar) . '">';
+                        echo '<input type="hidden" name="faculty" value="' . htmlspecialchars($faculty) . '">';
                     }
 
                     echo '<div class="form-group">';
@@ -100,8 +100,8 @@ if (!isset($_SESSION['logged'])) {
                     echo '</button>';
                     echo '</form>';
 
-                    $stmt = $conn->prepare("SELECT work_id FROM users WHERE kar = :kar");
-                    $stmt->bindParam(':kar', $kar);
+                    $stmt = $conn->prepare("SELECT work_id FROM users WHERE faculty = :faculty");
+                    $stmt->bindParam(':faculty', $faculty);
                     $stmt->execute();
                     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -117,7 +117,7 @@ if (!isset($_SESSION['logged'])) {
             </div>
         </div>
         <div class="footer-div">
-            <?php include "footer.php"; ?>
+            <?php include "app/views/partials/footer.php"; ?>
         </div>
     </div>
 </div>

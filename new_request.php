@@ -15,8 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $toWhom = "";
     $day_status = $_POST['day_status'];
 
-// Prepare SQL to fetch kar and szervezetszam based on work_id
-    $sql = "SELECT kar, szervezetszam FROM users WHERE work_id = :workId";
+// Prepare SQL to fetch faculty and entity_id based on work_id
+    $sql = "SELECT faculty, entity_id FROM users WHERE work_id = :workId";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':workId', $userWorkID, PDO::PARAM_INT);
     $stmt->execute();
@@ -24,11 +24,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 // Fetch the result
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     if ($result) {
-        $kar = $result['kar'];
-        $szervezetszam = $result['szervezetszam'];
+        $faculty = $result['faculty'];
+        $entity_id = $result['entity_id'];
 
-        // Set to_whom based on kar and szervezetszam
-        $toWhom = "admin, " . $kar . ", " . $szervezetszam;
+        // Set to_whom based on faculty and entity_id
+        $toWhom = "admin, " . $faculty . ", " . $entity_id;
     } else {
         // Handle case where no user data is found
         echo "No user data found for the given work_id.";

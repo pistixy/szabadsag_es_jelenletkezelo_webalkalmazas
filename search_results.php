@@ -14,7 +14,7 @@ $searchTerm = "%" . $searchQuery . "%";
 
 // Felhasználó adatainak lekérése a munkamenetben tárolt work_id alapján
 $workId = $_SESSION['work_id'] ?? '';
-$positionSql = "SELECT position, kar, szervezetszam FROM users WHERE work_id = :workId";
+$positionSql = "SELECT position, faculty, entity_id FROM users WHERE work_id = :workId";
 $positionStmt = $conn->prepare($positionSql);
 $positionStmt->bindParam(':workId', $workId, PDO::PARAM_INT);
 $positionStmt->execute();
@@ -22,8 +22,8 @@ $userData = $positionStmt->fetch(PDO::FETCH_ASSOC);
 
 if ($userData) {
     $userPosition = $userData['position'];
-    $kar = $userData['kar'];
-    $szervezetszam = $userData['szervezetszam'];
+    $faculty = $userData['faculty'];
+    $entity_id = $userData['entity_id'];
 } else {
     // Kezeljük az esetet, ha nem található felhasználói adat
     echo "Nincs felhasználói adat.";
@@ -36,10 +36,10 @@ switch ($userPosition) {
         $sql = "SELECT * FROM users WHERE work_id::varchar LIKE :searchTerm OR name LIKE :searchTerm OR email LIKE :searchTerm";
         break;
     case 'dekan':
-        $sql = "SELECT * FROM users WHERE (work_id::varchar LIKE :searchTerm OR name LIKE :searchTerm OR email LIKE :searchTerm) AND kar = :kar";
+        $sql = "SELECT * FROM users WHERE (work_id::varchar LIKE :searchTerm OR name LIKE :searchTerm OR email LIKE :searchTerm) AND faculty = :faculty";
         break;
     case 'tanszekvezeto':
-        $sql = "SELECT * FROM users WHERE (work_id::varchar LIKE :searchTerm OR name LIKE :searchTerm OR email LIKE :searchTerm) AND kar = :kar AND szervezetszam = :szervezetszam";
+        $sql = "SELECT * FROM users WHERE (work_id::varchar LIKE :searchTerm OR name LIKE :searchTerm OR email LIKE :searchTerm) AND faculty = :faculty AND entity_id = :entity_id";
         break;
     default:
         echo "Nincs jogosultsága ehhez a kereséshez.";
@@ -50,10 +50,10 @@ switch ($userPosition) {
 $stmt = $conn->prepare($sql);
 $stmt->bindParam(':searchTerm', $searchTerm, PDO::PARAM_STR);
 if (in_array($userPosition, ['dekan', 'tanszekvezeto'])) {
-    $stmt->bindParam(':kar', $kar, PDO::PARAM_STR);
+    $stmt->bindParam(':faculty', $faculty, PDO::PARAM_STR);
 }
 if ($userPosition == 'tanszekvezeto') {
-    $stmt->bindParam(':szervezetszam', $szervezetszam, PDO::PARAM_STR);
+    $stmt->bindParam(':entity_id', $entity_id, PDO::PARAM_STR);
 }
 $stmt->execute();
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -98,8 +98,8 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <td><a href="profile.php?work_id=<?php echo $row['work_id']; ?>"><?php echo htmlspecialchars($row['name']); ?></a></td>
                                     <!-- Email kattinthatóvá tétele -->
                                     <td><a href="profile.php?work_id=<?php echo $row['work_id']; ?>"><?php echo htmlspecialchars($row['email']); ?></a></td>
-                                    <td><?php echo htmlspecialchars($row['kar']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['szervezetszam']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['faculty']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['entity_id']); ?></td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>
@@ -111,7 +111,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
         <div class="footer-div">
-            <?php include "footer.php"; ?>
+            <?php include "app/views/partials/footer.php"; ?>
         </div>
     </div>
 </div>

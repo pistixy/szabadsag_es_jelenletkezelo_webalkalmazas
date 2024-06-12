@@ -2,8 +2,9 @@
 // csempek oldal
 include "check_login.php";
 ?>
-
+<p class="title-index">Kezdőlap</p>
 <div class="csempek-container">
+
     <div class="csempe-item">
         <a>Fennmaradó napok száma: <?php include "days_remaining.php"; ?></a>
     </div>
@@ -11,22 +12,22 @@ include "check_login.php";
         <a>Szabadnapok száma: <?php include "days_total.php"; ?></a>
     </div>
     <div class="csempe-item">
-        <a href="calendar.php">Naptáram</a>
+        <a href="calendar.php">Szabadságtervező</a>
     </div>
     <div class="csempe-item">
-        <a href="coming_to_work.php">Munkába járás</a>
+        <a href="coming_to_work.php">Új munkába járás rögzítése</a>
     </div>
     <?php
     if (isset($_SESSION['logged']) && $_SESSION['is_user'] == false) {
         $workId = $_SESSION['work_id'];
-        $stmt = $conn->prepare("SELECT position, kar, szervezetszam FROM users WHERE work_id = :work_id");
+        $stmt = $conn->prepare("SELECT position, faculty, entity_id FROM users WHERE work_id = :work_id");
         $stmt->bindParam(':work_id', $workId, PDO::PARAM_INT);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         $position = $result['position']; // User's position
-        $kar = $result['kar']; // User's kar
-        $szervezetszam = $result['szervezetszam']; // User's szervezetszam
+        $faculty = $result['faculty']; // User's faculty
+        $entity_id = $result['entity_id']; // User's entity_id
         // Display notifications based on user permissions
         switch ($position) {
             case "admin":
@@ -51,16 +52,16 @@ include "check_login.php";
                 // Handle dekan case here
                 break;
             case "tanszekvezeto":
-                $karPattern = '%' . $kar . '%';
-                $szervezetszamPattern = '%' . $szervezetszam . '%';
+                $facultyPattern = '%' . $faculty . '%';
+                $szervezetszamPattern = '%' . $entity_id . '%';
 
                 $pendingRequestSql = "SELECT COUNT(*) AS pendingcount FROM requests 
                       WHERE request_status = 'pending' 
-                      AND to_whom LIKE :kar 
-                      AND to_whom LIKE :szervezetszam";
+                      AND to_whom LIKE :faculty 
+                      AND to_whom LIKE :entity_id";
                 $pendingRequestStmt = $conn->prepare($pendingRequestSql);
-                $pendingRequestStmt->bindParam(':kar', $karPattern);
-                $pendingRequestStmt->bindParam(':szervezetszam', $szervezetszamPattern);
+                $pendingRequestStmt->bindParam(':faculty', $facultyPattern);
+                $pendingRequestStmt->bindParam(':entity_id', $szervezetszamPattern);
 
                 if ($pendingRequestStmt->execute()) {
                     $pendingRequestResult = $pendingRequestStmt->fetch(PDO::FETCH_ASSOC);
@@ -81,7 +82,7 @@ include "check_login.php";
         $workId = $_SESSION['work_id'];
 
         // Prepare and execute the statement to get the user's position
-        $stmt = $conn->prepare("SELECT position, kar, szervezetszam FROM users WHERE work_id = :work_id");
+        $stmt = $conn->prepare("SELECT position, faculty, entity_id FROM users WHERE work_id = :work_id");
         $stmt->bindParam(':work_id', $workId, PDO::PARAM_INT);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -101,7 +102,7 @@ include "check_login.php";
                 echo '<div class="csempe-item">';
                 echo '<h2 class="csempe-heading">Kar:</h2>';
                 echo '<form action="workers.php" method="post" class="csempe-form">';
-                echo '<input type="text" name="feltetel" value="' . htmlspecialchars($result['kar']) . '" readonly />';
+                echo '<input type="text" name="feltetel" value="' . htmlspecialchars($result['faculty']) . '" readonly />';
                 echo '<button type="submit" class="csempe-button">Dolgozók lekérdezése</button>';
                 echo '</form>';
                 echo '</div>';
@@ -110,7 +111,7 @@ include "check_login.php";
                 echo '<div class="csempe-item">';
                 echo '<h2 class="csempe-heading">Szervezetszám:</h2>';
                 echo '<form action="workers.php" method="post" class="csempe-form">';
-                echo '<input type="text" name="feltetel" value="' . htmlspecialchars($result['szervezetszam']) . '" readonly />';
+                echo '<input type="text" name="feltetel" value="' . htmlspecialchars($result['entity_id']) . '" readonly />';
                 echo '<button type="submit" class="csempe-button">Dolgozók lekérdezése</button>';
                 echo '</form>';
                 echo '</div>';

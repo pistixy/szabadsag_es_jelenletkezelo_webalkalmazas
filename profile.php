@@ -15,7 +15,7 @@ $stmt = $conn->prepare("SELECT * FROM users WHERE work_id = :work_id");
 $stmt->bindParam(':work_id', $work_id);
 $stmt->execute();
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
-$facultyCode = $result['kar'];
+$facultyCode = $result['faculty'];
 $backgroundColor = isset($facultyColors[$facultyCode]) ? $facultyColors[$facultyCode] : "#FFFFFF"; // Default color
 
 if ($result) {
@@ -61,7 +61,7 @@ if ($result) {
             $stmt->bindParam(':work_id', $work_id);
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            $facultyCode = $result['kar'];
+            $facultyCode = $result['faculty'];
             $backgroundColor = isset($facultyColors[$facultyCode]) ? $facultyColors[$facultyCode] : "#FFFFFF"; // Default color
 
             if ($result) {
@@ -82,9 +82,9 @@ if ($result) {
                     <p class="profile-data"><strong>Teljes név:</strong> <?php echo $result['name']; ?></p>
                     <p class="profile-data"><strong>work_id:</strong> <?php echo $result['work_id']; ?></p>
                     <p class="profile-data"><strong>Lakcím:</strong> <?php echo $result['cim']; ?></p>
-                    <p class="profile-data"><strong>Adóazonosító:</strong> <?php echo $result['adoazonosito']; ?></p>
-                    <p class="profile-data"><strong>Szervezetszám:</strong> <?php echo $result['szervezetszam']; ?></p>
-                    <p class="profile-data"><strong>Alkalmazotti kártyaszám:</strong> <?php echo $result['alkalmazottikartya']; ?></p>
+                    <p class="profile-data"><strong>Adóazonosító:</strong> <?php echo $result['tax_number']; ?></p>
+                    <p class="profile-data"><strong>Szervezetszám:</strong> <?php echo $result['entity_id']; ?></p>
+                    <p class="profile-data"><strong>Alkalmazotti kártyaszám:</strong> <?php echo $result['employee_card_number']; ?></p>
                     <p class="profile-data"><strong>Jelenlegi beosztás:</strong> <?php echo getName($result['position']); ?></p>
                     <?php if ($_SESSION['isAdmin'] == true) : ?>
                         <form action="update_position.php" method="post">
@@ -106,7 +106,7 @@ if ($result) {
                     <?php endif; ?>
 
 
-                    <p class="profile-data"><strong>Kar:</strong> <?php echo $result['kar']; ?></p>
+                    <p class="profile-data"><strong>Kar:</strong> <?php echo $result['faculty']; ?></p>
                     <?php
                     // Only show the edit link if viewing own profile
                     if ($work_id == $_SESSION['work_id']) {
@@ -124,7 +124,7 @@ if ($result) {
 
                 <?php
 
-                include "slider.php";
+                include "app/views/partials/slider.php";
             } else {
                 echo "User data not found.";
             }
@@ -135,7 +135,7 @@ if ($result) {
         </div>
         <div class="footer-div">
             <?php
-            include "footer.php";
+            include "app/views/partials/footer.php";
             ?>
 
         </div>

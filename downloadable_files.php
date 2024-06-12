@@ -119,7 +119,7 @@ if (!isset($_SESSION['logged'])) {
             </div>
         </div>
         <div class="footer-div">
-            <?php include "footer.php"; ?>
+            <?php include "app/views/partials/footer.php"; ?>
         </div>
     </div>
 </div>

@@ -14,29 +14,29 @@ if (!isset($_SESSION['logged']) || !isset($_SESSION['work_id'])) {
 }
 $userWorkID = $_SESSION['work_id'];
 // Assume $userWorkID, $conn are already set
-$positionSql = "SELECT position, kar, szervezetszam FROM users WHERE work_id = :userWorkID";
+$positionSql = "SELECT position, faculty, entity_id FROM users WHERE work_id = :userWorkID";
 $positionStmt = $conn->prepare($positionSql);
 $positionStmt->bindParam(':userWorkID', $userWorkID, PDO::PARAM_INT);
 $positionStmt->execute();
 $userDetails = $positionStmt->fetch(PDO::FETCH_ASSOC);
 
 $pozicio = $userDetails['position'];
-$kar = $userDetails['kar'];
-$szervezetszam = $userDetails['szervezetszam'];
+$faculty = $userDetails['faculty'];
+$entity_id = $userDetails['entity_id'];
 $statusFilter = isset($_POST['statusFilter']) ? $_POST['statusFilter'] : 'pending';
 
-$karPattern = '%' . $kar . '%';
-$szervezetszamPattern = '%' . $szervezetszam . '%';
+$facultyPattern = '%' . $faculty . '%';
+$szervezetszamPattern = '%' . $entity_id . '%';
 
 switch ($pozicio) {
     case 'admin':
         $requestsSql = "SELECT r.*, u.name, u.work_id FROM requests r LEFT JOIN users u ON r.work_id = u.work_id WHERE r.request_status = :statusfilter";
         break;
     case 'dekan':
-        $requestsSql = "SELECT r.*, u.name, u.work_id FROM requests r LEFT JOIN users u ON r.work_id = u.work_id WHERE r.to_whom LIKE :karPattern AND r.request_status = :statusfilter";
+        $requestsSql = "SELECT r.*, u.name, u.work_id FROM requests r LEFT JOIN users u ON r.work_id = u.work_id WHERE r.to_whom LIKE :facultyPattern AND r.request_status = :statusfilter";
         break;
     case 'tanszekvezeto':
-        $requestsSql = "SELECT r.*, u.name, u.work_id FROM requests r LEFT JOIN users u ON r.work_id = u.work_id WHERE r.to_whom LIKE :karPattern AND r.to_whom LIKE :szervezetszamPattern AND r.request_status = :statusfilter";
+        $requestsSql = "SELECT r.*, u.name, u.work_id FROM requests r LEFT JOIN users u ON r.work_id = u.work_id WHERE r.to_whom LIKE :facultyPattern AND r.to_whom LIKE :szervezetszamPattern AND r.request_status = :statusfilter";
         break;
     default:
         echo "Nincs ehhez jogosultságod.";
@@ -52,7 +52,7 @@ if ($statusFilter != 'all') {
 }
 
 if ($pozicio == 'dekan' || $pozicio == 'tanszekvezeto') {
-    $requestsStmt->bindParam(':karPattern', $karPattern, PDO::PARAM_STR);
+    $requestsStmt->bindParam(':facultyPattern', $facultyPattern, PDO::PARAM_STR);
 }
 
 if ($pozicio == 'tanszekvezeto') {
@@ -161,7 +161,7 @@ $requests = $requestsStmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
         <div class="footer-div">
-            <?php include "footer.php"; ?>
+            <?php include "app/views/partials/footer.php"; ?>
         </div>
     </div>
 </div>

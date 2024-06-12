@@ -38,10 +38,10 @@ if (!empty($users)) {
     $user = $users[0]; // Get the first user
 
     // Now you can access the user data
-    $kar = $user['kar'];
-    $szervezetszam = $user['szervezetszam'];
+    $faculty = $user['faculty'];
+    $entity_id = $user['entity_id'];
     $name = $user['name'];
-    $adoazonosito = $user['adoazonosito'];
+    $tax_number = $user['tax_number'];
     $lakcim=$user['cim'];
 } else {
     // No users found, handle this case as needed
@@ -123,7 +123,7 @@ $year=date("Y");
 $html = <<<EOD
 <h1 style="text-align: center; font-size: 10px;">SZÉCHENYI ISTVÁN EGYETEM</h1>
 <div style="font-size: 9px;">
-<p><strong>Dolgozó szervezeti egysége:</strong> ...$kar / $szervezetszam...</p>
+<p><strong>Dolgozó szervezeti egysége:</strong> ...$faculty / $entity_id...</p>
 <p style="text-align: center"><strong>IGÉNYBEJELENTÉS ÉS IGAZOLÁS A MUNKÁBAJÁRÁS KÖLTSÉGTÉRÍTÉSÉHEZ</strong></p>
 <p style="text-align: center;" >$year /    $HungarianMonth</p>
 <table style="width:100%; border-collapse: collapse; padding: 1px; margin: 1px;" border="1" >
@@ -131,7 +131,7 @@ $html = <<<EOD
 <td style="width:10%;"><strong>Név</strong></td>
 <td style="width:50%;">$name</td>
 <td style="width:20%;"><strong>Adóazonosító jel:</strong></td>
-<td style="width:20%;">$adoazonosito</td>
+<td style="width:20%;">$tax_number</td>
 </tr>
 <tr>
 <td style="width:10%";><strong>Lakcím</strong></td>

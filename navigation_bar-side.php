@@ -20,19 +20,19 @@ include "check_login.php";
 
             <?php endif; ?>
             <div class="navbar_items">
-                <a href="calendar.php"><img src="public/images/icons/calendar_today_20dp_FILL0_wght400_GRAD0_opsz20.png"> Naptáram</a>
+                <a href="calendar.php"><img src="public/images/icons/calendar_today_20dp_FILL0_wght400_GRAD0_opsz20.png"> Szabadságtervező</a>
             </div>
             <div class="navbar_items">
-                <a href="coming_to_work.php"><img src="public/images/icons/commute_20dp_FILL0_wght400_GRAD0_opsz20.png"> Munkába járás</a>
+                <a href="coming_to_work.php"><img src="public/images/icons/commute_20dp_FILL0_wght400_GRAD0_opsz20.png"> Új munkába járás rögzítése</a>
             </div>
             <div class="navbar_items">
-                <a href="my_requests.php"><img src="public/images/icons/request_page_20dp_FILL0_wght400_GRAD0_opsz20.png"> Kérelmeim</a>
+                <a href="my_requests.php"><img src="public/images/icons/request_page_20dp_FILL0_wght400_GRAD0_opsz20.png"> Korábbi szabadságkérelmek</a>
             </div>
             <div class="navbar_items">
-                <a href="commutes.php?work_id=<?php echo $_SESSION['work_id']?>"><img src="public/images/icons/commute_20dp_FILL0_wght400_GRAD0_opsz20.png"> Munkába járásaim</a>
+                <a href="commutes.php?work_id=<?php echo $_SESSION['work_id']?>"><img src="public/images/icons/commute_20dp_FILL0_wght400_GRAD0_opsz20.png"> Korábbi munkába járások</a>
             </div>
             <div class="navbar_items">
-                <a href="holidays.php?work_id=<?php echo $_SESSION['work_id']?>"><img src="public/images/icons/beach_access_20dp_FILL0_wght400_GRAD0_opsz20.png"> Szabadnapjaim</a>
+                <a href="holidays.php?work_id=<?php echo $_SESSION['work_id']?>"><img src="public/images/icons/beach_access_20dp_FILL0_wght400_GRAD0_opsz20.png"> Éves szabadság</a>
             </div>
             <div class="navbar_items">
                 <a href="HR_help_site.php"><img src="public/images/icons/help_20dp_FILL0_wght400_GRAD0_opsz20.png"> HR segédlet</a>

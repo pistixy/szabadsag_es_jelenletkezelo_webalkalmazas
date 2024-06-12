@@ -15,7 +15,6 @@ if (!isset($_SESSION['logged'])) {
     <meta charset="UTF-8">
     <title>Szabadságkezelő</title>
     <link rel="stylesheet" href="public/css/styles.css">
-
 </head>
 <body>
 <?php include "navigation_bar-top.php"; ?>
@@ -25,12 +24,14 @@ if (!isset($_SESSION['logged'])) {
     </div>
     <div class="main-content" id="main-content">
         <div class="test_content">
+
             <div class="csempek-div">
+
             <?php include "tiles.php"; ?>
             </div>
         </div>
         <div class="footer-div">
-            <?php include "footer.php"; ?>
+            <?php include "app/views/partials/footer.php"; ?>
         </div>
     </div>
 </div>

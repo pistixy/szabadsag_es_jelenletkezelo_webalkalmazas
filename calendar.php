@@ -96,12 +96,12 @@ $firstDayOfWeek = date("N", mktime(0, 0, 0, $month, 1, $year));
                     ?>
                 </div>
                 <?php
-                include "slider.php";
+                include "app/views/partials/slider.php";
                 ?>
             </div>
         </div>
         <div class="footer-div">
-            <?php include "footer.php"; ?>
+            <?php include "app/views/partials/footer.php"; ?>
         </div>
     </div>
 </div>

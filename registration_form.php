@@ -47,17 +47,17 @@
             </div>
             <div class="row" style="max-width: 500px;margin:0 auto;">
                 <div class="col-md-12" >
-                    <input class="logininput" type="text" id="adoazonosito" name="adoazonosito" placeholder="Adóazonosító" required>
+                    <input class="logininput" type="text" id="tax_number" name="tax_number" placeholder="Adóazonosító" required>
                 </div>
             </div>
             <div class="row" style="max-width: 500px;margin:0 auto;">
                 <div class="col-md-12" >
-                    <input class="logininput" type="text" id="szervezetszam" name="szervezetszam" placeholder="Szervezetszám" required>
+                    <input class="logininput" type="text" id="entity_id" name="entity_id" placeholder="Szervezetszám" required>
                 </div>
             </div>
             <div class="row" style="max-width: 500px;margin:0 auto;">
                 <div class="col-md-12" >
-                    <input class="logininput" type="text" id="alkalmazottikartyaszama" name="alkalmazottikartyaszama" placeholder="Alkalmazotti kártyaszám" required>
+                    <input class="logininput" type="text" id="employee_card_number" name="employee_card_number" placeholder="Alkalmazotti kártyaszám" required>
                 </div>
             </div>
             <div class="row" style="max-width: 500px;margin:0 auto;">

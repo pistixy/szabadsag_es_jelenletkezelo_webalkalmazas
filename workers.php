@@ -38,7 +38,7 @@ if (!isset($_SESSION['logged'])) {
                         }
 
                         // Elkészítjük a SQL lekérdezést a szervezetszám filterrel
-                        $stmt = $conn->prepare("SELECT * FROM users WHERE szervezetszam LIKE :feltetel OR kar LIKE :feltetel");
+                        $stmt = $conn->prepare("SELECT * FROM users WHERE entity_id LIKE :feltetel OR faculty LIKE :feltetel");
                         $stmt->bindParam(':feltetel', $feltetel, PDO::PARAM_INT);
                     } else {
                         // Ha nincs beállítva a szervezetszám, akkor minden felhasználót lekérünk
@@ -85,9 +85,9 @@ if (!isset($_SESSION['logged'])) {
                             echo "<td><a href='profile.php?work_id=" . urlencode($worker['work_id']) . "'>" . htmlspecialchars($worker['name']) . "</a></td>";
                             echo "<td><a href='profile.php?work_id=" . urlencode($worker['work_id']) . "'>" . htmlspecialchars($worker['email']) . "</a></td>";
                             echo "<td>" . htmlspecialchars($worker['cim']) . "</td>";
-                            echo "<td>" . htmlspecialchars($worker['kar']) . "</td>";
-                            echo "<td>" . htmlspecialchars($worker['szervezetszam']) . "</td>";
-                            echo "<td>" . htmlspecialchars($worker['alkalmazottikartya']) . "</td>";
+                            echo "<td>" . htmlspecialchars($worker['faculty']) . "</td>";
+                            echo "<td>" . htmlspecialchars($worker['entity_id']) . "</td>";
+                            echo "<td>" . htmlspecialchars($worker['employee_card_number']) . "</td>";
                             echo "<td>" .getName(htmlspecialchars($worker['position']))  . "</td>";
                             echo "<td>";
                             echo '<form action="export_calendar_month_to_pdf.php" method="post">';
@@ -129,7 +129,7 @@ if (!isset($_SESSION['logged'])) {
             </div>
         </div>
         <div class="footer-div">
-            <?php include "footer.php"; ?>
+            <?php include "app/views/partials/footer.php"; ?>
         </div>
     </div>
 </div>
