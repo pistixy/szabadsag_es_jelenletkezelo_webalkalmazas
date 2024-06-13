@@ -24,24 +24,27 @@ $previousYear = $year - 1;
 $nextYear = $year + 1;
 
 ?>
-
-<div class="year-navigation">
-    <form action="calendar.php" method="get" style="display: inline;">
-        <input type="hidden" name="year" value="<?php echo $previousYear; ?>">
-        <input type="hidden" name="view" value="yearly">
-        <button class="action-button" type="submit">
-            <img src="public/images/icons/arrow_back_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Previous Year">
-            Előző év
-        </button>
-    </form>
-    <form action="calendar.php" method="get" style="display: inline;">
-        <input type="hidden" name="year" value="<?php echo $nextYear; ?>">
-        <input type="hidden" name="view" value="yearly">
-        <button class="action-button" type="submit">
-            Következő év
-            <img src="public/images/icons/arrow_forward_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Next Year">
-        </button>
-    </form>
+<div class="year-navigation-div">
+    <div class="year-navigation">
+        <form action="calendar.php" method="get" class="navigation-form">
+            <input type="hidden" name="year" value="<?php echo $previousYear; ?>">
+            <input type="hidden" name="view" value="yearly">
+            <input type="hidden" name="work_id" value="<?php echo $userWorkId; ?>">
+            <button class="action-button" type="submit">
+                <img src="public/images/icons/arrow_back_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Previous Year">
+                Előző év
+            </button>
+        </form>
+        <form action="calendar.php" method="get" class="navigation-form">
+            <input type="hidden" name="year" value="<?php echo $nextYear; ?>">
+            <input type="hidden" name="view" value="yearly">
+            <input type="hidden" name="work_id" value="<?php echo $userWorkId; ?>">
+            <button class="action-button" type="submit">
+                Következő év
+                <img src="public/images/icons/arrow_forward_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Next Year">
+            </button>
+        </form>
+    </div>
 </div>
 
 
@@ -105,7 +108,7 @@ $nextYear = $year + 1;
 
             $datetocheck = sprintf("%04d-%02d-%02d", $year, $month, $day);
             $dateLink = "date_details.php?date=" . $datetocheck . "&view=$currentView";
-            echo "<a href='$dateLink' class='day-box $cssClass $todayClass'>$day</a>"; //old correct line
+            echo "<a href='$dateLink' class='day-box $cssClass $todayClass'>$day</a>";
         }
 
         echo "</div>"; // Close month-row

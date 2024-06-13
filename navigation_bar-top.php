@@ -2,8 +2,10 @@
     <div class="top-bar-left">
         <button class="menu-button"><img src="public/images/icons/menu_20dp_FILL0_wght300_GRAD0_opsz20.png"></button>
         <a href="index.php" class="logo-link">
-            <img src="public/images/icons/unilogo.png" alt="Logo" class="logo-img">
+            <img src="public/images/icons/sze_logo2.svg" alt="Logo" class="logo-img">
+            <div class="top-bar-title"> Szabadságkezelő</div>
         </a>
+
     </div>
     <div class="top-bar-right">
         <?php if (isset($_SESSION['logged'])): ?>

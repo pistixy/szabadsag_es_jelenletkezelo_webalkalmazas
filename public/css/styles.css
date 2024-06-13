@@ -43,6 +43,9 @@ body {
     z-index: 10;
     position: absolute;
 }
+.footer{
+    font-size: 12px;
+}
 
 /* Top bar styling */
 .top-bar {
@@ -62,6 +65,17 @@ body {
 .top-bar-left {
     display: flex;
     align-items: center;
+}
+
+.top-bar-left a{
+    text-decoration: none;
+    color: white;
+}
+.top-bar-title{
+    margin-left: 5px;
+    font-family: Montserrat, Tahoma;
+
+    font-size: 1.375rem;
 }
 
 .top-bar-right {
@@ -314,7 +328,7 @@ hr {
     color: #242943;
     font-size: 1.625rem;
     margin-left: 180px;
-
+    font-weight: bold;
 
 }
 
@@ -462,6 +476,9 @@ hr {
     flex: 1;
     text-align: center; /* Center the text inside the div */
 }
+.calendar-view-name h1 {
+    margin-left: 8%;
+}
 .calendar-view-selector {
     flex-grow: 0;
     /* Additional styling as ne eded */
@@ -503,8 +520,9 @@ hr {
 .year-view {
 
     text-align: center;
-    margin-left: 5%;
+    
 }
+
 
 .month-container {
     margin-bottom: 20px; /* Add some space between month containers */
@@ -550,9 +568,21 @@ hr {
     cursor: pointer;
     /* Additional styling as needed */
 }
-.year-navigation {
-    text-align: center;
+.year-navigation-div {
+    display: flex;
+    justify-content: center;
     margin-bottom: 20px;
+}
+
+.year-navigation {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+}
+
+.navigation-form {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .year-button {

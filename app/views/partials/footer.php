@@ -1,3 +1,3 @@
 <footer class="footer"> <!-- Lábléc elérhetoseggel --->
-    <p>Takó István</p>
+    <p>Hibabejelentés, észrevétel: Takó István, istvan.tako2@gmail.com</p>
 </footer>
