@@ -12,7 +12,7 @@ include "check_login.php";
 
                             <img src="public/images/icons/search_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Search Icon">
 
-                        <input class="search-bar" type="text" name="search_query" placeholder="work_id, név vagy email">
+                        <input class="search-bar" type="text" name="search_query" placeholder="Felhasználók keresése">
                         <!-- Enter gomb lenyomásával már kereshetünk is -->
                     </form>
                     <hr>

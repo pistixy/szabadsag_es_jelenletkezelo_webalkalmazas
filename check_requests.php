@@ -27,7 +27,7 @@ AND EXTRACT(MONTH FROM calendar.date) = :selectedMonth
         echo '<input type="hidden" name="month" value="' . $selectedMonth . '">';
         echo '<input type="hidden" name="year" value="' . $selectedYear . '">';
         echo '<input type="hidden" name="position" value="dekan">';
-        echo '<button type="submit">Az előnezetért kattintson ide</button>';
+        echo '<button class="action-button action-button-bigger" type="submit">Az előnezetért kattintson ide</button>';
         echo '</form>';
 
 // Show the export button form
@@ -38,7 +38,7 @@ AND EXTRACT(MONTH FROM calendar.date) = :selectedMonth
         echo '<input type="hidden" name="month" value="' . $selectedMonth . '">';
         echo '<input type="hidden" name="year" value="' . $selectedYear . '">';
         echo '<input type="hidden" name="position" value="dekan">';
-        echo '<button type="submit" name="export_workers_pdf" value="1">Beosztások validálása és exportálása</button>';
+        echo '<button class="action-button action-button-bigger" type="submit" name="export_workers_pdf" value="1">Beosztások validálása és exportálása</button>';
         echo '</form>';
 
 

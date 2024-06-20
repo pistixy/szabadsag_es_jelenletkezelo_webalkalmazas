@@ -30,7 +30,7 @@ $nextYear = $year + 1;
             <input type="hidden" name="year" value="<?php echo $previousYear; ?>">
             <input type="hidden" name="view" value="yearly">
             <input type="hidden" name="work_id" value="<?php echo $userWorkId; ?>">
-            <button class="action-button" type="submit">
+            <button class="action-button action-button-bigger" type="submit">
                 <img src="public/images/icons/arrow_back_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Previous Year">
                 Előző év
             </button>
@@ -39,7 +39,7 @@ $nextYear = $year + 1;
             <input type="hidden" name="year" value="<?php echo $nextYear; ?>">
             <input type="hidden" name="view" value="yearly">
             <input type="hidden" name="work_id" value="<?php echo $userWorkId; ?>">
-            <button class="action-button" type="submit">
+            <button class="action-button action-button-bigger" type="submit">
                 Következő év
                 <img src="public/images/icons/arrow_forward_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Next Year">
             </button>
@@ -67,7 +67,7 @@ $nextYear = $year + 1;
             echo '<input type="hidden" name="year" value="' . $year . '">';
             echo '<input type="hidden" name="month" value="' . $month . '">';
             echo '<input type="hidden" name="work_id" value="' . $userWorkId . '">';
-            echo '<button class="action-button" type="submit" name="export_calendar_month_pdf" value="1">';
+            echo '<button class="action-button act" type="submit" name="export_calendar_month_pdf" value="1">';
             echo '<img src="public/images/icons/picture_as_pdf_20dp_FILL0_wght400_GRAD0_opsz20.png">';
             echo ' beosztás exportálása';
             echo '</button>';

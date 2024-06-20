@@ -190,6 +190,7 @@ body {
 
 .navbar_items img {
     height: 20px;
+    margin-right: 4px;
 }
 
 .navbar_items a {
@@ -604,28 +605,28 @@ hr {
 /* buttons */
 
 .action-button {
-    background: #242943 !important;
-    color: #FFFFFF !important; /* Text color */
-    font-size: 16px !important; /* Text size */
-    padding: 3px 12px !important; /* Adjusted padding for better spacing */
-    border: none !important; /* Remove border */
-    border-radius: 5px !important; /* Rounded corners */
-    cursor: pointer !important; /* Pointer cursor on hover */
-    display: inline-flex !important; /* Align image and text properly */
-    align-items: center !important; /* Vertically center align items */
-    text-decoration: none !important; /* Remove underline from text */
+    background: #242943;
+    color: #FFFFFF ; /* Text color */
+    font-size: 16px ; /* Text size */
+    padding: 3px 12px ; /* Adjusted padding for better spacing */
+    border: none ; /* Remove border */
+    border-radius: 5px ; /* Rounded corners */
+    cursor: pointer ; /* Pointer cursor on hover */
+    display: inline-flex ; /* Align image and text properly */
+    align-items: center ; /* Vertically center align items */
+    text-decoration: none ; /* Remove underline from text */
 }
 
 .action-button img {
-    width: 20px !important; /* Image width */
-    height: auto !important; /* Maintain aspect ratio */
-    vertical-align: middle !important; /* Align with text */
-    margin-right: 8px !important; /* Adjusted space between image and text (for previous year button) */
-    margin-left: 8px !important; /* Adjusted space between image and text (for next year button) */
+    width: 20px ; /* Image width */
+    height: auto ; /* Maintain aspect ratio */
+    vertical-align: middle ; /* Align with text */
+    margin-right: 8px ; /* Adjusted space between image and text (for previous year button) */
+    margin-left: 8px ; /* Adjusted space between image and text (for next year button) */
 }
 
 .action-button:hover {
-    background-color: #1e1e2f !important; /* Darker background color on hover */
+    background-color: #1e1e2f ; /* Darker background color on hover */
 }
 
 .action-button:hover {
@@ -636,6 +637,32 @@ hr {
     display: inline-block; /* Display forms inline */
     margin: 0; /* Remove margin */
 }
+.accept-button{
+    background: #2A8C46;
+}
+.accept-button:hover{
+    background: #229845;
+}
+.deny-button{
+    background: #AC112B;
+}
+.deny-button:hover{
+    background: #a90824;
+}
+.action-button-bigger{
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.action-button-bigger img{
+    width: 30px ; /* Image width */
+    height: auto ; /* Maintain aspect ratio */
+    vertical-align: middle ; /* Align with text */
+    margin-right: 8px ; /* Adjusted space between image and text (for previous year button) */
+    margin-left: 8px ; /* Adjusted space between image and text (for next year button) */
+}
+
+
 .center-content {
     text-align: center;
     vertical-align: middle;
@@ -652,11 +679,13 @@ hr {
     margin: 20px 0;
     font-size: 16px;
     text-align: left;
+
 }
 
 .table th, .table td {
     padding: 12px 15px;
     border: 1px solid #ddd;
+    border-radius: 4px;
 }
 
 .table th {

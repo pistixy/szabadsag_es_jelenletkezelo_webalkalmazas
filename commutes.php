@@ -114,7 +114,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </select>
                         </div>
                         <input type="hidden" name="work_id" value="<?php echo $userWorkID; ?>">
-                        <button type="submit" class="action-button">
+                        <button type="submit" class="action-button action-button-bigger">
                             <img src="public/images/icons/check_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Select">
                             Kiválaszt
                         </button>
@@ -164,7 +164,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <input type="hidden" name="year" value="<?php echo $selectedYear; ?>">
                     <input type="hidden" name="month" value="<?php echo $selectedMonth; ?>">
                     <input type="hidden" name="work_id" value="<?php echo $userWorkID; ?>">
-                    <button class="action-button" type="submit" name="export_commutes_to_pdf"><img src="public/images/icons/picture_as_pdf_20dp_FILL0_wght400_GRAD0_opsz20.png">PDF generálása</button>
+                    <button class="action-button action-button-bigger" type="submit" name="export_commutes_to_pdf"><img src="public/images/icons/picture_as_pdf_20dp_FILL0_wght400_GRAD0_opsz20.png">PDF generálása</button>
                 </form>
             </div>
         </div>

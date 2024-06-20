@@ -143,12 +143,12 @@ $requests = $requestsStmt->fetchAll(PDO::FETCH_ASSOC);
                                 </tbody>
                             </table>
                         </div>
-                        <button class="action-button" type="submit" onclick="setFormAction('accept_all_requests.php')">
+                        <button class="action-button accept-button action-button-bigger" type="submit" onclick="setFormAction('accept_all_requests.php')">
                             <img src="public/images/icons/check_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Accept">
                             Kijelölt kérelmek elfogadása
                         </button>
 
-                        <button class="action-button" type="submit" onclick="setFormAction('reject_all_requests.php')">
+                        <button class="action-button deny-button action-button-bigger" type="submit" onclick="setFormAction('reject_all_requests.php')">
                             <img src="public/images/icons/close_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Deny">
                             Kijelölt kérelmek elutasítása
                         </button>

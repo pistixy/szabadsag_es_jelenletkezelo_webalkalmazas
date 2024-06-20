@@ -6,8 +6,29 @@ $currentDay = date('Y-m-d');
 
 <div class="calendar">
     <h2><?php echo translateMonthToHungarian($monthName) . " " . $year; ?></h2> <!-- Display the current month and year -->
-    <a href="calendar.php?year=<?php echo $prevYear; ?>&month=<?php echo $prevMonth; ?>&work_id=<?php echo $userWorkId; ?>&view=<?php echo $selectedView; ?>" class="year-button">Előző hónap</a>
-    <a href="calendar.php?year=<?php echo $nextYear; ?>&month=<?php echo $nextMonth; ?>&work_id=<?php echo $userWorkId; ?>&view=<?php echo $selectedView; ?>" class="year-button">Következő hónap</a>
+    <div class="year-navigation-div">
+        <div class="year-navigation">
+            <form action="calendar.php" method="get" style="display: inline;">
+                <input type="hidden" name="year" value="<?php echo $prevYear; ?>">
+                <input type="hidden" name="month" value="<?php echo $prevMonth; ?>">
+                <input type="hidden" name="work_id" value="<?php echo $userWorkId; ?>">
+                <input type="hidden" name="view" value="<?php echo $selectedView; ?>">
+                <button type="submit" class="action-button action-button-bigger">
+                    <img src="public/images/icons/arrow_back_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Előző hónap">Előző hónap
+                </button>
+            </form>
+            <form action="calendar.php" method="get" style="display: inline;">
+                <input type="hidden" name="year" value="<?php echo $nextYear; ?>">
+                <input type="hidden" name="month" value="<?php echo $nextMonth; ?>">
+                <input type="hidden" name="work_id" value="<?php echo $userWorkId; ?>">
+                <input type="hidden" name="view" value="<?php echo $selectedView; ?>">
+                <button type="submit" class="action-button action-button-bigger">
+                    Következő hónap<img src="public/images/icons/arrow_forward_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Következő hónap">
+                </button>
+            </form>
+        </div>
+    </div>
+
 
     <table class="calendar-table">
         <tr class="calendar-header">

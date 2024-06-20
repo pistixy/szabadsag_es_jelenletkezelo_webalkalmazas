@@ -95,7 +95,7 @@ if (!isset($_SESSION['logged'])) {
                     echo '</select>';
                     echo '</div>';
 
-                    echo '<button type="submit" name="check_requests" class="action-button">';
+                    echo '<button type="submit" name="check_requests" class="action-button action-button-bigger">';
                     echo '<img src="public/images/icons/done_all_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Check">Ellenőrizze a kérelmeket';
                     echo '</button>';
                     echo '</form>';

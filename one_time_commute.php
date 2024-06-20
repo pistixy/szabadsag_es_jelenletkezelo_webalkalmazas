@@ -35,7 +35,7 @@
                 </div>
             </div>
 
-            <button class="action-button" type="submit" name="upload_receipt">
+            <button class="action-button action-button-bigger" type="submit" name="upload_receipt">
                 <img src="public/images/icons/upload_2_20dp_FILL0_wght400_GRAD0_opsz20.png" alt="Upload">
                 Feltöltés
             </button>
