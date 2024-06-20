@@ -1,10 +1,10 @@
 .paid_requested {
-    background-color: #90EE90;
+    background-color: #A1C038;
     color: #004225; /* Dark green for contrast */
 }
 
 .paid_planned {
-    background-color: #32CD32;
+    background-color: #2A8C46;
     color: #ffffff;
 }
 
@@ -12,111 +12,33 @@
     background-color: #006400;
     color: #ffffff;
 }
-.unpaid_requested{
-    background-color: grey;
-    color: #ffffff;
-}
-
-.unpaid_planned{
-    background-color: dimgray;
-    color: #ffffff;
-}
-
-.unpaid_taken{
-    background-color: dimgrey;
-    color: #ffffff;
-}
-
-.paid_past_requested {
-    background-color: #FFFFE0;
-    color: #333333;
-}
-
-.paid_past_planned {
-    background-color: rgba(255, 255, 0, 0.43);
-    color: #333333;
-}
-
-.paid_past_taken {
-    background-color: rgba(255, 215, 0, 0.65);
-    color: #333333;
-}
-
-.paid_edu_requested {
-    background-color: #ADD8E6;
-    color: #002366; /* Dark blue for contrast */
-}
-
-.paid_edu_planned {
-    background-color: #0000FF;
-    color: #ffffff;
-}
-
-.paid_edu_taken {
-    background-color: #00008B;
-    color: #ffffff;
-}
-
-.paid_award_requested {
-    background-color: #DDA0DD;
-    color: #4B0082; /* Dark purple for contrast */
-}
-
-.paid_award_planned {
-    background-color: #800080;
-    color: #ffffff;
-}
-
-.paid_award_taken {
-    background-color: #4B0082;
-    color: #ffffff;
-}
-
-.unpaid_dad_requested {
-    background-color: #A52A2A;
-    color: #ffffff;
-}
-
-.unpaid_dad_planned {
-    background-color: #8B4513;
-    color: #ffffff;
-}
-
-.unpaid_dad_taken {
-    background-color: #654321;
-    color: #ffffff;
-}
 
 .home_office {
-    background-color: #D3D3D3;
+    background-color: #7765A6;
     color: #333333;
 }
 
 .work_day {
-    background-color: #FFA500;
+    background-color: #EEC344;
     color: #333333;
 }
 
 .weekend {
-    background-color: #FF6347;
+    background-color: #D67C1C;
     color: #ffffff;
 }
 
 .holiday {
-    background-color: #FF0000;
+    background-color: #AC112B;
     color: #ffffff;
 }
 
 .unpaid_sickness_taken {
-    background-color: #0000FF;
+    background-color: #357ABE;
     color: #ffffff;
 }
 
-.unpaid_uncertified_taken {
-    background-color: #000000;
-    color: #ffffff;
-}
 .empty{
-    background-color: rgba(232, 232, 232, 0.63);
+    background-color: #D9D9D9;
     color: black;
 }

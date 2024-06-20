@@ -560,10 +560,10 @@ hr {
     width: 3%; /* Fixed width */
     height: 2.9%; /* Fixed height */
     display: inline-block; /* Align boxes side by side */
-    border: 0px;
+    border: 1px;
     text-align: center; /* Center the text (day number) */
     line-height: 20px; /* Align text vertically */
-    /* Additional styling as needed */
+    border-radius: 2px;
 }
 .day-box:hover {
     cursor: pointer;
@@ -598,7 +598,7 @@ hr {
     background-color: #45a049;
 }
 .today {
-    border: 2px solid red;
+    border: 3px solid red;
 }
 
 
